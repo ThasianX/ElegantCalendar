@@ -8,14 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        configureGlobalListAppearance()
         return true
-    }
-
-    private func configureGlobalListAppearance() {
-        UITableView.appearance().backgroundColor = .clear
-        UITableViewCell.appearance().backgroundColor = .clear
-        UITableView.appearance().separatorStyle = .none
     }
 
     // MARK: UISceneSession Lifecycle

@@ -3,12 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35EA21248D62D4003C584D /* CalenderConstants.swift */; };
 		1E35EA26248D674C003C584D /* DarkThemePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35EA25248D674C003C584D /* DarkThemePreview.swift */; };
+		1E35EA29248D70FD003C584D /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 1E35EA28248D70FD003C584D /* Introspect */; };
+		1E35EA2B248D7126003C584D /* CalendarScrollTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35EA2A248D7126003C584D /* CalendarScrollTracker.swift */; };
 		1E40D947248C7823005ECA82 /* CalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40D946248C7823005ECA82 /* CalenderView.swift */; };
 		1E40D94B248C7A00005ECA82 /* EnvironmentKey+AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40D94A248C7A00005ECA82 /* EnvironmentKey+AppTheme.swift */; };
 		1E71D77E248C83DD003A3B0B /* Date+toString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E71D77D248C83DC003A3B0B /* Date+toString.swift */; };
@@ -26,6 +28,7 @@
 /* Begin PBXFileReference section */
 		1E35EA21248D62D4003C584D /* CalenderConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderConstants.swift; sourceTree = "<group>"; };
 		1E35EA25248D674C003C584D /* DarkThemePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkThemePreview.swift; sourceTree = "<group>"; };
+		1E35EA2A248D7126003C584D /* CalendarScrollTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScrollTracker.swift; sourceTree = "<group>"; };
 		1E40D946248C7823005ECA82 /* CalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderView.swift; sourceTree = "<group>"; };
 		1E40D94A248C7A00005ECA82 /* EnvironmentKey+AppTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentKey+AppTheme.swift"; sourceTree = "<group>"; };
 		1E71D77D248C83DC003A3B0B /* Date+toString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+toString.swift"; sourceTree = "<group>"; };
@@ -47,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E35EA29248D70FD003C584D /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +73,7 @@
 			children = (
 				1E71D781248CB7F2003A3B0B /* CalendarConfiguration.swift */,
 				1E35EA21248D62D4003C584D /* CalenderConstants.swift */,
+				1E35EA2A248D7126003C584D /* CalendarScrollTracker.swift */,
 				1E35EA25248D674C003C584D /* DarkThemePreview.swift */,
 				1E71D77D248C83DC003A3B0B /* Date+toString.swift */,
 				1E40D94A248C7A00005ECA82 /* EnvironmentKey+AppTheme.swift */,
@@ -131,6 +136,9 @@
 			dependencies = (
 			);
 			name = CalendarView;
+			packageProductDependencies = (
+				1E35EA28248D70FD003C584D /* Introspect */,
+			);
 			productName = CalendarView;
 			productReference = 1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */;
 			productType = "com.apple.product-type.application";
@@ -159,6 +167,9 @@
 				Base,
 			);
 			mainGroup = 1EC3BC91248C749C0052C61B;
+			packageReferences = (
+				1E35EA27248D70FD003C584D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
 			productRefGroup = 1EC3BC9B248C749C0052C61B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -193,6 +204,7 @@
 				1EC3BCA0248C749C0052C61B /* SceneDelegate.swift in Sources */,
 				1E40D947248C7823005ECA82 /* CalenderView.swift in Sources */,
 				1E71D786248CB8A9003A3B0B /* WeekView.swift in Sources */,
+				1E35EA2B248D7126003C584D /* CalendarScrollTracker.swift in Sources */,
 				1E35EA26248D674C003C584D /* DarkThemePreview.swift in Sources */,
 				1E71D784248CB85E003A3B0B /* MonthView.swift in Sources */,
 				1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */,
@@ -392,6 +404,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1E35EA27248D70FD003C584D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1E35EA28248D70FD003C584D /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E35EA27248D70FD003C584D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1EC3BC92248C749C0052C61B /* Project object */;
 }
