@@ -13,7 +13,6 @@ struct WeekView: View {
                     .environmentObject(self.weekManager.createDayManager(for: day))
             }
         }
-        .padding(.horizontal, CalendarConstants.horizontalPadding)
     }
 
 }

@@ -8,12 +8,11 @@ struct MonthView: View {
 
     @Environment(\.appTheme) var appTheme: AppTheme
     @EnvironmentObject var monthManager: MonthCalendarManager
+    @EnvironmentObject var scrollManager: CalendarScrollTracker
 
     var body: some View {
         VStack(spacing: 40) {
             header
-                .padding(.leading, 24)
-                .padding(.top, 70)
             weekViewWithHeader
             Spacer()
         }
@@ -40,7 +39,6 @@ struct MonthView: View {
     private var weekViewWithHeader: some View {
         VStack(spacing: 32) {
             daysOfWeekHeader
-                .padding(.horizontal, CalendarConstants.horizontalPadding)
             weekViewStack
         }
     }
@@ -123,6 +121,7 @@ struct MonthView_Previews: PreviewProvider {
                             month: Date()
                         )
                     )
+                    .environmentObject(CalendarScrollTracker())
             }
 
             DarkThemePreview {
@@ -133,6 +132,7 @@ struct MonthView_Previews: PreviewProvider {
                             month: Date().addingTimeInterval(60*60*24*45)
                         )
                     )
+                    .environmentObject(CalendarScrollTracker())
             }
         }
     }
