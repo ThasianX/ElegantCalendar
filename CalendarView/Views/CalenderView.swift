@@ -46,7 +46,6 @@ struct CalendarView: View {
                     .frame(height: CalendarConstants.cellHeight)
                     .environmentObject(self.calendarManager.createMonthManager(for: month))
                     .environmentObject(self.scrollManager)
-                    .buttonStyle(PlainButtonStyle())
             }
             .listRowInsets(EdgeInsets())
         }
@@ -137,6 +136,7 @@ private extension UITableView {
         showsVerticalScrollIndicator = false
         separatorStyle = .none
         backgroundColor = .none
+        allowsSelection = false
 
         contentInset = UIEdgeInsets(top: -scrollInsets, left: 0, bottom: 0, right: 0)
 
