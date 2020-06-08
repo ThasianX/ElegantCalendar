@@ -5,14 +5,16 @@ import SwiftUI
 struct CalendarConstants {
 
     static let horizontalPadding: CGFloat = 24
-    static let daysInRow: CGFloat = 7
-
     static let gridSpacing: CGFloat = 16
 
-    static private let totalHorizontalPadding: CGFloat = 2 * horizontalPadding
-    static private let innerGridSpacing: CGFloat = (daysInRow - 1) * gridSpacing
-    static let dayWidth = (screen.width - totalHorizontalPadding - innerGridSpacing) / daysInRow
+    static let daysInRow: CGFloat = 7
+    static let cellHeight: CGFloat = screen.height
+    static let cellWidth: CGFloat = screen.width
 
-    static let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
+    static let dayWidth: CGFloat = {
+        let totalHorizontalPadding: CGFloat = 2 * horizontalPadding
+        let innerGridSpacing: CGFloat = (daysInRow - 1) * gridSpacing
+        return (cellWidth - totalHorizontalPadding - innerGridSpacing) / daysInRow
+    }()
 
 }

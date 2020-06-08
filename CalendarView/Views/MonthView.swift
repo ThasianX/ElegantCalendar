@@ -47,7 +47,7 @@ struct MonthView: View {
 
     private var daysOfWeekHeader: some View {
         HStack(spacing: CalendarConstants.gridSpacing) {
-            ForEach(CalendarConstants.daysOfWeekInitials, id: \.self) { dayOfWeek in
+            ForEach(daysOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
                     .font(.caption)
                     .frame(width: CalendarConstants.dayWidth)
