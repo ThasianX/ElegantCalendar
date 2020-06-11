@@ -11,19 +11,15 @@ struct DayView: View, CalendarManagerDirectAccess {
     let week: Date
     let day: Date
 
-    private var numericDay: String {
-        String(calendar.component(.day, from: day))
-    }
-
-    var isWithinDateRange: Bool {
+    private var isDayWithinDateRange: Bool {
         day >= calendar.startOfDay(for: startDate) && day <= endDate
     }
 
-    var isWithinWeekMonthAndYear: Bool {
+    private var isDayWithinWeekMonthAndYear: Bool {
         calendar.isDate(week, equalTo: day, toGranularities: [.month, .year])
     }
 
-    var isInToday: Bool {
+    private var isDayToday: Bool {
         calendar.isDateInToday(day)
     }
 
@@ -37,27 +33,31 @@ struct DayView: View, CalendarManagerDirectAccess {
             .opacity(opacity)
     }
 
-    private var backgroundColor: Color {
-        if isInToday {
-            return .white
-        } else if isWithinDateRange && isWithinWeekMonthAndYear {
-            return appTheme.primary
-        } else {
-            return .clear
-        }
+    private var numericDay: String {
+        String(calendar.component(.day, from: day))
     }
 
-    var foregroundColor: Color {
-        if isInToday {
+    private var foregroundColor: Color {
+        if isDayToday {
             return .black
         } else {
             return .white
         }
     }
 
-    // TOOD: Add visits later on and base the background color opacity off that
+    private var backgroundColor: Color {
+        if isDayToday {
+            return .white
+        } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
+            return appTheme.primary
+        } else {
+            return .clear
+        }
+    }
+
+    // TOOD: Add opacity configuration later on and base the background color opacity off that
     private var opacity: Double {
-        isWithinDateRange && isWithinWeekMonthAndYear ? 1 : 0.15
+        isDayWithinDateRange && isDayWithinWeekMonthAndYear ? 1 : 0.15
     }
 
 }
