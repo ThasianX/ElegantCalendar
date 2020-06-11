@@ -2,13 +2,33 @@
 
 import SwiftUI
 
-struct DayView: View {
+struct DayView: View, CalendarManagerDirectAccess {
 
     @Environment(\.appTheme) var appTheme: AppTheme
-    @EnvironmentObject var dayManager: DayCalendarManager
+
+    @EnvironmentObject var calendarManager: CalendarManager
+
+    let week: Date
+    let day: Date
+
+    private var numericDay: String {
+        String(calendar.component(.day, from: day))
+    }
+
+    var isWithinDateRange: Bool {
+        day >= calendar.startOfDay(for: startDate) && day <= endDate
+    }
+
+    var isWithinWeekMonthAndYear: Bool {
+        calendar.isDate(week, equalTo: day, toGranularities: [.month, .year])
+    }
+
+    var isInToday: Bool {
+        calendar.isDateInToday(day)
+    }
 
     var body: some View {
-        Text(dayManager.day)
+        Text(numericDay)
             .font(.subheadline)
             .foregroundColor(foregroundColor)
             .frame(width: CalendarConstants.dayWidth, height: CalendarConstants.dayWidth)
@@ -18,9 +38,9 @@ struct DayView: View {
     }
 
     private var backgroundColor: Color {
-        if dayManager.isInToday {
+        if isInToday {
             return .white
-        } else if dayManager.isWithinDateRange && dayManager.isWithinCurrentMonth {
+        } else if isWithinDateRange && isWithinWeekMonthAndYear {
             return appTheme.primary
         } else {
             return .clear
@@ -28,7 +48,7 @@ struct DayView: View {
     }
 
     var foregroundColor: Color {
-        if dayManager.isInToday {
+        if isInToday {
             return .black
         } else {
             return .white
@@ -37,64 +57,20 @@ struct DayView: View {
 
     // TOOD: Add visits later on and base the background color opacity off that
     private var opacity: Double {
-        dayManager.isWithinDateRange && dayManager.isWithinCurrentMonth ? 1 : 0.15
-    }
-
-}
-
-class DayCalendarManager: ObservableObject, CalendarConfigurationDirectAccess {
-
-    let configuration: CalendarConfiguration
-    let week: Date
-    let date: Date
-
-    init(configuration: CalendarConfiguration, week: Date, date: Date) {
-        self.configuration = configuration
-        self.week = week
-        self.date = date
-    }
-
-    var day: String {
-        String(calendar.component(.day, from: date))
-    }
-
-    var isWithinDateRange: Bool {
-        date >= calendar.startOfDay(for: startDate) && date <= endDate
-    }
-
-    var isWithinCurrentMonth: Bool {
-        calendar.isDate(week, equalTo: date, toGranularity: .month)
-    }
-
-    var isInToday: Bool {
-        calendar.isDateInToday(date)
+        isWithinDateRange && isWithinWeekMonthAndYear ? 1 : 0.15
     }
 
 }
 
 struct DayView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        CalendarManagerGroup {
             DarkThemePreview {
-                DayView()
-                    .environmentObject(
-                        DayCalendarManager(
-                            configuration: .mock,
-                            week: Date(),
-                            date: Date()
-                        )
-                    )
+                DayView(week: Date(), day: Date())
             }
 
             DarkThemePreview {
-                DayView()
-                    .environmentObject(
-                        DayCalendarManager(
-                            configuration: .mock,
-                            week: Date(),
-                            date: Date().addingTimeInterval(60*60*24*3)
-                        )
-                    )
+                DayView(week: Date(), day: Date().addingTimeInterval(60*60*24*3))
             }
         }
     }

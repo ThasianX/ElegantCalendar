@@ -4,32 +4,58 @@ import SwiftUI
 
 fileprivate let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
 
-struct MonthView: View {
+struct MonthView: View, CalendarManagerDirectAccess {
 
     @Environment(\.appTheme) var appTheme: AppTheme
-    @EnvironmentObject var monthManager: MonthCalendarManager
-    @EnvironmentObject var scrollManager: CalendarScrollTracker
+    
+    @EnvironmentObject var calendarManager: CalendarManager
+
+    let month: Date
+
+    private var weeks: [Date] {
+        guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
+            return []
+        }
+        return generateDates(
+            inside: monthInterval,
+            matching: calendar.firstDayOfEveryWeek)
+    }
+
+    var monthString: String {
+        month.fullMonth
+    }
+
+    var yearString: String {
+        month.year
+    }
+
+    var isWithinSameMonthAndYearAsToday: Bool {
+        calendar.isDate(month, equalTo: Date(), toGranularities: [.month, .year])
+    }
 
     var body: some View {
         VStack(spacing: 40) {
             header
+                .padding(.leading, CalendarConstants.horizontalPadding)
             weekViewWithHeader
             Spacer()
         }
+        .padding(.top, CalendarConstants.topPadding)
+        .frame(height: CalendarConstants.cellHeight)
     }
 
     private var header: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(monthManager.monthString.uppercased())
+                Text(monthString.uppercased())
                     .font(.title)
                     .bold()
                     .tracking(5)
-                    .foregroundColor(monthManager.isInSameMonth ? appTheme.primary : .white)
-                Text(monthManager.yearString)
+                    .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.primary : .white)
+                Text(yearString)
                     .font(.caption)
                     .tracking(2)
-                    .foregroundColor(monthManager.isInSameMonth ? appTheme.complementary : .gray)
+                    .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.complementary : .gray)
                     .opacity(0.7)
             }
             Spacer()
@@ -56,48 +82,10 @@ struct MonthView: View {
 
     private var weekViewStack: some View {
         VStack(spacing: CalendarConstants.gridSpacing) {
-            ForEach(monthManager.weeks, id: \.self) { week in
-                WeekView()
-                    .environmentObject(self.monthManager.createWeekManager(for: week))
+            ForEach(weeks, id: \.self) { week in
+                WeekView(week: week)
             }
         }
-    }
-
-}
-
-class MonthCalendarManager: ObservableObject, CalendarConfigurationDirectAccess {
-
-    let configuration: CalendarConfiguration
-    let month: Date
-
-    init(configuration: CalendarConfiguration, month: Date) {
-        self.configuration = configuration
-        self.month = month
-    }
-
-    var weeks: [Date] {
-        guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
-            return []
-        }
-        return generateDates(
-            inside: monthInterval,
-            matching: calendar.firstDayOfEveryWeek)
-    }
-
-    func createWeekManager(for week: Date) -> WeekCalendarManager {
-        WeekCalendarManager(configuration: configuration, week: week)
-    }
-
-    var monthString: String {
-        month.fullMonth
-    }
-
-    var yearString: String {
-        month.year
-    }
-
-    var isInSameMonth: Bool {
-        calendar.isDate(month, equalTo: Date(), toGranularity: .month)
     }
 
 }
@@ -112,27 +100,13 @@ private extension Calendar {
 
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        CalendarManagerGroup {
             DarkThemePreview {
-                MonthView()
-                    .environmentObject(
-                        MonthCalendarManager(
-                            configuration: .mock,
-                            month: Date()
-                        )
-                    )
-                    .environmentObject(CalendarScrollTracker())
+                MonthView(month: Date())
             }
 
             DarkThemePreview {
-                MonthView()
-                    .environmentObject(
-                        MonthCalendarManager(
-                            configuration: .mock,
-                            month: Date().addingTimeInterval(60*60*24*45)
-                        )
-                    )
-                    .environmentObject(CalendarScrollTracker())
+                MonthView(month: Date().addingTimeInterval(60*60*24*45))
             }
         }
     }

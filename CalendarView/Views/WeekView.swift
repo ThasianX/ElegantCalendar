@@ -2,32 +2,13 @@
 
 import SwiftUI
 
-struct WeekView: View {
+struct WeekView: View, CalendarManagerDirectAccess {
 
-    @EnvironmentObject var weekManager: WeekCalendarManager
+    @EnvironmentObject var calendarManager: CalendarManager
 
-    var body: some View {
-        HStack(spacing: CalendarConstants.gridSpacing) {
-            ForEach(weekManager.days, id: \.self) { day in
-                DayView()
-                    .environmentObject(self.weekManager.createDayManager(for: day))
-            }
-        }
-    }
-
-}
-
-class WeekCalendarManager: ObservableObject, CalendarConfigurationDirectAccess {
-
-    let configuration: CalendarConfiguration
     let week: Date
 
-    init(configuration: CalendarConfiguration, week: Date) {
-        self.configuration = configuration
-        self.week = week
-    }
-
-    var days: [Date] {
+    private var days: [Date] {
         guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: week) else {
             return []
         }
@@ -36,8 +17,12 @@ class WeekCalendarManager: ObservableObject, CalendarConfigurationDirectAccess {
             matching: .everyDay)
     }
 
-    func createDayManager(for day: Date) -> DayCalendarManager {
-        DayCalendarManager(configuration: configuration, week: week, date: day)
+    var body: some View {
+        HStack(spacing: CalendarConstants.gridSpacing) {
+            ForEach(days, id: \.self) { day in
+                DayView(week: self.week, day: day)
+            }
+        }
     }
 
 }
@@ -52,25 +37,13 @@ private extension DateComponents {
 
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        CalendarManagerGroup {
             DarkThemePreview {
-                WeekView()
-                    .environmentObject(
-                        WeekCalendarManager(
-                            configuration: .mock,
-                            week: Date().addingTimeInterval(-60*60*24*7)
-                        )
-                    )
+                WeekView(week: Date())
             }
 
             DarkThemePreview {
-                WeekView()
-                    .environmentObject(
-                        WeekCalendarManager(
-                            configuration: .mock,
-                            week: Date()
-                        )
-                    )
+                WeekView(week: Date().addingTimeInterval(-60*60*24*7))
             }
         }
     }
