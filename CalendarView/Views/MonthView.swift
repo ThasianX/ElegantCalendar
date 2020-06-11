@@ -21,55 +21,63 @@ struct MonthView: View, CalendarManagerDirectAccess {
             matching: calendar.firstDayOfEveryWeek)
     }
 
-    var monthString: String {
-        month.fullMonth
-    }
-
-    var yearString: String {
-        month.year
-    }
-
-    var isWithinSameMonthAndYearAsToday: Bool {
+    private var isWithinSameMonthAndYearAsToday: Bool {
         calendar.isDate(month, equalTo: Date(), toGranularities: [.month, .year])
     }
 
     var body: some View {
         VStack(spacing: 40) {
-            header
+            monthYearHeader
                 .padding(.leading, CalendarConstants.horizontalPadding)
-            weekViewWithHeader
+            weeksViewWithDaysOfWeekHeader
             Spacer()
         }
         .padding(.top, CalendarConstants.topPadding)
-        .frame(height: CalendarConstants.cellHeight)
+        .frame(width: CalendarConstants.cellWidth, height: CalendarConstants.cellHeight)
     }
 
-    private var header: some View {
+}
+
+private extension MonthView {
+
+    var monthYearHeader: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(monthString.uppercased())
-                    .font(.title)
-                    .bold()
-                    .tracking(5)
-                    .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.primary : .white)
-                Text(yearString)
-                    .font(.caption)
-                    .tracking(2)
-                    .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.complementary : .gray)
-                    .opacity(0.7)
+                monthText
+                yearText
             }
             Spacer()
         }
     }
 
-    private var weekViewWithHeader: some View {
+    var monthText: some View {
+        Text(month.fullMonth.uppercased())
+            .font(.title)
+            .bold()
+            .tracking(5)
+            .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.primary : .white)
+    }
+
+    var yearText: some View {
+        Text(month.year)
+            .font(.caption)
+            .tracking(2)
+            .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.complementary : .gray)
+            .opacity(0.7)
+    }
+
+}
+
+private extension MonthView {
+
+    var weeksViewWithDaysOfWeekHeader: some View {
         VStack(spacing: 32) {
             daysOfWeekHeader
-            weekViewStack
+            weeksViewStack
         }
     }
 
-    private var daysOfWeekHeader: some View {
+    var daysOfWeekHeader: some View {
         HStack(spacing: CalendarConstants.gridSpacing) {
             ForEach(daysOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
@@ -80,7 +88,7 @@ struct MonthView: View, CalendarManagerDirectAccess {
         }
     }
 
-    private var weekViewStack: some View {
+    var weeksViewStack: some View {
         VStack(spacing: CalendarConstants.gridSpacing) {
             ForEach(weeks, id: \.self) { week in
                 WeekView(week: week)
