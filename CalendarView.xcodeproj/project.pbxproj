@@ -26,6 +26,7 @@
 		1EC3BCA4248C749D0052C61B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC3BCA3248C749D0052C61B /* Assets.xcassets */; };
 		1EC3BCA7248C749D0052C61B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC3BCA6248C749D0052C61B /* Preview Assets.xcassets */; };
 		1EC3BCAA248C749D0052C61B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EC3BCA8248C749D0052C61B /* LaunchScreen.storyboard */; };
+		1ED241A1249556D90007A3F2 /* ExampleCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED241A0249556D90007A3F2 /* ExampleCalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		1EC3BCA6248C749D0052C61B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1EC3BCA9248C749D0052C61B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1EC3BCAB248C749D0052C61B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ED241A0249556D90007A3F2 /* ExampleCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			children = (
 				1EC3BC9D248C749C0052C61B /* AppDelegate.swift */,
 				1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */,
+				1ED241A0249556D90007A3F2 /* ExampleCalendarView.swift */,
 				1E35EA23248D6406003C584D /* Views */,
 				1E35EA24248D643D003C584D /* Helpers */,
 				1EC3BCA3248C749D0052C61B /* Assets.xcassets */,
@@ -235,6 +238,7 @@
 				1E71D77E248C83DD003A3B0B /* Date+toString.swift in Sources */,
 				1EC3BC9E248C749C0052C61B /* AppDelegate.swift in Sources */,
 				1EC3BCA0248C749C0052C61B /* SceneDelegate.swift in Sources */,
+				1ED241A1249556D90007A3F2 /* ExampleCalendarView.swift in Sources */,
 				1E40D947248C7823005ECA82 /* CalenderView.swift in Sources */,
 				1E71D786248CB8A9003A3B0B /* WeekView.swift in Sources */,
 				1E35EA2B248D7126003C584D /* CalendarScrollTracker.swift in Sources */,

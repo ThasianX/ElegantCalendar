@@ -23,12 +23,17 @@ struct MonthView: View, CalendarManagerDirectAccess {
         calendar.isDate(month, equalTo: Date(), toGranularities: [.month, .year])
     }
 
+    private var isWithinSameMonthAndYearAsSelectedDate: Bool {
+        guard let selectedDate = selectedDate else { return false }
+        return calendar.isDate(month, equalTo: selectedDate, toGranularities: [.month, .year])
+    }
+
     var body: some View {
         VStack(spacing: 40) {
             monthYearHeader
                 .padding(.leading, CalendarConstants.horizontalPadding)
             weeksViewWithDaysOfWeekHeader
-            if selectedDate != nil {
+            if isWithinSameMonthAndYearAsSelectedDate {
                 calenderAccessoryView
                     .padding(.leading, CalendarConstants.horizontalPadding)
                     .id(selectedDate!)
@@ -164,6 +169,7 @@ private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
         }
 
         return Text(monthDayText.uppercased())
+            .foregroundColor(.white)
             .font(.subheadline)
             .bold()
     }
