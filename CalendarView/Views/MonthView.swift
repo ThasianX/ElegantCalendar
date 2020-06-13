@@ -28,6 +28,11 @@ struct MonthView: View, CalendarManagerDirectAccess {
             monthYearHeader
                 .padding(.leading, CalendarConstants.horizontalPadding)
             weeksViewWithDaysOfWeekHeader
+            if selectedDate != nil {
+                calenderAccessoryView
+                    .padding(.leading, CalendarConstants.horizontalPadding)
+                    .id(selectedDate!)
+            }
             Spacer()
         }
         .padding(.top, CalendarConstants.topPadding)
@@ -92,6 +97,84 @@ private extension MonthView {
                 WeekView(week: week)
             }
         }
+    }
+
+}
+
+private extension MonthView {
+
+    var calenderAccessoryView: some View {
+        CalendarAccessoryView(calendarManager: calendarManager)
+    }
+
+}
+
+private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
+
+    let calendarManager: CalendarManager
+
+    @State private var isVisible = false
+
+    private var numberOfDaysFromTodayToSelectedDate: Int {
+        let startOfToday = calendar.startOfDay(for: Date())
+        let startOfSelectedDate = calendar.startOfDay(for: selectedDate!)
+        return calendar.dateComponents([.day], from: startOfToday, to: startOfSelectedDate).day!
+    }
+
+    private var isNotYesterdayTodayOrTomorrow: Bool {
+        abs(numberOfDaysFromTodayToSelectedDate) > 1
+    }
+
+    var body: some View {
+        VStack {
+            selectedDayInformationView
+            datasource?.elegantCalendar(calendarManager, viewForSelectedDay: selectedDate!)
+        }
+        .onAppear(perform: makeVisible)
+        .opacity(isVisible ? 1 : 0)
+        .animation(.easeInOut)
+    }
+
+    private func makeVisible() {
+        isVisible = true
+    }
+
+    private var selectedDayInformationView: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                dayOfWeekWithMonthAndDayText
+                if isNotYesterdayTodayOrTomorrow {
+                    daysFromTodayText
+                }
+            }
+            Spacer()
+        }
+    }
+
+    private var dayOfWeekWithMonthAndDayText: some View {
+        let monthDayText: String
+        if numberOfDaysFromTodayToSelectedDate == -1 {
+            monthDayText = "Yesterday"
+        } else if numberOfDaysFromTodayToSelectedDate == 0 {
+            monthDayText = "Today"
+        } else if numberOfDaysFromTodayToSelectedDate == 1 {
+            monthDayText = "Tomorrow"
+        } else {
+            monthDayText = selectedDate!.dayOfWeekWithMonthAndDay
+        }
+
+        return Text(monthDayText.uppercased())
+            .font(.subheadline)
+            .bold()
+    }
+
+    private var daysFromTodayText: some View {
+        let isBeforeToday = numberOfDaysFromTodayToSelectedDate < 0
+        let daysDescription = isBeforeToday ? "DAYS AGO" : "DAYS FROM TODAY"
+
+        return Text("\(abs(numberOfDaysFromTodayToSelectedDate)) \(daysDescription)")
+            .font(.system(size: 10))
+            .foregroundColor(.gray)
     }
 
 }

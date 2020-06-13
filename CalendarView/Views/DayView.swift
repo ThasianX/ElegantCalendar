@@ -59,7 +59,7 @@ struct DayView: View, CalendarManagerDirectAccess {
                 Color.clear
             }
         }
-        .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
+        .opacity(datasource?.elegantCalendar(calendarManager, colorOpacityForDay: day) ?? 1)
     }
 
     private var opacity: Double {
