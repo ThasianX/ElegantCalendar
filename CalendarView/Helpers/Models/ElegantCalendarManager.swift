@@ -104,16 +104,12 @@ extension ElegantCalendarManager {
 extension ElegantCalendarManager {
 
     public func scrollToMonth(_ month: Date) {
-        let monthsInBetween = configuration.calendar.dateComponents([.month], from: configuration.startDate, to: month).month!
+        let startOfMonthForStartDate = calendar.startOfMonth(for: configuration.startDate)
+        let startOfMonthForToBeCurrentMonth = calendar.startOfMonth(for: month)
+        let monthsInBetween = configuration.calendar.dateComponents([.month],
+                                                                    from: startOfMonthForStartDate,
+                                                                    to: startOfMonthForToBeCurrentMonth).month!
         scrollTracker.scroll(to: monthsInBetween)
-    }
-
-}
-
-private extension DateComponents {
-
-    static var firstDayOfEveryMonth: DateComponents {
-        DateComponents(day: 1, hour: 0, minute: 0, second: 0)
     }
 
 }

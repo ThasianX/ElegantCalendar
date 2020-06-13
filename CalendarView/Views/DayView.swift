@@ -52,15 +52,13 @@ struct DayView: View, CalendarManagerDirectAccess {
 
     private var backgroundColor: some View {
         Group {
-            if isDayToday {
-                Color.white
-            } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
-                themeColor
+            if isDayWithinDateRange {
+                (isDayToday ? Color.white : themeColor)
+                    .opacity(datasource?.elegantCalendar(calendarManager, colorOpacityForDay: day) ?? 1)
             } else {
                 Color.clear
             }
         }
-        .opacity(datasource?.elegantCalendar(calendarManager, colorOpacityForDay: day) ?? 1)
     }
 
     private var opacity: Double {
@@ -106,7 +104,7 @@ struct DayView_Previews: PreviewProvider {
             }
 
             DarkThemePreview {
-                DayView(week: Date(), day: Date().addingTimeInterval(60*60*24*3))
+                DayView(week: Date(), day: .daysFromToday(3))
             }
         }
     }

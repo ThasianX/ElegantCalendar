@@ -27,14 +27,6 @@ struct WeekView: View, CalendarManagerDirectAccess {
 
 }
 
-private extension DateComponents {
-
-    static var everyDay: DateComponents {
-        DateComponents(hour: 0, minute: 0, second: 0)
-    }
-
-}
-
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
         CalendarManagerGroup {
@@ -43,7 +35,7 @@ struct WeekView_Previews: PreviewProvider {
             }
 
             DarkThemePreview {
-                WeekView(week: Date().addingTimeInterval(-60*60*24*7))
+                WeekView(week: .daysFromToday(-7))
             }
         }
     }
