@@ -4,8 +4,6 @@ import SwiftUI
 
 struct DayView: View, CalendarManagerDirectAccess {
 
-    @Environment(\.appTheme) var appTheme: AppTheme
-
     @EnvironmentObject var calendarManager: CalendarManager
 
     let week: Date
@@ -51,15 +49,17 @@ struct DayView: View, CalendarManagerDirectAccess {
         }
     }
 
-    // TOOD: Add opacity configuration later on and base the background color opacity off that
-    private var backgroundColor: Color {
-        if isDayToday {
-            return .white
-        } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
-            return appTheme.primary
-        } else {
-            return .clear
+    private var backgroundColor: some View {
+        Group {
+            if isDayToday {
+                Color.white
+            } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
+                themeColor
+            } else {
+                Color.clear
+            }
         }
+        .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
     }
 
     private var opacity: Double {

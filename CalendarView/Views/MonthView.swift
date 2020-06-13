@@ -5,8 +5,6 @@ import SwiftUI
 fileprivate let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
 
 struct MonthView: View, CalendarManagerDirectAccess {
-
-    @Environment(\.appTheme) var appTheme: AppTheme
     
     @EnvironmentObject var calendarManager: CalendarManager
 
@@ -54,16 +52,16 @@ private extension MonthView {
         Text(month.fullMonth.uppercased())
             .font(.title)
             .bold()
-            .tracking(5)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.primary : .white)
+            .tracking(6)
+            .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .white)
     }
 
     var yearText: some View {
         Text(month.year)
             .font(.caption)
             .tracking(2)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? appTheme.complementary : .gray)
-            .opacity(0.7)
+            .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .gray)
+            .opacity(0.8)
     }
 
 }

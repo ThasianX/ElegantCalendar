@@ -2,6 +2,12 @@
 
 import SwiftUI
 
+protocol ElegantCalendarDataSource {
+
+    func elegantCalendar(colorOpacityForDay day: Date) -> Double
+
+}
+
 protocol ElegantCalendarDelegate {
 
     func elegantCalendar(didSelectDate date: Date)
@@ -14,7 +20,9 @@ class CalendarManager: ObservableObject {
     @Published var currentMonth: Date
     @Published var selectedDate: Date?
 
+    var datasource: ElegantCalendarDataSource?
     var delegate: ElegantCalendarDelegate?
+
     private var scrollTracker: CalendarScrollTracker!
 
     let configuration: CalendarConfiguration
@@ -103,6 +111,10 @@ extension CalendarManagerDirectAccess {
         configuration.endDate
     }
 
+    var themeColor: Color {
+        configuration.themeColor
+    }
+
     func generateDates(inside interval: DateInterval,
                        matching components: DateComponents) -> [Date] {
         calendar.generateDates(inside: interval, matching: components)
@@ -114,6 +126,14 @@ extension CalendarManagerDirectAccess {
 
     var selectedDate: Date? {
         calendarManager.selectedDate
+    }
+
+    var datasource: ElegantCalendarDataSource? {
+        calendarManager.datasource
+    }
+
+    var delegate: ElegantCalendarDelegate? {
+        calendarManager.delegate
     }
 
 }

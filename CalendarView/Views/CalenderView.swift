@@ -13,8 +13,6 @@ fileprivate let scrollInsets: CGFloat = {
 
 struct CalendarView: View, CalendarManagerDirectAccess {
 
-    @Environment(\.appTheme) var appTheme: AppTheme
-
     @EnvironmentObject var calendarManager: CalendarManager
 
     private var isCurrentMonthSameAsTodayMonth: Bool {
@@ -51,7 +49,7 @@ struct CalendarView: View, CalendarManagerDirectAccess {
                 Image(systemName: "arrow.uturn.left")
                     .resizable()
                     .frame(width: 20, height: 20)
-                    .foregroundColor(appTheme.primary)
+                    .foregroundColor(themeColor)
             }
             .transition(.opacity)
         }
