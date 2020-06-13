@@ -8,10 +8,9 @@ let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.heig
 
 struct CalendarConstants {
 
-    // TODO: Need better top padding and gridspacing depending on phone size
-    static let topPadding: CGFloat = 70
-    static let horizontalPadding: CGFloat = 24
-    static let gridSpacing: CGFloat = 16
+    static let topPadding: CGFloat = cellHeight * 0.078
+    static let horizontalPadding: CGFloat = cellWidth * 0.058
+    static let gridSpacing: CGFloat = cellWidth * 0.038
 
     static let daysInRow: CGFloat = 7
     static let cellHeight: CGFloat = screen.height
