@@ -4,18 +4,18 @@ import SwiftUI
 
 protocol ElegantCalendarDataSource {
 
-    func elegantCalendar(_ calendarManager: CalendarManager, colorOpacityForDay day: Date) -> Double
-    func elegantCalendar(_ calendarManager: CalendarManager, viewForSelectedDay day: Date) -> AnyView
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, colorOpacityForDay day: Date) -> Double
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date) -> AnyView
 
 }
 
 extension ElegantCalendarDataSource {
 
-    func elegantCalendar(_ calendarManager: CalendarManager, colorOpacityForDay day: Date) -> Double {
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, colorOpacityForDay day: Date) -> Double {
         1
     }
 
-    func elegantCalendar(_ calendarManager: CalendarManager, viewForSelectedDay day: Date) -> AnyView {
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date) -> AnyView {
         AnyView(EmptyView())
     }
 
@@ -23,20 +23,20 @@ extension ElegantCalendarDataSource {
 
 protocol ElegantCalendarDelegate {
 
-    func elegantCalendar(_ calendarManager: CalendarManager, didSelectDate date: Date)
-    func elegantCalendar(_ calendarManager: CalendarManager, willDisplay month: Date)
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, didSelectDate date: Date)
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, willDisplay month: Date)
 
 }
 
 extension ElegantCalendarDelegate {
 
-    func elegantCalendar(_ calendarManager: CalendarManager, didSelectDate date: Date) { }
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, didSelectDate date: Date) { }
 
-    func elegantCalendar(_ calendarManager: CalendarManager, willDisplay month: Date) { }
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, willDisplay month: Date) { }
 
 }
 
-public class CalendarManager: ObservableObject {
+public class ElegantCalendarManager: ObservableObject {
 
     @Published var currentMonth: Date
     @Published var selectedDate: Date?
@@ -62,7 +62,7 @@ public class CalendarManager: ObservableObject {
 
 }
 
-extension CalendarManager: ListPaginationDelegate {
+extension ElegantCalendarManager: ListPaginationDelegate {
 
     func willDisplay(page: Int) {
         if currentMonth != months[page] {
@@ -74,7 +74,7 @@ extension CalendarManager: ListPaginationDelegate {
 
 }
 
-extension CalendarManager {
+extension ElegantCalendarManager {
 
     func attach(to tableView: UITableView, with initialMonth: Date?) {
         if scrollTracker == nil {
@@ -92,7 +92,7 @@ extension CalendarManager {
 
 }
 
-extension CalendarManager {
+extension ElegantCalendarManager {
 
     func dayTapped(day: Date) {
         selectedDate = day
@@ -101,7 +101,7 @@ extension CalendarManager {
 
 }
 
-extension CalendarManager {
+extension ElegantCalendarManager {
 
     public func scrollToMonth(_ month: Date) {
         let monthsInBetween = configuration.calendar.dateComponents([.month], from: configuration.startDate, to: month).month!
@@ -120,7 +120,7 @@ private extension DateComponents {
 
 protocol CalendarManagerDirectAccess {
 
-    var calendarManager: CalendarManager { get }
+    var calendarManager: ElegantCalendarManager { get }
 
 }
 

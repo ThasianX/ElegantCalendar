@@ -8,7 +8,7 @@ struct CalendarManagerGroup<PreviewGroup: View>: View {
 
     var body: some View {
         previewGroup
-            .environmentObject(CalendarManager(configuration: .mock))
+            .environmentObject(ElegantCalendarManager(configuration: .mock))
     }
 
     init(@ViewBuilder previewGroup: @escaping () -> PreviewGroup) {
