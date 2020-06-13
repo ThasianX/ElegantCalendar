@@ -21,8 +21,8 @@ struct CalendarConfiguration {
 extension CalendarConfiguration {
 
     static let mock = CalendarConfiguration(
-        startDate: Date(),
-        endDate: Date().addingTimeInterval(60*60*24*365*2),
+        startDate: .daysFromToday(-90),
+        endDate: .daysFromToday(365*3),
         themeColor: .blackPearl)
 
 }

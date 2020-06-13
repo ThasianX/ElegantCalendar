@@ -185,14 +185,6 @@ private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
 
 }
 
-private extension Calendar {
-
-    var firstDayOfEveryWeek: DateComponents {
-        DateComponents(hour: 0, minute: 0, second: 0, weekday: firstWeekday)
-    }
-
-}
-
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
         CalendarManagerGroup {
@@ -201,7 +193,7 @@ struct MonthView_Previews: PreviewProvider {
             }
 
             DarkThemePreview {
-                MonthView(month: Date().addingTimeInterval(60*60*24*45))
+                MonthView(month: .daysFromToday(45))
             }
         }
     }

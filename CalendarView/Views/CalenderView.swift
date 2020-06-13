@@ -93,7 +93,7 @@ struct CalenderView_Previews: PreviewProvider {
             ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
             
             ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock),
-                         initialMonth: Date().addingTimeInterval(60*60*24*90))
+                                initialMonth: .daysFromToday(90))
         }
     }
 }

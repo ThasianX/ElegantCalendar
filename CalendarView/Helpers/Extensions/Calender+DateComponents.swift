@@ -10,4 +10,9 @@ extension Calendar {
         }
     }
 
+    func startOfMonth(for date: Date) -> Date {
+        let components = dateComponents([.month, .year], from: date)
+        return self.date(from: components)!
+    }
+
 }
