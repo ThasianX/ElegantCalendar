@@ -62,6 +62,15 @@ extension CalendarManager {
 
 }
 
+extension CalendarManager {
+
+    func dayTapped(day: Date) {
+        selectedDate = day
+        delegate?.elegantCalendar(didSelectDate: day)
+    }
+
+}
+
 private extension DateComponents {
 
     static var firstDayOfEveryMonth: DateComponents {
