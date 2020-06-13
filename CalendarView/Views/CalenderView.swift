@@ -6,14 +6,19 @@ import SwiftUI
 fileprivate let scrollInsets: CGFloat = {
     // check to see if device is iphone x and above, without a home button
     if let keyWindow = window, keyWindow.safeAreaInsets.bottom > 0 {
-        return 35
+        return 45
     }
-    return 15 // This will allow the `scrollBackToToday` button to be aligned with the header
+    return 20 // This will allow the `scrollBackToToday` button to be aligned with the header for older iphones
 }()
+
+fileprivate let scrollButtonTrailingPadding = CalendarConstants.horizontalPadding + CalendarConstants.dayWidth/2
+fileprivate let scrollButtonOffset = CalendarConstants.topPadding - statusBarHeight+10
 
 struct CalendarView: View, CalendarManagerDirectAccess {
 
     @ObservedObject var calendarManager: CalendarManager
+
+    var initialMonth: Date? = nil
 
     private var isCurrentMonthSameAsTodayMonth: Bool {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
@@ -24,8 +29,8 @@ struct CalendarView: View, CalendarManagerDirectAccess {
             monthsList
             if !isCurrentMonthSameAsTodayMonth {
                 leftAlignedScrollBackToTodayButton
-                    .padding(.trailing, CalendarConstants.horizontalPadding + CalendarConstants.dayWidth/2)
-                    .offset(y: CalendarConstants.topPadding - scrollInsets)
+                    .padding(.trailing, scrollButtonTrailingPadding)
+                    .offset(y: scrollButtonOffset)
             }
         }
     }
@@ -39,7 +44,8 @@ struct CalendarView: View, CalendarManagerDirectAccess {
             .listRowInsets(EdgeInsets())
         }
         .introspectTableView { tableView in
-            self.calendarManager.attach(to: tableView.withPagination)
+            self.calendarManager.attach(to: tableView.withPagination,
+                                        with: self.initialMonth)
         }
     }
 
@@ -67,7 +73,10 @@ private extension UITableView {
         allowsSelection = false
 
         // gets rid of scroll insets
-        contentInset = UIEdgeInsets(top: -scrollInsets, left: 0, bottom: -scrollInsets, right: 0)
+        contentInset = UIEdgeInsets(top: -scrollInsets,
+                                    left: 0,
+                                    bottom: -scrollInsets,
+                                    right: 0)
 
         isPagingEnabled = true
         decelerationRate = .fast
@@ -82,6 +91,9 @@ struct CalenderView_Previews: PreviewProvider {
     static var previews: some View {
         DarkThemePreview {
             CalendarView(calendarManager: CalendarManager(configuration: .mock))
+            
+            CalendarView(calendarManager: CalendarManager(configuration: .mock),
+                         initialMonth: Date().addingTimeInterval(60*60*24*90))
         }
     }
 }

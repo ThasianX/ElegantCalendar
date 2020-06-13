@@ -4,18 +4,18 @@ import SwiftUI
 
 protocol ElegantCalendarDataSource {
 
-    func elegantCalendar(_ calendarManager: CalendarManager,colorOpacityForDay day: Date) -> Double
-    func elegantCalendar(_ calendarManager: CalendarManager,viewForSelectedDay day: Date) -> AnyView
+    func elegantCalendar(_ calendarManager: CalendarManager, colorOpacityForDay day: Date) -> Double
+    func elegantCalendar(_ calendarManager: CalendarManager, viewForSelectedDay day: Date) -> AnyView
 
 }
 
 extension ElegantCalendarDataSource {
 
-    func elegantCalendar(_ calendarManager: CalendarManager,colorOpacityForDay day: Date) -> Double {
+    func elegantCalendar(_ calendarManager: CalendarManager, colorOpacityForDay day: Date) -> Double {
         1
     }
 
-    func elegantCalendar(_ calendarManager: CalendarManager,viewForSelectedDay day: Date) -> AnyView {
+    func elegantCalendar(_ calendarManager: CalendarManager, viewForSelectedDay day: Date) -> AnyView {
         AnyView(EmptyView())
     }
 
@@ -36,7 +36,7 @@ extension ElegantCalendarDelegate {
 
 }
 
-class CalendarManager: ObservableObject {
+public class CalendarManager: ObservableObject {
 
     @Published var currentMonth: Date
     @Published var selectedDate: Date?
@@ -48,7 +48,6 @@ class CalendarManager: ObservableObject {
 
     let configuration: CalendarConfiguration
     let months: [Date]
-    private let todayMonthIndex: Int?
 
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
@@ -57,11 +56,6 @@ class CalendarManager: ObservableObject {
             inside: DateInterval(start: configuration.startDate,
                                  end: configuration.endDate),
             matching: .firstDayOfEveryMonth)
-
-        let currentDate = Date()
-        todayMonthIndex = months.firstIndex(where: { month in
-            configuration.calendar.isDate(month, equalTo:currentDate, toGranularities: [.month, .year])
-        })
 
         currentMonth = months.first!
     }
@@ -82,15 +76,18 @@ extension CalendarManager: ListPaginationDelegate {
 
 extension CalendarManager {
 
-    func attach(to tableView: UITableView) {
-        scrollTracker = CalendarScrollTracker(delegate: self, tableView: tableView)
+    func attach(to tableView: UITableView, with initialMonth: Date?) {
+        if scrollTracker == nil {
+            scrollTracker = CalendarScrollTracker(delegate: self, tableView: tableView)
+            if let initialMonth = initialMonth {
+                scrollToMonth(initialMonth)
+            }
+        }
     }
 
     func scrollBackToToday() {
-        if let todayMonthIndex = todayMonthIndex {
-            scrollTracker.scroll(to: todayMonthIndex)
-            dayTapped(day: months[todayMonthIndex])
-        }
+        scrollToMonth(Date())
+        dayTapped(day: Date())
     }
 
 }
@@ -100,6 +97,15 @@ extension CalendarManager {
     func dayTapped(day: Date) {
         selectedDate = day
         delegate?.elegantCalendar(self, didSelectDate: day)
+    }
+
+}
+
+extension CalendarManager {
+
+    public func scrollToMonth(_ month: Date) {
+        let monthsInBetween = configuration.calendar.dateComponents([.month], from: configuration.startDate, to: month).month!
+        scrollTracker.scroll(to: monthsInBetween)
     }
 
 }
