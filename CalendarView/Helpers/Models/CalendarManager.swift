@@ -89,6 +89,7 @@ extension CalendarManager {
     func scrollBackToToday() {
         if let todayMonthIndex = todayMonthIndex {
             scrollTracker.scroll(to: todayMonthIndex)
+            dayTapped(day: months[todayMonthIndex])
         }
     }
 

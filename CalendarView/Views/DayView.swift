@@ -22,7 +22,8 @@ struct DayView: View, CalendarManagerDirectAccess {
     }
 
     private var isSelected: Bool {
-        selectedDate == day
+        guard let selectedDate = selectedDate else { return false }
+        return calendar.isDate(selectedDate, equalTo: day, toGranularities: [.day, .month, .year])
     }
 
     var body: some View {
