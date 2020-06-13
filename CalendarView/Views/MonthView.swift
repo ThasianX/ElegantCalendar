@@ -6,7 +6,7 @@ fileprivate let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
 
 struct MonthView: View, CalendarManagerDirectAccess {
     
-    @EnvironmentObject var calendarManager: CalendarManager
+    @EnvironmentObject var calendarManager: ElegantCalendarManager
 
     let month: Date
 
@@ -116,7 +116,7 @@ private extension MonthView {
 
 private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
 
-    let calendarManager: CalendarManager
+    let calendarManager: ElegantCalendarManager
 
     @State private var isVisible = false
 

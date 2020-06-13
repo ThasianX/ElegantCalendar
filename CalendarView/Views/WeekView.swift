@@ -4,7 +4,7 @@ import SwiftUI
 
 struct WeekView: View, CalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: CalendarManager
+    @EnvironmentObject var calendarManager: ElegantCalendarManager
 
     let week: Date
 

@@ -4,10 +4,10 @@ import SwiftUI
 
 struct ExampleCalendarView: View {
 
-    @ObservedObject private var calendarManager = CalendarManager(configuration: .mock)
+    @ObservedObject private var calendarManager = ElegantCalendarManager(configuration: .mock)
 
     var body: some View {
-        CalendarView(calendarManager: calendarManager,
+        ElegantCalendarView(calendarManager: calendarManager,
                      initialMonth: Date().addingTimeInterval(60*60*24*90))
     }
     

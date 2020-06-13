@@ -14,9 +14,9 @@ fileprivate let scrollInsets: CGFloat = {
 fileprivate let scrollButtonTrailingPadding = CalendarConstants.horizontalPadding + CalendarConstants.dayWidth/2
 fileprivate let scrollButtonOffset = CalendarConstants.topPadding - statusBarHeight+10
 
-struct CalendarView: View, CalendarManagerDirectAccess {
+struct ElegantCalendarView: View, CalendarManagerDirectAccess {
 
-    @ObservedObject var calendarManager: CalendarManager
+    @ObservedObject var calendarManager: ElegantCalendarManager
 
     var initialMonth: Date? = nil
 
@@ -90,9 +90,9 @@ private extension UITableView {
 struct CalenderView_Previews: PreviewProvider {
     static var previews: some View {
         DarkThemePreview {
-            CalendarView(calendarManager: CalendarManager(configuration: .mock))
+            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
             
-            CalendarView(calendarManager: CalendarManager(configuration: .mock),
+            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock),
                          initialMonth: Date().addingTimeInterval(60*60*24*90))
         }
     }
