@@ -4,14 +4,35 @@ import SwiftUI
 
 protocol ElegantCalendarDataSource {
 
-    func elegantCalendar(colorOpacityForDay day: Date) -> Double
+    func elegantCalendar(_ calendarManager: CalendarManager,colorOpacityForDay day: Date) -> Double
+    func elegantCalendar(_ calendarManager: CalendarManager,viewForSelectedDay day: Date) -> AnyView
+
+}
+
+extension ElegantCalendarDataSource {
+
+    func elegantCalendar(_ calendarManager: CalendarManager,colorOpacityForDay day: Date) -> Double {
+        1
+    }
+
+    func elegantCalendar(_ calendarManager: CalendarManager,viewForSelectedDay day: Date) -> AnyView {
+        AnyView(EmptyView())
+    }
 
 }
 
 protocol ElegantCalendarDelegate {
 
-    func elegantCalendar(didSelectDate date: Date)
-    func elegantCalendar(willDisplay month: Date)
+    func elegantCalendar(_ calendarManager: CalendarManager, didSelectDate date: Date)
+    func elegantCalendar(_ calendarManager: CalendarManager, willDisplay month: Date)
+
+}
+
+extension ElegantCalendarDelegate {
+
+    func elegantCalendar(_ calendarManager: CalendarManager, didSelectDate date: Date) { }
+
+    func elegantCalendar(_ calendarManager: CalendarManager, willDisplay month: Date) { }
 
 }
 
@@ -50,8 +71,11 @@ class CalendarManager: ObservableObject {
 extension CalendarManager: ListPaginationDelegate {
 
     func willDisplay(page: Int) {
-        currentMonth = months[page]
-        delegate?.elegantCalendar(willDisplay: currentMonth)
+        if currentMonth != months[page] {
+            currentMonth = months[page]
+            selectedDate = nil
+            delegate?.elegantCalendar(self, willDisplay: currentMonth)
+        }
     }
 
 }
@@ -74,7 +98,7 @@ extension CalendarManager {
 
     func dayTapped(day: Date) {
         selectedDate = day
-        delegate?.elegantCalendar(didSelectDate: day)
+        delegate?.elegantCalendar(self, didSelectDate: day)
     }
 
 }

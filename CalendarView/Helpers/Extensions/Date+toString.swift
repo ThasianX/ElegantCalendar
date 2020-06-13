@@ -4,6 +4,10 @@ import Foundation
 
 extension Date {
 
+    var dayOfWeekWithMonthAndDay: String {
+        DateFormatter.dayOfWeekWithMonthAndDay.string(from: self)
+    }
+
     var fullMonth: String {
         DateFormatter.fullMonth.string(from: self)
     }
@@ -15,6 +19,12 @@ extension Date {
 }
 
 extension DateFormatter {
+
+    static var dayOfWeekWithMonthAndDay: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE MMMM d"
+        return formatter
+    }
 
     static var fullMonth: DateFormatter {
         let formatter = DateFormatter()
