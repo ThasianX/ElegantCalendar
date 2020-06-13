@@ -13,7 +13,7 @@ fileprivate let scrollInsets: CGFloat = {
 
 struct CalendarView: View, CalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: CalendarManager
+    @ObservedObject var calendarManager: CalendarManager
 
     private var isCurrentMonthSameAsTodayMonth: Bool {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
@@ -34,6 +34,7 @@ struct CalendarView: View, CalendarManagerDirectAccess {
         List {
             ForEach(calendarManager.months, id: \.self) { month in
                 MonthView(month: month)
+                    .environmentObject(self.calendarManager)
             }
             .listRowInsets(EdgeInsets())
         }
@@ -80,8 +81,7 @@ private extension UITableView {
 struct CalenderView_Previews: PreviewProvider {
     static var previews: some View {
         DarkThemePreview {
-            CalendarView()
-                .environmentObject(CalendarManager(configuration: .mock))
+            CalendarView(calendarManager: CalendarManager(configuration: .mock))
         }
     }
 }
