@@ -24,6 +24,10 @@
 		1E744D9724956F7400C8B7E0 /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E744D9624956F7400C8B7E0 /* Visit.swift */; };
 		1E744D992495747E00C8B7E0 /* Date+DaysFromToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E744D982495747E00C8B7E0 /* Date+DaysFromToday.swift */; };
 		1E744D9B2495755E00C8B7E0 /* Enumeration+Matching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E744D9A2495755E00C8B7E0 /* Enumeration+Matching.swift */; };
+		1E84A5012495920600401180 /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E84A5002495920600401180 /* VisitsListView.swift */; };
+		1E84A5042495993000401180 /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E84A5032495993000401180 /* VisitCell.swift */; };
+		1E912CFE2495ABE100AFCD4C /* View+Erased.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E912CFD2495ABE100AFCD4C /* View+Erased.swift */; };
+		1E912D002495AF8A00AFCD4C /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */; };
 		1EC3BC9E248C749C0052C61B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC3BC9D248C749C0052C61B /* AppDelegate.swift */; };
 		1EC3BCA0248C749C0052C61B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */; };
 		1EC3BCA4248C749D0052C61B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC3BCA3248C749D0052C61B /* Assets.xcassets */; };
@@ -49,6 +53,10 @@
 		1E744D9624956F7400C8B7E0 /* Visit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visit.swift; sourceTree = "<group>"; };
 		1E744D982495747E00C8B7E0 /* Date+DaysFromToday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DaysFromToday.swift"; sourceTree = "<group>"; };
 		1E744D9A2495755E00C8B7E0 /* Enumeration+Matching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enumeration+Matching.swift"; sourceTree = "<group>"; };
+		1E84A5002495920600401180 /* VisitsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsListView.swift; sourceTree = "<group>"; };
+		1E84A5032495993000401180 /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
+		1E912CFD2495ABE100AFCD4C /* View+Erased.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Erased.swift"; sourceTree = "<group>"; };
+		1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
 		1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarViewSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC3BC9D248C749C0052C61B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +96,7 @@
 				1E744D982495747E00C8B7E0 /* Date+DaysFromToday.swift */,
 				1E71D77D248C83DC003A3B0B /* Date+toString.swift */,
 				1E744D9A2495755E00C8B7E0 /* Enumeration+Matching.swift */,
+				1E912CFD2495ABE100AFCD4C /* View+Erased.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -99,7 +108,6 @@
 				1E35EA21248D62D4003C584D /* CalenderConstants.swift */,
 				1E35EA2A248D7126003C584D /* CalendarScrollTracker.swift */,
 				1E1829F82491B163006A55A3 /* ElegantCalendarManager.swift */,
-				1E744D9624956F7400C8B7E0 /* Visit.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -125,6 +133,18 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		1E84A5022495991800401180 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				1ED241A0249556D90007A3F2 /* ExampleCalendarView.swift */,
+				1E84A5002495920600401180 /* VisitsListView.swift */,
+				1E84A5032495993000401180 /* VisitCell.swift */,
+				1E744D9624956F7400C8B7E0 /* Visit.swift */,
+				1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
 		1EC3BC91248C749C0052C61B = {
 			isa = PBXGroup;
 			children = (
@@ -146,7 +166,7 @@
 			children = (
 				1EC3BC9D248C749C0052C61B /* AppDelegate.swift */,
 				1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */,
-				1ED241A0249556D90007A3F2 /* ExampleCalendarView.swift */,
+				1E84A5022495991800401180 /* Example */,
 				1E35EA23248D6406003C584D /* Views */,
 				1E35EA24248D643D003C584D /* Helpers */,
 				1EC3BCA3248C749D0052C61B /* Assets.xcassets */,
@@ -252,14 +272,18 @@
 				1ED241A1249556D90007A3F2 /* ExampleCalendarView.swift in Sources */,
 				1E40D947248C7823005ECA82 /* CalenderView.swift in Sources */,
 				1E71D786248CB8A9003A3B0B /* WeekView.swift in Sources */,
+				1E912D002495AF8A00AFCD4C /* VisitPreviewConstants.swift in Sources */,
 				1E35EA2B248D7126003C584D /* CalendarScrollTracker.swift in Sources */,
 				1E35EA26248D674C003C584D /* DarkThemePreview.swift in Sources */,
+				1E84A5012495920600401180 /* VisitsListView.swift in Sources */,
 				1E1829FB2491CE53006A55A3 /* Calender+DateComponents.swift in Sources */,
+				1E912CFE2495ABE100AFCD4C /* View+Erased.swift in Sources */,
 				1E71D784248CB85E003A3B0B /* MonthView.swift in Sources */,
 				1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */,
 				1E40D94B248C7A00005ECA82 /* Color+CustomColors.swift in Sources */,
 				1E1829F92491B163006A55A3 /* ElegantCalendarManager.swift in Sources */,
 				1E744D9B2495755E00C8B7E0 /* Enumeration+Matching.swift in Sources */,
+				1E84A5042495993000401180 /* VisitCell.swift in Sources */,
 				1E1829FD2491D2E0006A55A3 /* CalenderManagerGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

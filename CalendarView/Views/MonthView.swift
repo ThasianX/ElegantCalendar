@@ -133,11 +133,15 @@ private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
     var body: some View {
         VStack {
             selectedDayInformationView
-            datasource?.elegantCalendar(calendarManager, viewForSelectedDay: selectedDate!)
+            GeometryReader { geometry in
+                self.datasource?.elegantCalendar(self.calendarManager,
+                                                 viewForSelectedDay: self.selectedDate!,
+                                                 dimensions: geometry.size)
+            }
         }
         .onAppear(perform: makeVisible)
         .opacity(isVisible ? 1 : 0)
-        .animation(.easeInOut)
+        .animation(.easeInOut(duration: 0.5))
     }
 
     private func makeVisible() {
