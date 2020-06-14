@@ -5,7 +5,7 @@ import SwiftUI
 protocol ElegantCalendarDataSource {
 
     func elegantCalendar(_ calendarManager: ElegantCalendarManager, colorOpacityForDay day: Date) -> Double
-    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date) -> AnyView
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView
 
 }
 
@@ -15,8 +15,8 @@ extension ElegantCalendarDataSource {
         1
     }
 
-    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date) -> AnyView {
-        AnyView(EmptyView())
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
+        EmptyView().erased
     }
 
 }

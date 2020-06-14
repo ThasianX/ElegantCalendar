@@ -35,9 +35,10 @@ extension ExampleCalendarView: ElegantCalendarDataSource {
         return Double((visitsByDay[startOfDay]?.count ?? 0) + 3) / 15.0
     }
 
-//    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date) -> AnyView {
-//        <#code#>
-//    }
+    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
+        let startOfDay = calendar.startOfDay(for: day)
+        return VisitsListView(visits: visitsByDay[startOfDay] ?? [], height: size.height).erased
+    }
     
 }
 

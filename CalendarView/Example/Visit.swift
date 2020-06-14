@@ -33,8 +33,8 @@ extension Visit {
     }
 
     static var mocks: [Visit] = calendar.generateVisits(
-        start: .daysFromToday(-365),
-        end: .daysFromToday(365))
+        start: .daysFromToday(-365*2),
+        end: .daysFromToday(365*2))
 
 }
 

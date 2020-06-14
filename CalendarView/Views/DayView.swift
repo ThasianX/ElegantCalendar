@@ -53,8 +53,12 @@ struct DayView: View, CalendarManagerDirectAccess {
     private var backgroundColor: some View {
         Group {
             if isDayWithinDateRange {
-                (isDayToday ? Color.white : themeColor)
-                    .opacity(datasource?.elegantCalendar(calendarManager, colorOpacityForDay: day) ?? 1)
+                if isDayToday {
+                    Color.white
+                } else {
+                    themeColor
+                        .opacity(datasource?.elegantCalendar(calendarManager, colorOpacityForDay: day) ?? 1)
+                }
             } else {
                 Color.clear
             }
