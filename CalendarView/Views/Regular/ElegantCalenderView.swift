@@ -3,34 +3,23 @@
 import Introspect
 import SwiftUI
 
-fileprivate let scrollInsets: CGFloat = {
-    // check to see if device is iphone x and above, without a home button
-    if let keyWindow = window, keyWindow.safeAreaInsets.bottom > 0 {
-        return 45
-    }
-    return 20 // This will allow the `scrollBackToToday` button to be aligned with the header for older iphones
-}()
-
-fileprivate let scrollButtonTrailingPadding = CalendarConstants.horizontalPadding + CalendarConstants.dayWidth/2
-fileprivate let scrollButtonOffset = CalendarConstants.topPadding - statusBarHeight+10
-
 struct ElegantCalendarView: View, CalendarManagerDirectAccess {
 
     @ObservedObject var calendarManager: ElegantCalendarManager
 
     var initialMonth: Date? = nil
 
-    private var isCurrentMonthSameAsTodayMonth: Bool {
+    private var isCurrentMonthYearSameAsTodayMonthYear: Bool {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
 
     var body: some View {
         ZStack(alignment: .top) {
             monthsList
-            if !isCurrentMonthSameAsTodayMonth {
+            if !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
-                    .padding(.trailing, scrollButtonTrailingPadding)
-                    .offset(y: scrollButtonOffset)
+                    .padding(.trailing, CalendarConstants.Monthly.scrollButtonTrailingPadding)
+                    .offset(y: CalendarConstants.Monthly.scrollButtonOffset)
             }
         }
     }
@@ -60,29 +49,6 @@ struct ElegantCalendarView: View, CalendarManagerDirectAccess {
             }
             .transition(.opacity)
         }
-    }
-
-}
-
-private extension UITableView {
-
-    var withPagination: UITableView {
-        showsVerticalScrollIndicator = false
-        separatorStyle = .none
-        backgroundColor = .none
-        allowsSelection = false
-
-        // gets rid of scroll insets
-        contentInset = UIEdgeInsets(top: -scrollInsets,
-                                    left: 0,
-                                    bottom: -scrollInsets,
-                                    right: 0)
-
-        isPagingEnabled = true
-        decelerationRate = .fast
-        rowHeight = CalendarConstants.cellHeight // This is crucial for pagination
-
-        return self
     }
 
 }

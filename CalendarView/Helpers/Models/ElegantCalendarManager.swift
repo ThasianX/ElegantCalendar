@@ -36,6 +36,71 @@ extension ElegantCalendarDelegate {
 
 }
 
+protocol SmallCalendarDelegate {
+
+    func monthTapped(_ month: Date)
+
+}
+
+class SmallCalendarManager: ObservableObject {
+
+    @Published var currentYear: Date
+
+    let configuration: CalendarConfiguration
+    let years: [Date]
+    var delegate: SmallCalendarDelegate!
+
+    private var scrollTracker: CalendarScrollTracker!
+
+    init(configuration: CalendarConfiguration) {
+        self.configuration = configuration
+
+        years = configuration.calendar.generateDates(
+            inside: DateInterval(start: configuration.startDate,
+                                 end: configuration.endDate),
+            matching: .firstDayOfEveryYear)
+
+        currentYear = years.first!
+    }
+}
+
+extension SmallCalendarManager {
+
+    func attach(toSmallCalendar tableView: UITableView) {
+        if scrollTracker == nil {
+            scrollTracker = CalendarScrollTracker(delegate: self, tableView: tableView)
+        }
+    }
+
+    func scrollBackToToday() {
+        scrollToYear(Date())
+    }
+
+    public func scrollToYear(_ year: Date) {
+        let startOfYearForStartDate = calendar.startOfYear(for: configuration.startDate)
+        let startOfYearForToBeCurrentYear = calendar.startOfYear(for: year)
+        let yearsInBetween = configuration.calendar.dateComponents([.year],
+                                                                    from: startOfYearForStartDate,
+                                                                    to: startOfYearForToBeCurrentYear).year!
+        if yearsInBetween != 0 {
+            scrollTracker.scroll(to: yearsInBetween)
+        }
+    }
+
+    func monthTapped(_ month: Date) {
+        delegate.monthTapped(month)
+    }
+
+}
+
+extension SmallCalendarManager: ListPaginationDelegate {
+
+    func willDisplay(page: Int) {
+        currentYear = years[page]
+    }
+
+}
+
 public class ElegantCalendarManager: ObservableObject {
 
     @Published var currentMonth: Date
@@ -48,6 +113,7 @@ public class ElegantCalendarManager: ObservableObject {
 
     let configuration: CalendarConfiguration
     let months: [Date]
+    let smallCalendarManager: SmallCalendarManager!
 
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
@@ -58,6 +124,9 @@ public class ElegantCalendarManager: ObservableObject {
             matching: .firstDayOfEveryMonth)
 
         currentMonth = months.first!
+
+        smallCalendarManager = SmallCalendarManager(configuration: configuration)
+        smallCalendarManager.delegate = self
     }
 
 }
@@ -70,6 +139,15 @@ extension ElegantCalendarManager: ListPaginationDelegate {
             selectedDate = nil
             delegate?.elegantCalendar(self, willDisplay: currentMonth)
         }
+    }
+
+}
+
+extension ElegantCalendarManager: SmallCalendarDelegate {
+
+    func monthTapped(_ month: Date) {
+        // TODO: First dismiss the small calendar view
+        scrollToMonth(month)
     }
 
 }
@@ -90,18 +168,10 @@ extension ElegantCalendarManager {
         dayTapped(day: Date())
     }
 
-}
-
-extension ElegantCalendarManager {
-
     func dayTapped(day: Date) {
         selectedDate = day
         delegate?.elegantCalendar(self, didSelectDate: day)
     }
-
-}
-
-extension ElegantCalendarManager {
 
     public func scrollToMonth(_ month: Date) {
         let startOfMonthForStartDate = calendar.startOfMonth(for: configuration.startDate)
@@ -161,6 +231,14 @@ extension CalendarManagerDirectAccess {
 
     var delegate: ElegantCalendarDelegate? {
         calendarManager.delegate
+    }
+
+    var smallCalendarManager: SmallCalendarManager {
+        calendarManager.smallCalendarManager
+    }
+
+    var currentYear: Date {
+        smallCalendarManager.currentYear
     }
 
 }

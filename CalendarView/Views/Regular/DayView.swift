@@ -30,7 +30,7 @@ struct DayView: View, CalendarManagerDirectAccess {
         Text(numericDay)
             .font(.subheadline)
             .foregroundColor(foregroundColor)
-            .frame(width: CalendarConstants.dayWidth, height: CalendarConstants.dayWidth)
+            .frame(width: CalendarConstants.Monthly.dayWidth, height: CalendarConstants.Monthly.dayWidth)
             .background(backgroundColor)
             .clipShape(Circle())
             .opacity(opacity)
@@ -91,7 +91,7 @@ private struct CircularSelectionView: View {
     }
 
     private var radius: CGFloat {
-        startBounce ? CalendarConstants.dayWidth + 5 : CalendarConstants.dayWidth + 25
+        startBounce ? CalendarConstants.Monthly.dayWidth + 5 : CalendarConstants.Monthly.dayWidth + 25
     }
 
     private func startBounceAnimation() {
