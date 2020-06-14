@@ -15,4 +15,9 @@ extension Calendar {
         return self.date(from: components)!
     }
 
+    func startOfYear(for date: Date) -> Date {
+        let components = dateComponents([.year], from: date)
+        return self.date(from: components)!
+    }
+
 }

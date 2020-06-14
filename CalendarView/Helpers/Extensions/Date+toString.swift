@@ -4,6 +4,10 @@ import Foundation
 
 extension Date {
 
+    var abbreviatedMonth: String {
+        DateFormatter.abbreviatedMonth.string(from: self)
+    }
+
     var dayOfWeekWithMonthAndDay: String {
         DateFormatter.dayOfWeekWithMonthAndDay.string(from: self)
     }
@@ -23,6 +27,12 @@ extension Date {
 }
 
 extension DateFormatter {
+
+    static var abbreviatedMonth: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM"
+        return formatter
+    }
 
     static var dayOfWeekWithMonthAndDay: DateFormatter {
         let formatter = DateFormatter()

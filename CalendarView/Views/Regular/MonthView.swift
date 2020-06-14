@@ -40,7 +40,7 @@ struct MonthView: View, CalendarManagerDirectAccess {
             }
             Spacer()
         }
-        .padding(.top, CalendarConstants.topPadding)
+        .padding(.top, CalendarConstants.Monthly.topPadding)
         .frame(width: CalendarConstants.cellWidth, height: CalendarConstants.cellHeight)
     }
 
@@ -86,18 +86,18 @@ private extension MonthView {
     }
 
     var daysOfWeekHeader: some View {
-        HStack(spacing: CalendarConstants.gridSpacing) {
+        HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
             ForEach(daysOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
                     .font(.caption)
-                    .frame(width: CalendarConstants.dayWidth)
+                    .frame(width: CalendarConstants.Monthly.dayWidth)
                     .foregroundColor(.gray)
             }
         }
     }
 
     var weeksViewStack: some View {
-        VStack(spacing: CalendarConstants.gridSpacing) {
+        VStack(spacing: CalendarConstants.Monthly.gridSpacing) {
             ForEach(weeks, id: \.self) { week in
                 WeekView(week: week)
             }
