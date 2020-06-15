@@ -1,11 +1,10 @@
-// Kevin Li - 6:19 PM - 6/6/20
+// Kevin Li - 2:26 PM - 6/14/20
 
-import Introspect
 import SwiftUI
 
-struct ElegantCalendarView: View, CalendarManagerDirectAccess {
+struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
-    @ObservedObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: MonthlyCalendarManager
 
     var initialMonth: Date? = nil
 
@@ -28,7 +27,6 @@ struct ElegantCalendarView: View, CalendarManagerDirectAccess {
         List {
             ForEach(calendarManager.months, id: \.self) { month in
                 MonthView(month: month)
-                    .environmentObject(self.calendarManager)
             }
             .listRowInsets(EdgeInsets())
         }
@@ -53,13 +51,16 @@ struct ElegantCalendarView: View, CalendarManagerDirectAccess {
 
 }
 
-struct CalenderView_Previews: PreviewProvider {
+struct MonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        DarkThemePreview {
-            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
-            
-            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock),
-                                initialMonth: .daysFromToday(90))
+        MonthlyCalendarManagerGroup {
+            DarkThemePreview {
+                MonthlyCalendarView()
+            }
+
+            DarkThemePreview {
+                MonthlyCalendarView(initialMonth: .daysFromToday(90))
+            }
         }
     }
 }

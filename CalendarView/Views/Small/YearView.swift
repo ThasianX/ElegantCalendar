@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct YearView: View, CalendarManagerDirectAccess {
+struct YearView: View, YearlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: YearlyCalendarManager
     
     let year: Date
 
@@ -12,7 +12,7 @@ struct YearView: View, CalendarManagerDirectAccess {
         guard let yearInterval = calendar.dateInterval(of: .year, for: year) else {
             return []
         }
-        return generateDates(
+        return calendar.generateDates(
             inside: yearInterval,
             matching: .firstDayOfEveryMonth)
     }
@@ -58,7 +58,7 @@ struct YearView: View, CalendarManagerDirectAccess {
 
 struct YearView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        YearlyCalendarManagerGroup {
             DarkThemePreview {
                 YearView(year: Date())
             }

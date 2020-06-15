@@ -4,9 +4,9 @@ import SwiftUI
 
 fileprivate let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
 
-struct MonthView: View, CalendarManagerDirectAccess {
+struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: MonthlyCalendarManager
 
     let month: Date
 
@@ -14,7 +14,7 @@ struct MonthView: View, CalendarManagerDirectAccess {
         guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
             return []
         }
-        return generateDates(
+        return calendar.generateDates(
             inside: monthInterval,
             matching: calendar.firstDayOfEveryWeek)
     }
@@ -114,9 +114,9 @@ private extension MonthView {
 
 }
 
-private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
+private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
-    let calendarManager: ElegantCalendarManager
+    let calendarManager: MonthlyCalendarManager
 
     @State private var isVisible = false
 
@@ -134,8 +134,7 @@ private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
         VStack {
             selectedDayInformationView
             GeometryReader { geometry in
-                self.datasource?.elegantCalendar(self.calendarManager,
-                                                 viewForSelectedDay: self.selectedDate!,
+                self.datasource?.elegantCalendar(viewForSelectedDay: self.selectedDate!,
                                                  dimensions: geometry.size)
             }
         }
@@ -191,7 +190,7 @@ private struct CalendarAccessoryView: View, CalendarManagerDirectAccess {
 
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        MonthlyCalendarManagerGroup {
             DarkThemePreview {
                 MonthView(month: Date())
             }

@@ -62,7 +62,7 @@ struct VisitsListView: View {
 struct VisitsListView_Previews: PreviewProvider {
     static var previews: some View {
         DarkThemePreview {
-            VisitsListView(visits: Visit.mocks, height: 300)
+            VisitsListView(visits: Visit.mocks(start: Date(), end: .daysFromToday(2)), height: 300)
         }
     }
 }

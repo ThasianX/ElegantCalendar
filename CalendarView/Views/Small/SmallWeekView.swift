@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallWeekView: View, CalendarManagerDirectAccess {
+struct SmallWeekView: View, YearlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: YearlyCalendarManager
 
     let week: Date
 
@@ -12,7 +12,7 @@ struct SmallWeekView: View, CalendarManagerDirectAccess {
         guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: week) else {
             return []
         }
-        return generateDates(
+        return calendar.generateDates(
             inside: weekInterval,
             matching: .everyDay)
     }
@@ -29,7 +29,7 @@ struct SmallWeekView: View, CalendarManagerDirectAccess {
 
 struct SmallWeekView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        YearlyCalendarManagerGroup {
             DarkThemePreview {
                 SmallWeekView(week: Date())
             }

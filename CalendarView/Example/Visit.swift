@@ -32,9 +32,11 @@ extension Visit {
               departureDate: date.addingTimeInterval(60*60))
     }
 
-    static var mocks: [Visit] = calendar.generateVisits(
-        start: .daysFromToday(-365*2),
-        end: .daysFromToday(365*2))
+    static func mocks(start: Date, end: Date) -> [Visit] {
+        calendar.generateVisits(
+            start: start,
+            end: end)
+    }
 
 }
 
