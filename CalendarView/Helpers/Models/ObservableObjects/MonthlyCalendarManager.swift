@@ -33,7 +33,7 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
         if currentMonth != months[page] {
             currentMonth = months[page]
             selectedDate = nil
-            delegate?.elegantCalendar(willDisplay: currentMonth)
+            parent?.willDisplay(month: currentMonth)
         }
     }
 

@@ -38,7 +38,7 @@ extension YearlyCalendarManager {
         scrollToYear(Date())
     }
 
-    public func scrollToYear(_ year: Date) {
+    func scrollToYear(_ year: Date) {
         let startOfYearForStartDate = calendar.startOfYear(for: startDate)
         let startOfYearForToBeCurrentYear = calendar.startOfYear(for: year)
         let yearsInBetween = calendar.dateComponents([.year],
