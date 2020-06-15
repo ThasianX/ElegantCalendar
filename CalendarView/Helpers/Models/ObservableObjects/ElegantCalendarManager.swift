@@ -3,6 +3,41 @@
 import Combine
 import SwiftUI
 
+class PagerState: ObservableObject {
+
+    @Published var activeIndex: Int = 1
+    @Published var translation: CGFloat = .zero
+
+    let pagerWidth: CGFloat
+
+    init(pagerWidth: CGFloat) {
+        self.pagerWidth = pagerWidth
+    }
+
+}
+
+protocol PagerStateDirectAccess {
+
+    var pagerState: PagerState { get }
+
+}
+
+extension PagerStateDirectAccess {
+
+    var pagerWidth: CGFloat {
+        pagerState.pagerWidth
+    }
+
+    var activeIndex: Int {
+        pagerState.activeIndex
+    }
+
+    var translation: CGFloat {
+        pagerState.translation
+    }
+
+}
+
 public class ElegantCalendarManager: ObservableObject {
 
     public var currentMonth: Date {
@@ -16,10 +51,12 @@ public class ElegantCalendarManager: ObservableObject {
     public var datasource: ElegantCalendarDataSource?
     public var delegate: ElegantCalendarDelegate?
 
-    let configuration: CalendarConfiguration
+    public let configuration: CalendarConfiguration
 
     @Published var yearlyManager: YearlyCalendarManager
     @Published var monthlyManager: MonthlyCalendarManager
+
+    @Published var pagerState: PagerState = .init(pagerWidth: CalendarConstants.cellWidth)
 
     private var anyCancellable = Set<AnyCancellable>()
 
@@ -39,10 +76,25 @@ public class ElegantCalendarManager: ObservableObject {
         monthlyManager.objectWillChange.sink {
             self.objectWillChange.send()
         }.store(in: &anyCancellable)
+
+        pagerState.objectWillChange.sink {
+            self.objectWillChange.send()
+        }.store(in: &anyCancellable)
     }
 
-    func scrollToMonth(_ month: Date) {
+    public func scrollToMonth(_ month: Date) {
         monthlyManager.scrollToMonth(month)
+    }
+
+}
+
+extension ElegantCalendarManager {
+
+    func scrollToMonthAndShowMonthlyView(_ month: Date) {
+        pagerState.activeIndex = 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.scrollToMonth(month)
+        }
     }
 
 }

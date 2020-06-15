@@ -39,9 +39,9 @@ extension YearlyCalendarManager {
     }
 
     public func scrollToYear(_ year: Date) {
-        let startOfYearForStartDate = calendar.startOfYear(for: configuration.startDate)
+        let startOfYearForStartDate = calendar.startOfYear(for: startDate)
         let startOfYearForToBeCurrentYear = calendar.startOfYear(for: year)
-        let yearsInBetween = configuration.calendar.dateComponents([.year],
+        let yearsInBetween = calendar.dateComponents([.year],
                                                                     from: startOfYearForStartDate,
                                                                     to: startOfYearForToBeCurrentYear).year!
         if yearsInBetween != 0 {
@@ -50,7 +50,7 @@ extension YearlyCalendarManager {
     }
 
     func monthTapped(_ month: Date) {
-        parent?.scrollToMonth(month)
+        parent?.scrollToMonthAndShowMonthlyView(month)
     }
 
 }

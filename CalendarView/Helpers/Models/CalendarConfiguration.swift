@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct CalendarConfiguration: Equatable {
+public struct CalendarConfiguration: Equatable {
 
     let calendar: Calendar
     let startDate: Date
