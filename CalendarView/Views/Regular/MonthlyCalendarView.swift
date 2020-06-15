@@ -34,7 +34,7 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
             .listRowInsets(EdgeInsets())
         }
         .introspectTableView { tableView in
-            self.calendarManager.attach(to: tableView.withPagination,
+            self.calendarManager.attach(to: tableView,
                                         with: self.initialMonth)
         }
     }
