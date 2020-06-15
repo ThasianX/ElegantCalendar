@@ -13,10 +13,13 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     var body: some View {
         ZStack(alignment: .top) {
             yearsList
+                .zIndex(0)
             if !isCurrentYearSameAsTodayYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Yearly.scrollButtonTrailingPadding)
                     .offset(y: CalendarConstants.Yearly.scrollButtonOffset)
+                    .transition(.opacity)
+                    .zIndex(1)
             }
         }
     }
@@ -36,13 +39,8 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            Button(action: calendarManager.scrollBackToToday) {
-                Image(systemName: "arrow.uturn.left")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(themeColor)
-            }
-            .transition(.opacity)
+            ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
+                                    color: themeColor)
         }
     }
 

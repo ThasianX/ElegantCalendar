@@ -15,10 +15,13 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     var body: some View {
         ZStack(alignment: .top) {
             monthsList
+                .zIndex(0)
             if !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Monthly.scrollButtonTrailingPadding)
                     .offset(y: CalendarConstants.Monthly.scrollButtonOffset)
+                    .transition(.opacity)
+                    .zIndex(1)
             }
         }
     }
@@ -39,13 +42,8 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            Button(action: calendarManager.scrollBackToToday) {
-                Image(systemName: "arrow.uturn.left")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(themeColor)
-            }
-            .transition(.opacity)
+            ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
+                                    color: themeColor)
         }
     }
 
