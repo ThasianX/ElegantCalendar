@@ -9,6 +9,7 @@ extension UITableView {
         separatorStyle = .none
         backgroundColor = .none
         allowsSelection = false
+        scrollsToTop = false
 
         // gets rid of scroll insets
         contentInset = UIEdgeInsets(top: -CalendarConstants.scrollInsets,

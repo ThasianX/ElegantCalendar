@@ -43,7 +43,7 @@ extension MonthlyCalendarManager {
 
     func attach(to tableView: UITableView, with initialMonth: Date?) {
         if scrollTracker == nil {
-            scrollTracker = CalendarScrollTracker(delegate: self, tableView: tableView)
+            scrollTracker = CalendarScrollTracker(delegate: self, tableView: tableView.withPagination)
             if let initialMonth = initialMonth {
                 scrollToMonth(initialMonth)
             }

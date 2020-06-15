@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(
-                rootView: ExampleYearlyCalendarView(
+                rootView: ExampleMonthlyCalendarView(
                     ascVisits: Visit.mocks(start: .daysFromToday(-365*2),
                                            end: .daysFromToday(365*2))))
             self.window = window

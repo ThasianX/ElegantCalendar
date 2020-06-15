@@ -54,6 +54,13 @@ extension YearlyCalendarManager {
 
 }
 
+extension YearlyCalendarManager: ListPaginationDelegate {
+
+    func willDisplay(page: Int) {
+        currentYear = years[page]
+    }
+
+}
 
 protocol YearlyCalendarManagerDirectAccess: ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
@@ -79,14 +86,6 @@ extension YearlyCalendarManagerDirectAccess {
 
     var years: [Date] {
         calendarManager.years
-    }
-
-}
-
-extension YearlyCalendarManager: ListPaginationDelegate {
-
-    func willDisplay(page: Int) {
-        currentYear = years[page]
     }
 
 }
