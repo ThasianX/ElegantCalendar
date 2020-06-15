@@ -12,16 +12,24 @@ extension UITableView {
         scrollsToTop = false
 
         // gets rid of scroll insets
-        contentInset = UIEdgeInsets(top: -CalendarConstants.scrollInsets,
-                                    left: 0,
-                                    bottom: CalendarConstants.scrollInsets,
-                                    right: 0)
+        contentInset = .calendarInsets
 
         isPagingEnabled = true
         decelerationRate = .fast
         rowHeight = CalendarConstants.cellHeight // This is crucial for pagination
 
         return self
+    }
+
+}
+
+private extension UIEdgeInsets {
+
+    static var calendarInsets: UIEdgeInsets {
+        UIEdgeInsets(top: -CalendarConstants.scrollInsets,
+                     left: 0,
+                     bottom: CalendarConstants.scrollInsets,
+                     right: 0)
     }
 
 }
