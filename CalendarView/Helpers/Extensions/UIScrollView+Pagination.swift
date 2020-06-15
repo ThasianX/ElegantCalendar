@@ -1,14 +1,12 @@
-// Kevin Li - 7:31 PM - 6/13/20
+// Kevin Li - 9:47 PM - 6/14/20
 
 import SwiftUI
 
-extension UITableView {
+extension UIScrollView {
 
-    var withPaginationAndNoSeparators: UITableView {
+    var withPagination: UIScrollView {
         showsVerticalScrollIndicator = false
-        separatorStyle = .none
         backgroundColor = .none
-        allowsSelection = false
         scrollsToTop = false
 
         // gets rid of scroll insets
@@ -19,7 +17,6 @@ extension UITableView {
 
         isPagingEnabled = true
         decelerationRate = .fast
-        rowHeight = CalendarConstants.cellHeight // This is crucial for pagination
 
         return self
     }

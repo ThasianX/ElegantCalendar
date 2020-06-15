@@ -46,6 +46,8 @@
 		1EDC9A872495C0AB00A78BFA /* SmallDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC9A862495C0AB00A78BFA /* SmallDayView.swift */; };
 		1EDC9A892495C37100A78BFA /* UITableView+Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC9A882495C37100A78BFA /* UITableView+Pagination.swift */; };
 		1EEA23982497111B00677B07 /* ScrollBackToTodayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */; };
+		1EEA239A249734FA00677B07 /* UIScrollView+Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA2399249734FA00677B07 /* UIScrollView+Pagination.swift */; };
+		1EEA239C2497353B00677B07 /* YearlyCalendarScrollTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA239B2497353B00677B07 /* YearlyCalendarScrollTracker.swift */; };
 		1EEA69302495DD8600189398 /* YearlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */; };
 		1EEA69322496CD9000189398 /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,8 @@
 		1EDC9A862495C0AB00A78BFA /* SmallDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallDayView.swift; sourceTree = "<group>"; };
 		1EDC9A882495C37100A78BFA /* UITableView+Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Pagination.swift"; sourceTree = "<group>"; };
 		1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBackToTodayButton.swift; sourceTree = "<group>"; };
+		1EEA2399249734FA00677B07 /* UIScrollView+Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Pagination.swift"; sourceTree = "<group>"; };
+		1EEA239B2497353B00677B07 /* YearlyCalendarScrollTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyCalendarScrollTracker.swift; sourceTree = "<group>"; };
 		1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyCalendarView.swift; sourceTree = "<group>"; };
 		1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,8 +128,9 @@
 				1E744D982495747E00C8B7E0 /* Date+DaysFromToday.swift */,
 				1E71D77D248C83DC003A3B0B /* Date+toString.swift */,
 				1E744D9A2495755E00C8B7E0 /* Enumeration+Matching.swift */,
-				1E912CFD2495ABE100AFCD4C /* View+Erased.swift */,
+				1EEA2399249734FA00677B07 /* UIScrollView+Pagination.swift */,
 				1EDC9A882495C37100A78BFA /* UITableView+Pagination.swift */,
+				1E912CFD2495ABE100AFCD4C /* View+Erased.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 				1E1829F82491B163006A55A3 /* ElegantCalendarManager.swift */,
 				1E7B3C5B2496F65100A2907D /* MonthlyCalendarManager.swift */,
 				1E7B3C592496F62400A2907D /* YearlyCalendarManager.swift */,
+				1EEA239B2497353B00677B07 /* YearlyCalendarScrollTracker.swift */,
 			);
 			path = ObservableObjects;
 			sourceTree = "<group>";
@@ -369,7 +375,9 @@
 				1E84A5012495920600401180 /* VisitsListView.swift in Sources */,
 				1EEA69302495DD8600189398 /* YearlyCalendarView.swift in Sources */,
 				1E1829FB2491CE53006A55A3 /* Calender+Dates.swift in Sources */,
+				1EEA239A249734FA00677B07 /* UIScrollView+Pagination.swift in Sources */,
 				1E912CFE2495ABE100AFCD4C /* View+Erased.swift in Sources */,
+				1EEA239C2497353B00677B07 /* YearlyCalendarScrollTracker.swift in Sources */,
 				1E71D784248CB85E003A3B0B /* MonthView.swift in Sources */,
 				1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */,
 				1EEA23982497111B00677B07 /* ScrollBackToTodayButton.swift in Sources */,

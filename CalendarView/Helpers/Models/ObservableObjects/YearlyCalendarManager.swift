@@ -11,7 +11,7 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
     let configuration: CalendarConfiguration
     let years: [Date]
 
-    private var scrollTracker: CalendarScrollTracker!
+    private var scrollTracker: YearlyCalendarScrollTracker!
 
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
@@ -27,9 +27,10 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
 extension YearlyCalendarManager {
 
-    func attach(toSmallCalendar tableView: UITableView) {
+    func attach(toSmallCalendar scrollView: UIScrollView) {
         if scrollTracker == nil {
-            scrollTracker = CalendarScrollTracker(delegate: self, tableView: tableView)
+            scrollTracker = YearlyCalendarScrollTracker(delegate: self,
+                                                        scrollView: scrollView.withPagination)
         }
     }
 
@@ -57,7 +58,9 @@ extension YearlyCalendarManager {
 extension YearlyCalendarManager: ListPaginationDelegate {
 
     func willDisplay(page: Int) {
-        currentYear = years[page]
+        if currentYear != years[page] {
+            currentYear = years[page]
+        }
     }
 
 }

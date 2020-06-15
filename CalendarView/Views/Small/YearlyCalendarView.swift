@@ -11,37 +11,28 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .topTrailing) {
             yearsList
-                .zIndex(0)
-            if !isCurrentYearSameAsTodayYear {
-                leftAlignedScrollBackToTodayButton
-                    .padding(.trailing, CalendarConstants.Yearly.scrollButtonTrailingPadding)
-                    .offset(y: CalendarConstants.Yearly.scrollButtonOffset)
-                    .transition(.opacity)
-                    .zIndex(1)
-            }
+            scrollBackToTodayButton
+                .padding(.trailing, CalendarConstants.Yearly.scrollButtonTrailingPadding)
+                .offset(y: CalendarConstants.Yearly.scrollButtonOffset)
+                .opacity(isCurrentYearSameAsTodayYear ? 0 : 1)
+                .animation(.easeInOut)
         }
     }
 
     private var yearsList: some View {
-        List {
+        ScrollView(.vertical) {
             ForEach(years, id: \.self) { year in
                 YearView(year: year)
             }
-            .listRowInsets(EdgeInsets())
         }
-        .introspectTableView { tableView in
-            self.calendarManager.attach(toSmallCalendar: tableView.withPagination)
-        }
+        .introspectScrollView(customize: calendarManager.attach)
     }
 
-    private var leftAlignedScrollBackToTodayButton: some View {
-        HStack {
-            Spacer()
-            ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
+    private var scrollBackToTodayButton: some View {
+        ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
                                     color: themeColor)
-        }
     }
 
 }
