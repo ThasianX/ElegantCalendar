@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct YearlyCalendarView: View, CalendarManagerDirectAccess {
+struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: YearlyCalendarManager
 
     private var isCurrentYearSameAsTodayYear: Bool {
         calendar.isDate(currentYear, equalTo: Date(), toGranularities: [.year])
@@ -23,20 +23,20 @@ struct YearlyCalendarView: View, CalendarManagerDirectAccess {
 
     private var yearsList: some View {
         List {
-            ForEach(smallCalendarManager.years, id: \.self) { year in
+            ForEach(years, id: \.self) { year in
                 YearView(year: year)
             }
             .listRowInsets(EdgeInsets())
         }
         .introspectTableView { tableView in
-            self.smallCalendarManager.attach(toSmallCalendar: tableView.withPagination)
+            self.calendarManager.attach(toSmallCalendar: tableView.withPagination)
         }
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            Button(action: smallCalendarManager.scrollBackToToday) {
+            Button(action: calendarManager.scrollBackToToday) {
                 Image(systemName: "arrow.uturn.left")
                     .resizable()
                     .frame(width: 20, height: 20)
@@ -48,9 +48,9 @@ struct YearlyCalendarView: View, CalendarManagerDirectAccess {
 
 }
 
-struct SmallCalendarView_Previews: PreviewProvider {
+struct YearlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        YearlyCalendarManagerGroup {
             DarkThemePreview {
                 YearlyCalendarView()
             }

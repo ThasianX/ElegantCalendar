@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallDayView: View, CalendarManagerDirectAccess {
+struct SmallDayView: View, YearlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: YearlyCalendarManager
 
     let week: Date
     let day: Date
@@ -39,7 +39,7 @@ struct SmallDayView: View, CalendarManagerDirectAccess {
 
 struct SmallDayView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        YearlyCalendarManagerGroup {
             DarkThemePreview {
                 SmallDayView(week: Date(), day: Date())
             }

@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct DayView: View, CalendarManagerDirectAccess {
+struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: MonthlyCalendarManager
 
     let week: Date
     let day: Date
@@ -57,7 +57,7 @@ struct DayView: View, CalendarManagerDirectAccess {
                     Color.white
                 } else {
                     themeColor
-                        .opacity(datasource?.elegantCalendar(calendarManager, colorOpacityForDay: day) ?? 1)
+                        .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
                 }
             } else {
                 Color.clear
@@ -102,7 +102,7 @@ private struct CircularSelectionView: View {
 
 struct DayView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        MonthlyCalendarManagerGroup {
             DarkThemePreview {
                 DayView(week: Date(), day: Date())
             }

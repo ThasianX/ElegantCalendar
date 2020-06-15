@@ -23,19 +23,19 @@ struct ExampleCalendarView: View {
 
     var body: some View {
         ElegantCalendarView(calendarManager: calendarManager,
-                     initialMonth: Date().addingTimeInterval(60*60*24*90))
+            initialMonth: Date().addingTimeInterval(60*60*24*90))
     }
     
 }
 
 extension ExampleCalendarView: ElegantCalendarDataSource {
 
-    func elegantCalendar(_ calendarManager: ElegantCalendarManager, colorOpacityForDay day: Date) -> Double {
+    func elegantCalendar(colorOpacityForDay day: Date) -> Double {
         let startOfDay = calendar.startOfDay(for: day)
         return Double((visitsByDay[startOfDay]?.count ?? 0) + 3) / 15.0
     }
 
-    func elegantCalendar(_ calendarManager: ElegantCalendarManager, viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
+    func elegantCalendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
         let startOfDay = calendar.startOfDay(for: day)
         return VisitsListView(visits: visitsByDay[startOfDay] ?? [], height: size.height).erased
     }
@@ -56,6 +56,6 @@ extension ExampleCalendarView: ElegantCalendarDelegate {
 
 struct ExampleCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        ExampleCalendarView(ascVisits: Visit.mocks)
+        ExampleCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)))
     }
 }

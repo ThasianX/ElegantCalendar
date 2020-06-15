@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct CalendarConfiguration {
+struct CalendarConfiguration: Equatable {
 
     let calendar: Calendar
     let startDate: Date
@@ -24,5 +24,31 @@ extension CalendarConfiguration {
         startDate: .daysFromToday(-90),
         endDate: .daysFromToday(365*3),
         themeColor: .blackPearl)
+
+}
+
+protocol ConfigurationDirectAccess {
+
+    var configuration: CalendarConfiguration { get }
+
+}
+
+extension ConfigurationDirectAccess {
+
+    var calendar: Calendar {
+        configuration.calendar
+    }
+
+    var startDate: Date {
+        configuration.startDate
+    }
+
+    var endDate: Date {
+        configuration.endDate
+    }
+
+    var themeColor: Color {
+        configuration.themeColor
+    }
 
 }

@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallMonthView: View, CalendarManagerDirectAccess {
+struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: ElegantCalendarManager
+    @EnvironmentObject var calendarManager: YearlyCalendarManager
 
     let month: Date
 
@@ -12,7 +12,7 @@ struct SmallMonthView: View, CalendarManagerDirectAccess {
         guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
             return []
         }
-        return generateDates(
+        return calendar.generateDates(
             inside: monthInterval,
             matching: calendar.firstDayOfEveryWeek)
     }
@@ -59,14 +59,14 @@ struct SmallMonthView: View, CalendarManagerDirectAccess {
     }
 
     private func currentMonthSelected() {
-        smallCalendarManager.monthTapped(month)
+        calendarManager.monthTapped(month)
     }
 
 }
 
 struct SmallMonthView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarManagerGroup {
+        YearlyCalendarManagerGroup {
             DarkThemePreview {
                 SmallMonthView(month: Date())
             }
