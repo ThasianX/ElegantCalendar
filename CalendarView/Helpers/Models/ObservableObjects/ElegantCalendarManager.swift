@@ -97,6 +97,11 @@ extension ElegantCalendarManager {
         }
     }
 
+    func willDisplay(month: Date) {
+        delegate?.elegantCalendar(willDisplay: currentMonth)
+        yearlyManager.scrollToYear(month)
+    }
+
 }
 
 protocol ElegantCalendarDirectAccess {
