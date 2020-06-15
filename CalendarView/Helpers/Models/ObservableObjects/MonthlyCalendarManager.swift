@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-class MonthlyCalendarManager: ObservableObject {
+class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
     @Published public var currentMonth: Date
     @Published public var selectedDate: Date? = nil
@@ -33,7 +33,7 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
         if currentMonth != months[page] {
             currentMonth = months[page]
             selectedDate = nil
-            parent?.delegate?.elegantCalendar(willDisplay: currentMonth)
+            delegate?.elegantCalendar(willDisplay: currentMonth)
         }
     }
 
@@ -58,13 +58,13 @@ extension MonthlyCalendarManager {
 
     func dayTapped(day: Date) {
         selectedDate = day
-        parent?.delegate?.elegantCalendar(didSelectDate: day)
+        delegate?.elegantCalendar(didSelectDate: day)
     }
 
     public func scrollToMonth(_ month: Date) {
-        let startOfMonthForStartDate = calendar.startOfMonth(for: configuration.startDate)
+        let startOfMonthForStartDate = calendar.startOfMonth(for: startDate)
         let startOfMonthForToBeCurrentMonth = calendar.startOfMonth(for: month)
-        let monthsInBetween = configuration.calendar.dateComponents([.month],
+        let monthsInBetween = calendar.dateComponents([.month],
                                                                     from: startOfMonthForStartDate,
                                                                     to: startOfMonthForToBeCurrentMonth).month!
         scrollTracker.scroll(to: monthsInBetween)

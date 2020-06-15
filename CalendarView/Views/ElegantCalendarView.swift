@@ -3,16 +3,13 @@
 import Introspect
 import SwiftUI
 
-struct ElegantCalendarView: View {
-
-    @State var activeIndex: Int = 1
-    @State var translation: CGFloat = .zero
-
-    var pagerWidth: CGFloat {
-        CalendarConstants.cellWidth
-    }
+struct ElegantCalendarView: View, PagerStateDirectAccess {
 
     @ObservedObject var calendarManager: ElegantCalendarManager
+
+    var pagerState: PagerState {
+        calendarManager.pagerState
+    }
 
     var initialMonth: Date? = nil
 
@@ -42,7 +39,7 @@ struct ElegantCalendarView: View {
             .gesture(
                 DragGesture().onChanged { value in
                     // `value` refers to the current data for the drag
-                    self.translation = value.translation.width
+                    self.pagerState.translation = value.translation.width
                 }.onEnded { _ in
                     self.onDragEnded()
                 }
@@ -71,8 +68,8 @@ struct ElegantCalendarView: View {
         // turned to as the new active page
         let newIndex = Int((CGFloat(activeIndex) - pageTurnDelta).rounded())
         // we don't want the index to be greater than 1 or less than 0
-        activeIndex = min(max(newIndex, 0), 1)
-        translation = .zero
+        pagerState.activeIndex = min(max(newIndex, 0), 1)
+        pagerState.translation = .zero
     }
 
     private var pagerHorizontalStack: some View {
