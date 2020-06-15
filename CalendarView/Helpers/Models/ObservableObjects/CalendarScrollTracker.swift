@@ -29,7 +29,6 @@ class CalendarScrollTracker: NSObject, ObservableObject {
 extension CalendarScrollTracker {
 
     func scroll(to page: Int) {
-        tableView.reloadData()
         tableView.scrollToRow(at: IndexPath(row: page, section: 0), at: .top, animated: true)
         delegate.willDisplay(page: page)
     }
