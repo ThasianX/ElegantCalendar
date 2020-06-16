@@ -102,6 +102,10 @@ extension ElegantCalendarManager {
         yearlyManager.scrollToYear(month)
     }
 
+    func showYearlyView() {
+        pagerState.activeIndex = 0
+    }
+
 }
 
 protocol ElegantCalendarDirectAccess {

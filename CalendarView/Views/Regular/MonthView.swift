@@ -32,6 +32,7 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
         VStack(spacing: 40) {
             monthYearHeader
                 .padding(.leading, CalendarConstants.horizontalPadding)
+                .onTapGesture { self.parent?.showYearlyView() }
             weeksViewWithDaysOfWeekHeader
             if isWithinSameMonthAndYearAsSelectedDate {
                 calenderAccessoryView
