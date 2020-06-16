@@ -92,7 +92,7 @@ extension ElegantCalendarManager {
 
     func scrollToMonthAndShowMonthlyView(_ month: Date) {
         pagerState.activeIndex = 1
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.scrollToMonth(month)
         }
     }
