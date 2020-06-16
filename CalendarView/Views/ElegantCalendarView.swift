@@ -3,6 +3,8 @@
 import Introspect
 import SwiftUI
 
+fileprivate let scrollDampingFactor: CGFloat = 0.66
+
 struct ElegantCalendarView: View, PagerStateDirectAccess {
 
     @ObservedObject var calendarManager: ElegantCalendarManager
@@ -30,46 +32,34 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
         return translation
     }
 
+    private var currentScrollOffset: CGFloat {
+        pageOffset + boundedTranslation
+    }
+
     var body: some View {
         pagerHorizontalStack
             .frame(width: pagerWidth, alignment: .leading)
-            .offset(x: pageOffset)
-            .offset(x: boundedTranslation)
-            .animation(.easeInOut)
-            .gesture(
-                DragGesture().onChanged { value in
-                    // `value` refers to the current data for the drag
-                    self.pagerState.translation = value.translation.width
-                }.onEnded { _ in
-                    self.onDragEnded()
-                }
-            )
-            // These extra gestures to prevent bug where drag gesture isn't cancelled when it should
+            .offset(x: currentScrollOffset)
+            .animation(.interpolatingSpring(mass: 0.1, stiffness: 20, damping: 2, initialVelocity: 0))
             .simultaneousGesture(
-                MagnificationGesture().onChanged { _ in
-                    self.onDragEnded()
-                }.onEnded { _ in
-                    self.onDragEnded()
-                }
-            )
-            .simultaneousGesture(
-                RotationGesture().onChanged { _ in
-                    self.onDragEnded()
-                }.onEnded { _ in
-                    self.onDragEnded()
-                }
-            )
+                DragGesture(minimumDistance: 1, coordinateSpace: .local)
+                    .onChanged { value in
+                        self.pagerState.translation = value.translation.width
+                    }
+                    .onEnded { value in
+                        let velocityDiff = (value.predictedEndTranslation.width - self.translation) * scrollDampingFactor
+                        let newPageIndex = self.indexPageForOffset(self.currentScrollOffset + velocityDiff)
+
+                        self.pagerState.translation = .zero
+                        self.pagerState.activeIndex = min(max(newPageIndex, 0), 1)
+                    }
+        )
     }
 
-    private func onDragEnded() {
+    private func indexPageForOffset(_ offset : CGFloat) -> Int {
         let pageTurnDelta = translation / pagerWidth
-        // If the user has turned the page more than halfway, in which case
-        // `pageTurnDelta` > .5, we want to set the page that is being
-        // turned to as the new active page
-        let newIndex = Int((CGFloat(activeIndex) - pageTurnDelta).rounded())
-        // we don't want the index to be greater than 1 or less than 0
-        pagerState.activeIndex = min(max(newIndex, 0), 1)
-        pagerState.translation = .zero
+        let turnCutOff: CGFloat = (pageTurnDelta < 0) ? 0.3 : -0.3
+        return Int((CGFloat(activeIndex) - pageTurnDelta + turnCutOff).rounded())
     }
 
     private var pagerHorizontalStack: some View {
@@ -81,14 +71,14 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
         }
     }
 
-    private var monthlyCalendarView: some View {
-        MonthlyCalendarView(initialMonth: initialMonth)
-            .environmentObject(calendarManager.monthlyManager)
-    }
-
     private var yearlyCalendarView: some View {
         YearlyCalendarView()
             .environmentObject(calendarManager.yearlyManager)
+    }
+
+    private var monthlyCalendarView: some View {
+        MonthlyCalendarView(initialMonth: initialMonth)
+            .environmentObject(calendarManager.monthlyManager)
     }
 
 }
