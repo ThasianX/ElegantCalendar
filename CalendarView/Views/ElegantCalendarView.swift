@@ -3,7 +3,8 @@
 import Introspect
 import SwiftUI
 
-fileprivate let scrollDampingFactor: CGFloat = 0.66
+fileprivate let scrollResistanceCutOff: CGFloat = 40
+fileprivate let pageTurnCutOff: CGFloat = 180
 
 struct ElegantCalendarView: View, PagerStateDirectAccess {
 
@@ -44,22 +45,13 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
             .simultaneousGesture(
                 DragGesture(minimumDistance: 1, coordinateSpace: .local)
                     .onChanged { value in
-                        self.pagerState.translation = value.translation.width
+                        self.pagerState.translation = self.resistanceTranslationForOffset(value.translation.width)
+                        self.turnPageIfNeededForOffset(value.translation.width)
                     }
                     .onEnded { value in
-                        let velocityDiff = (value.predictedEndTranslation.width - self.translation) * scrollDampingFactor
-                        let newPageIndex = self.indexPageForOffset(self.currentScrollOffset + velocityDiff)
-
                         self.pagerState.translation = .zero
-                        self.pagerState.activeIndex = min(max(newPageIndex, 0), 1)
                     }
-        )
-    }
-
-    private func indexPageForOffset(_ offset : CGFloat) -> Int {
-        let pageTurnDelta = translation / pagerWidth
-        let turnCutOff: CGFloat = (pageTurnDelta < 0) ? 0.3 : -0.3
-        return Int((CGFloat(activeIndex) - pageTurnDelta + turnCutOff).rounded())
+            )
     }
 
     private var pagerHorizontalStack: some View {
@@ -79,6 +71,20 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
     private var monthlyCalendarView: some View {
         MonthlyCalendarView(initialMonth: initialMonth)
             .environmentObject(calendarManager.monthlyManager)
+    }
+
+    private func resistanceTranslationForOffset(_ offset: CGFloat) -> CGFloat {
+        (offset / pageTurnCutOff) * scrollResistanceCutOff
+    }
+
+    private func turnPageIfNeededForOffset(_ offset: CGFloat) {
+        if offset > 0 && offset > pageTurnCutOff {
+            pagerState.translation = .zero
+            pagerState.activeIndex = 0
+        } else if offset < 0 && offset < -pageTurnCutOff {
+            pagerState.translation = .zero
+            pagerState.activeIndex = 1
+        }
     }
 
 }
