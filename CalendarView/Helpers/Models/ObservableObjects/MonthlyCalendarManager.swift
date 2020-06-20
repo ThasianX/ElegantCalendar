@@ -4,7 +4,7 @@ import SwiftUI
 
 class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
-    @Published private var currentMonthIndex: Int = 0
+    @Published var currentMonthIndex: Int = 0
     @Published public var selectedDate: Date? = nil
 
     weak var parent: ElegantCalendarManager?
