@@ -53,26 +53,26 @@ class PagedController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // TODO: Fix scroll up. scroll down works. both actually work but fail for side cases
     func rearrange(months: [Date], currentPage: Int, calendarManager: MonthlyCalendarManager) {
-        guard currentPage != previousPage && currentPage > 1 && currentPage < months.count-1 else { return }
-
-        if currentPage > previousPage {
-            controllers.append(controllers.removeFirst())
-            UIView.performWithoutAnimation {
-                controllers.last!.rootView = MonthView(month: months[currentPage+1]).environmentObject(calendarManager).erased
-                resetPositions()
-            }
-        } else if currentPage < previousPage {
-            controllers.insert(controllers.removeLast(), at: 0)
-            UIView.performWithoutAnimation {
-                controllers.first!.rootView = MonthView(month: months[currentPage-1]).environmentObject(calendarManager).erased
-                resetPositions()
-            }
+        defer {
+            previousPage = currentPage
         }
 
-        previousPage = currentPage
+        // rearrange if...
+        guard currentPage != previousPage && // not same page
+            (previousPage != 0 && currentPage != 0) && // not 1st or 2nd page
+            (previousPage != months.count-1 && currentPage != months.count-1) // not last page or 2nd to last page
+        else { return }
 
+        if currentPage > previousPage { // scrolled down
+            controllers.append(controllers.removeFirst())
+            controllers.last!.rootView = MonthView(month: months[currentPage+1]).environmentObject(calendarManager).erased
+        } else { // scrolled up
+            controllers.insert(controllers.removeLast(), at: 0)
+            controllers.first!.rootView = MonthView(month: months[currentPage-1]).environmentObject(calendarManager).erased
+        }
+
+        resetPositions()
         calendarManager.resetToCenterIfNecessary()
     }
 
