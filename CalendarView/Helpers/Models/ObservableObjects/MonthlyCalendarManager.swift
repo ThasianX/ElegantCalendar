@@ -4,7 +4,7 @@ import SwiftUI
 
 class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
-    @Published public var currentMonth: Date
+    @Published private var currentMonthIndex: Int = 0
     @Published public var selectedDate: Date? = nil
 
     weak var parent: ElegantCalendarManager?
@@ -14,6 +14,22 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
     let configuration: CalendarConfiguration
     let months: [Date]
 
+    public var currentMonth: Date {
+        months[currentMonthIndex]
+    }
+
+    var currentMonthsRange: [Date] {
+        if currentMonthIndex == 0 {
+            return Array(months[0...2])
+        }
+
+        if currentMonthIndex == months.count-1 {
+            return Array(months[months.count-3...months.count-1])
+        }
+
+        return Array(months[currentMonthIndex-1...currentMonthIndex+1])
+    }
+
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
 
@@ -21,8 +37,6 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
             inside: DateInterval(start: configuration.startDate,
                                  end: configuration.endDate),
             matching: .firstDayOfEveryMonth)
-
-        currentMonth = months.first!
     }
 
 }
@@ -30,11 +44,35 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
 extension MonthlyCalendarManager: ListPaginationDelegate {
 
     func willDisplay(page: Int) {
-        if currentMonth != months[page] {
-            currentMonth = months[page]
-            selectedDate = nil
-            parent?.willDisplay(month: currentMonth)
+        if page == 1 {
+            if currentMonthIndex == 0 {
+                // just scrolled from first page to second page
+                currentMonthIndex += 1
+            } else if currentMonthIndex == months.count-1 {
+                // just scrolled from last page to second to last page
+                currentMonthIndex -= 1
+            } else {
+                return
+            }
+        } else {
+            if page == 0 {
+                guard currentMonthIndex != 0 else { return }
+                // case where you're on the first page and you drag and stay on the first page
+                currentMonthIndex -= 1
+            } else if page == 2 {
+                guard currentMonthIndex != months.count-1 else { return }
+                // case where you're on the first page and you drag and stay on the first page
+                currentMonthIndex += 1
+            }
         }
+        
+        selectedDate = nil
+
+        if currentMonthIndex >= 1 && currentMonthIndex <= months.count-2 {
+            scrollTracker.resetToCenter()
+        }
+
+        parent?.willDisplay(month: currentMonth)
     }
 
 }
@@ -97,6 +135,10 @@ extension MonthlyCalendarManagerDirectAccess {
 
     var selectedDate: Date? {
         calendarManager.selectedDate
+    }
+
+    var currentMonthsRange: [Date] {
+        calendarManager.currentMonthsRange
     }
 
 }

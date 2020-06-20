@@ -38,15 +38,16 @@ extension YearlyCalendarManager {
         scrollToYear(Date())
     }
 
+    // TODO: Fix later
     func scrollToYear(_ year: Date) {
         let startOfYearForStartDate = calendar.startOfYear(for: startDate)
         let startOfYearForToBeCurrentYear = calendar.startOfYear(for: year)
         let yearsInBetween = calendar.dateComponents([.year],
                                                                     from: startOfYearForStartDate,
                                                                     to: startOfYearForToBeCurrentYear).year!
-        if yearsInBetween != 0 {
-            scrollTracker.scroll(to: yearsInBetween)
-        }
+//        if yearsInBetween !=ee 0 {
+//            scrollTracker.scroll(to: yearsInBetween)
+//        }
     }
 
     func monthTapped(_ month: Date) {

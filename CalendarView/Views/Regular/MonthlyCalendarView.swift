@@ -27,20 +27,10 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var monthsList: some View {
-//        List {
-//            ForEach(calendarManager.months, id: \.self) { month in
-//                MonthView(month: month)
-//            }
-//            .listRowInsets(EdgeInsets())
-//        }
-//        .introspectTableView { tableView in
-//            self.calendarManager.attach(to: tableView,
-//                                        with: self.initialMonth)
-//        }
         ScrollView(.vertical) {
-            MonthView(month: Date())
-            MonthView(month: Date())
-            MonthView(month: Date())
+            MonthView(month: currentMonthsRange[0])
+            MonthView(month: currentMonthsRange[1])
+            MonthView(month: currentMonthsRange[2])
         }
         .introspectScrollView { scrollView in
             self.calendarManager.attach(to: scrollView, with: self.initialMonth)
