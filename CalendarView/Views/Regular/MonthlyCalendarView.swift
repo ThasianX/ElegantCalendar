@@ -1,40 +1,50 @@
 // Kevin Li - 2:26 PM - 6/14/20
 
+import Combine
 import SwiftUI
 
 private class UpdateUIViewControllerBugFixClass { }
 
 struct PagedMonthsView: UIViewControllerRepresentable {
 
-    typealias UIViewControllerType = PagedController
+    typealias UIViewControllerType = ElegantPagerController
 
     // See https://stackoverflow.com/questions/58635048/in-a-uiviewcontrollerrepresentable-how-can-i-pass-an-observedobjects-value-to
     private let bugFix = UpdateUIViewControllerBugFixClass()
 
     @EnvironmentObject var calendarManager: MonthlyCalendarManager
 
-    func makeUIViewController(context: Context) -> PagedController {
-        let startingMonthViews = calendarManager.currentMonthsRange.map {
-            MonthView(month: $0).environmentObject(calendarManager).erased
-        }
-        return PagedController(startingPage: calendarManager.currentMonthIndex, startingMonthViews: startingMonthViews)
+    func makeUIViewController(context: Context) -> ElegantPagerController {
+        ElegantPagerController(provider: calendarManager)
     }
 
-    func updateUIViewController(_ uiViewController: PagedController, context: Context) {
-        uiViewController.rearrange(months: calendarManager.months, currentPage: calendarManager.currentMonthIndex, calendarManager: calendarManager)
+    func updateUIViewController(_ uiViewController: ElegantPagerController, context: Context) {
+        uiViewController.rearrange(provider: calendarManager) {
+            self.calendarManager.resetToCenter()
+        }
     }
 
 }
 
-class PagedController: UIViewController {
+protocol ElegantPagerProvider {
+
+    var currentPage: Int { get }
+    var pageCount: Int { get }
+    func view(for page: Int) -> AnyView
+
+}
+
+class ElegantPagerController: UIViewController {
 
     private var controllers: [UIHostingController<AnyView>]
     private var previousPage: Int
 
-    init(startingPage: Int, startingMonthViews: [AnyView]) {
-        previousPage = startingPage
-        controllers = startingMonthViews.map {
-            UIHostingController(rootView: $0)
+    init(provider: ElegantPagerProvider) {
+        previousPage = provider.currentPage
+
+        let trailingPage = previousPage+2.clamped(to: 0...provider.pageCount-1)
+        controllers = (previousPage...trailingPage).map { page in
+            UIHostingController(rootView: provider.view(for: page))
         }
         super.init(nibName: nil, bundle: nil)
 
@@ -53,27 +63,29 @@ class PagedController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func rearrange(months: [Date], currentPage: Int, calendarManager: MonthlyCalendarManager) {
+    func rearrange(provider: ElegantPagerProvider, completion: @escaping () -> Void) {
         defer {
-            previousPage = currentPage
+            previousPage = provider.currentPage
         }
 
         // rearrange if...
-        guard currentPage != previousPage && // not same page
-            (previousPage != 0 && currentPage != 0) && // not 1st or 2nd page
-            (previousPage != months.count-1 && currentPage != months.count-1) // not last page or 2nd to last page
+        guard provider.currentPage != previousPage && // not same page
+            (previousPage != 0 &&
+                provider.currentPage != 0) && // not 1st or 2nd page
+            (previousPage != provider.pageCount-1 &&
+                provider.currentPage != provider.pageCount-1) // not last page or 2nd to last page
         else { return }
 
-        if currentPage > previousPage { // scrolled down
+        if provider.currentPage > previousPage { // scrolled down
             controllers.append(controllers.removeFirst())
-            controllers.last!.rootView = MonthView(month: months[currentPage+1]).environmentObject(calendarManager).erased
+            controllers.last!.rootView = provider.view(for: provider.currentPage+1)
         } else { // scrolled up
             controllers.insert(controllers.removeLast(), at: 0)
-            controllers.first!.rootView = MonthView(month: months[currentPage-1]).environmentObject(calendarManager).erased
+            controllers.first!.rootView = provider.view(for: provider.currentPage-1)
         }
 
         resetPositions()
-        calendarManager.resetToCenterIfNecessary()
+        completion()
     }
 
     func resetPositions() {
