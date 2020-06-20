@@ -51,6 +51,7 @@
 		1EEA69302495DD8600189398 /* YearlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */; };
 		1EEA69322496CD9000189398 /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */; };
 		1EFFF2B1249EC04F0091CFE9 /* Comparable+Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFFF2B0249EC04F0091CFE9 /* Comparable+Clamped.swift */; };
+		1EFFF2B3249ECB010091CFE9 /* ElegantPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyCalendarView.swift; sourceTree = "<group>"; };
 		1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
 		1EFFF2B0249EC04F0091CFE9 /* Comparable+Clamped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Clamped.swift"; sourceTree = "<group>"; };
+		1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElegantPagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */,
+				1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				1E7B3C5A2496F62400A2907D /* YearlyCalendarManager.swift in Sources */,
 				1E744D992495747E00C8B7E0 /* Date+DaysFromToday.swift in Sources */,
 				1ED241A1249556D90007A3F2 /* ExampleCalendarView.swift in Sources */,
+				1EFFF2B3249ECB010091CFE9 /* ElegantPagerView.swift in Sources */,
 				1E40D947248C7823005ECA82 /* ElegantCalendarView.swift in Sources */,
 				1EDC9A852495C06400A78BFA /* SmallWeekView.swift in Sources */,
 				1E71D786248CB8A9003A3B0B /* WeekView.swift in Sources */,
