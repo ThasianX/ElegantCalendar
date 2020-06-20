@@ -89,7 +89,7 @@ extension MonthlyCalendarManager: ElegantPagerProvider {
             .erased
     }
 
-    func resetToCenter() {
+    func onRearrange() {
         scrollTracker.resetToCenter()
     }
 
