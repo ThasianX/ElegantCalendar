@@ -65,7 +65,7 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
                 currentMonthIndex += 1
             }
         }
-        
+
         selectedDate = nil
 
         if currentMonthIndex >= 1 && currentMonthIndex <= months.count-2 {
