@@ -11,31 +11,35 @@ protocol ListPaginationDelegate {
 class CalendarScrollTracker: NSObject, ObservableObject {
 
     private let delegate: ListPaginationDelegate
-    private let tableView: UITableView
+    private let scrollView: UIScrollView
 
 //    private var lastContentOffset: CGFloat = 0
 //    private var isScrolling = false
 
-    init(delegate: ListPaginationDelegate, tableView: UITableView) {
+    init(delegate: ListPaginationDelegate, scrollView: UIScrollView) {
         self.delegate = delegate
-        self.tableView = tableView
+        self.scrollView = scrollView
         super.init()
 
-        tableView.delegate = self
+        scrollView.delegate = self
     }
 
 }
 
 extension CalendarScrollTracker {
 
-    func scroll(to page: Int) {
-        tableView.scrollToRow(at: IndexPath(row: page, section: 0), at: .top, animated: true)
-        delegate.willDisplay(page: page)
+//    func scroll(to page: Int) {
+//        tableView.scrollToRow(at: IndexPath(row: page, section: 0), at: .top, animated: true)
+//        delegate.willDisplay(page: page)
+//    }
+
+    func resetToCenter() {
+        scrollView.setContentOffset(CGPoint(x: 0, y: CalendarConstants.cellHeight), animated: false)
     }
 
 }
 
-extension CalendarScrollTracker: UITableViewDelegate {
+extension CalendarScrollTracker: UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let page = Int(scrollView.contentOffset.y / CalendarConstants.cellHeight)
