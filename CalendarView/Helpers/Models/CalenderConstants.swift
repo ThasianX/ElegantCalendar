@@ -11,14 +11,6 @@ struct CalendarConstants {
     static let cellHeight: CGFloat = screen.height
     static let cellWidth: CGFloat = screen.width
 
-    static let scrollInsets: CGFloat = {
-        // check to see if device is iphone x and above, without a home button
-        if let keyWindow = window, keyWindow.safeAreaInsets.bottom > 0 {
-            return 45
-        }
-        return 20 // This will allow the `scrollBackToToday` button to be aligned with the header for older iphones
-    }()
-
     static let horizontalPadding: CGFloat = cellWidth * 0.058
 
     static let daysInRow: CGFloat = 7

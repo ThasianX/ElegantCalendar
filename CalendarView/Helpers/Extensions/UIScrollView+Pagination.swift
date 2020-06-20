@@ -9,10 +9,9 @@ extension UIScrollView {
         backgroundColor = .none
         scrollsToTop = false
 
-        // gets rid of scroll insets. iphone 11 only. TODO: Need to test other phones. I should actually grab the scroll insets before I start attaching the scrollview
-        contentInset = UIEdgeInsets(top: -44,
+        contentInset = UIEdgeInsets(top: -adjustedContentInset.top,
                                     left: 0,
-                                    bottom: -34,
+                                    bottom: -adjustedContentInset.bottom,
                                     right: 0)
 
         isPagingEnabled = true

@@ -11,25 +11,17 @@ extension UITableView {
         allowsSelection = false
         scrollsToTop = false
 
-        // gets rid of scroll insets
-        contentInset = .calendarInsets
+        // TODO: Remove this later and probably replace the yearly calendar view with a scrollview implementation
+        contentInset = UIEdgeInsets(top: -adjustedContentInset.top,
+                                    left: 0,
+                                    bottom: -adjustedContentInset.bottom,
+                                    right: 0)
 
         isPagingEnabled = true
         decelerationRate = .fast
         rowHeight = CalendarConstants.cellHeight // This is crucial for pagination
 
         return self
-    }
-
-}
-
-private extension UIEdgeInsets {
-
-    static var calendarInsets: UIEdgeInsets {
-        UIEdgeInsets(top: -CalendarConstants.scrollInsets,
-                     left: 0,
-                     bottom: CalendarConstants.scrollInsets,
-                     right: 0)
     }
 
 }
