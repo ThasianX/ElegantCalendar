@@ -5,7 +5,6 @@ import SwiftUI
 extension UIScrollView {
 
     var withPagination: UIScrollView {
-        showsVerticalScrollIndicator = false
         backgroundColor = .none
         scrollsToTop = false
 

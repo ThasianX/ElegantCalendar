@@ -2,6 +2,84 @@
 
 import SwiftUI
 
+struct PagedMonthsView: UIViewControllerRepresentable {
+
+    typealias UIViewControllerType = PagedController
+
+    @EnvironmentObject var calendarManager: MonthlyCalendarManager
+
+    func makeUIViewController(context: Context) -> PagedController {
+        let startingMonthViews = calendarManager.currentMonthsRange.map { MonthView(month: $0).environmentObject(calendarManager).erased }
+        return PagedController(startingPage: calendarManager.currentMonthIndex, startingMonthViews: startingMonthViews)
+    }
+
+    func updateUIViewController(_ uiViewController: PagedController, context: Context) {
+        uiViewController.rearrange(months: calendarManager.months, currentPage: calendarManager.currentMonthIndex, calendarManager: calendarManager)
+    }
+
+}
+
+class PagedController: UIViewController {
+
+    private var controllers: [UIHostingController<AnyView>]
+    private var previousPage: Int
+
+    init(startingPage: Int, startingMonthViews: [AnyView]) {
+        previousPage = startingPage
+        controllers = startingMonthViews.map {
+            UIHostingController(rootView: $0)
+        }
+        super.init(nibName: nil, bundle: nil)
+
+        controllers.enumerated().forEach { i, controller in
+            addChild(controller)
+
+            controller.view.frame = CGRect(x: 0, y: 0, width: CalendarConstants.cellWidth, height: CalendarConstants.cellHeight)
+            controller.view.frame.origin = CGPoint(x: 0, y: CalendarConstants.cellHeight * CGFloat(i))
+
+            view.addSubview(controller.view)
+            controller.didMove(toParent: self)
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // TODO: Fix scroll up. scroll down works
+
+    func rearrange(months: [Date], currentPage: Int, calendarManager: MonthlyCalendarManager) {
+        guard currentPage != previousPage && currentPage > 1 && currentPage < months.count-1 else { return }
+
+        if currentPage > previousPage {
+            controllers.append(controllers.removeFirst())
+            UIView.performWithoutAnimation {
+                controllers.last!.rootView = MonthView(month: months[currentPage+1]).environmentObject(calendarManager).erased
+                resetPositions()
+            }
+        } else if currentPage < previousPage {
+            controllers.insert(controllers.removeLast(), at: 0)
+            UIView.performWithoutAnimation {
+                controllers.first!.rootView = MonthView(month: months[currentPage-1]).environmentObject(calendarManager).erased
+                resetPositions()
+            }
+        }
+
+        previousPage = currentPage
+    }
+
+    func resetPositions() {
+        controllers.enumerated().forEach { i, controller in
+            controller.view.frame.origin = CGPoint(x: 0, y: CalendarConstants.cellHeight * CGFloat(i))
+        }
+    }
+
+    func scroll(to page: Int) {
+
+    }
+
+}
+
 struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
     @EnvironmentObject var calendarManager: MonthlyCalendarManager
@@ -27,10 +105,9 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var monthsList: some View {
-        ScrollView(.vertical) {
-            MonthView(month: currentMonthsRange[0])
-            MonthView(month: currentMonthsRange[1])
-            MonthView(month: currentMonthsRange[2])
+        ScrollView(.vertical, showsIndicators: false) {
+            PagedMonthsView()
+                .frame(height: CalendarConstants.cellHeight*3)
         }
         .introspectScrollView { scrollView in
             self.calendarManager.attach(to: scrollView, with: self.initialMonth)
