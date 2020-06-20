@@ -41,13 +41,13 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
 
 extension MonthlyCalendarManager {
 
-    func attach(to tableView: UITableView, with initialMonth: Date?) {
+    func attach(to scrollView: UIScrollView, with initialMonth: Date?) {
         if scrollTracker == nil {
             scrollTracker = CalendarScrollTracker(delegate: self,
-                                                  tableView: tableView.withPaginationAndNoSeparators)
-            if let initialMonth = initialMonth {
-                scrollToMonth(initialMonth)
-            }
+                                                  scrollView: scrollView.withPagination)
+//            if let initialMonth = initialMonth {
+//                scrollToMonth(initialMonth)
+//            }
         }
     }
 
@@ -61,13 +61,14 @@ extension MonthlyCalendarManager {
         delegate?.elegantCalendar(didSelectDate: day)
     }
 
+    // TODO: Fix this
     public func scrollToMonth(_ month: Date) {
         let startOfMonthForStartDate = calendar.startOfMonth(for: startDate)
         let startOfMonthForToBeCurrentMonth = calendar.startOfMonth(for: month)
         let monthsInBetween = calendar.dateComponents([.month],
                                                                     from: startOfMonthForStartDate,
                                                                     to: startOfMonthForToBeCurrentMonth).month!
-        scrollTracker.scroll(to: monthsInBetween)
+//        scrollTracker.scroll(to: monthsInBetween)
     }
 
 }

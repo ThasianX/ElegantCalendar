@@ -12,7 +12,7 @@ extension UIScrollView {
         // gets rid of scroll insets
         contentInset = UIEdgeInsets(top: -CalendarConstants.scrollInsets,
                                     left: 0,
-                                    bottom: CalendarConstants.scrollInsets,
+                                    bottom: -CalendarConstants.scrollInsets,
                                     right: 0)
 
         isPagingEnabled = true
