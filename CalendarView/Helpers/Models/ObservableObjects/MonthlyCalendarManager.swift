@@ -68,11 +68,13 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
 
         selectedDate = nil
 
+        parent?.willDisplay(month: currentMonth)
+    }
+
+    func resetToCenterIfNecessary() {
         if currentMonthIndex >= 1 && currentMonthIndex <= months.count-2 {
             scrollTracker.resetToCenter()
         }
-
-        parent?.willDisplay(month: currentMonth)
     }
 
 }

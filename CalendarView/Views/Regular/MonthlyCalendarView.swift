@@ -2,14 +2,21 @@
 
 import SwiftUI
 
+private class UpdateUIViewControllerBugFixClass { }
+
 struct PagedMonthsView: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = PagedController
 
+    // See https://stackoverflow.com/questions/58635048/in-a-uiviewcontrollerrepresentable-how-can-i-pass-an-observedobjects-value-to
+    private let bugFix = UpdateUIViewControllerBugFixClass()
+
     @EnvironmentObject var calendarManager: MonthlyCalendarManager
 
     func makeUIViewController(context: Context) -> PagedController {
-        let startingMonthViews = calendarManager.currentMonthsRange.map { MonthView(month: $0).environmentObject(calendarManager).erased }
+        let startingMonthViews = calendarManager.currentMonthsRange.map {
+            MonthView(month: $0).environmentObject(calendarManager).erased
+        }
         return PagedController(startingPage: calendarManager.currentMonthIndex, startingMonthViews: startingMonthViews)
     }
 
@@ -46,8 +53,7 @@ class PagedController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // TODO: Fix scroll up. scroll down works
-
+    // TODO: Fix scroll up. scroll down works. both actually work but fail for side cases
     func rearrange(months: [Date], currentPage: Int, calendarManager: MonthlyCalendarManager) {
         guard currentPage != previousPage && currentPage > 1 && currentPage < months.count-1 else { return }
 
@@ -66,6 +72,8 @@ class PagedController: UIViewController {
         }
 
         previousPage = currentPage
+
+        calendarManager.resetToCenterIfNecessary()
     }
 
     func resetPositions() {
