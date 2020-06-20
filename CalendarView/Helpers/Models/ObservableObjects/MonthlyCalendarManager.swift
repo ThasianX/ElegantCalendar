@@ -18,18 +18,6 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
         months[currentMonthIndex]
     }
 
-    var currentMonthsRange: [Date] {
-        if currentMonthIndex == 0 {
-            return Array(months[0...2])
-        }
-
-        if currentMonthIndex == months.count-1 {
-            return Array(months[months.count-3...months.count-1])
-        }
-
-        return Array(months[currentMonthIndex-1...currentMonthIndex+1])
-    }
-
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
 
@@ -153,10 +141,6 @@ extension MonthlyCalendarManagerDirectAccess {
 
     var selectedDate: Date? {
         calendarManager.selectedDate
-    }
-
-    var currentMonthsRange: [Date] {
-        calendarManager.currentMonthsRange
     }
 
 }
