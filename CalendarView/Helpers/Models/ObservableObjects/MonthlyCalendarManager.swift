@@ -71,10 +71,26 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
         parent?.willDisplay(month: currentMonth)
     }
 
-    func resetToCenterIfNecessary() {
-        if currentMonthIndex >= 1 && currentMonthIndex <= months.count-2 {
-            scrollTracker.resetToCenter()
-        }
+}
+
+extension MonthlyCalendarManager: ElegantPagerProvider {
+
+    var currentPage: Int {
+        currentMonthIndex
+    }
+
+    var pageCount: Int {
+        months.count
+    }
+
+    func view(for page: Int) -> AnyView {
+        MonthView(month: months[page])
+            .environmentObject(self)
+            .erased
+    }
+
+    func resetToCenter() {
+        scrollTracker.resetToCenter()
     }
 
 }
