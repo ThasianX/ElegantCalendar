@@ -1,6 +1,5 @@
 // Kevin Li - 6:19 PM - 6/6/20
 
-import Introspect
 import SwiftUI
 
 fileprivate let scrollResistanceCutOff: CGFloat = 40
@@ -12,13 +11,6 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
 
     var pagerState: PagerState {
         calendarManager.pagerState
-    }
-
-    var initialMonth: Date? = nil
-
-    init(calendarManager: ElegantCalendarManager, initialMonth: Date? = nil) {
-        self.calendarManager = calendarManager
-        self.initialMonth = initialMonth
     }
 
     private var pageOffset: CGFloat {
@@ -69,7 +61,7 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
     }
 
     private var monthlyCalendarView: some View {
-        MonthlyCalendarView(initialMonth: initialMonth)
+        MonthlyCalendarView()
             .environmentObject(calendarManager.monthlyManager)
     }
 
@@ -94,9 +86,9 @@ struct ElegantCalendarView_Previews: PreviewProvider {
     static var previews: some View {
         DarkThemePreview {
             ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
-            
-            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock),
-                                initialMonth: .daysFromToday(90))
+
+            // TODO :update models here
+            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
         }
     }
 }

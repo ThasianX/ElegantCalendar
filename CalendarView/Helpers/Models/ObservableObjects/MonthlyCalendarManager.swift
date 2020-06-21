@@ -14,7 +14,7 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
     public let configuration: CalendarConfiguration
     let months: [Date]
 
-    init(configuration: CalendarConfiguration) {
+    init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
         self.configuration = configuration
 
         months = configuration.calendar.generateDates(
@@ -22,9 +22,14 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
                                  end: configuration.endDate),
             matching: .firstDayOfEveryMonth)
 
-        currentMonth = months.first!
+        var startingPage: Int = 0
+        if let initialMonth = initialMonth {
+            startingPage = configuration.calendar.monthsBetween(configuration.startDate, and: initialMonth)
+        }
 
-        pagerManager = .init(pageCount: months.count)
+        currentMonth = months[startingPage]
+
+        pagerManager = .init(startingPage: startingPage, pageCount: months.count)
         pagerManager.datasource = self
         pagerManager.delegate = self
     }
@@ -67,13 +72,8 @@ extension MonthlyCalendarManager {
     }
 
     public func scrollToMonth(_ month: Date) {
-        let startOfMonthForStartDate = calendar.startOfMonth(for: startDate)
-        let startOfMonthForToBeCurrentMonth = calendar.startOfMonth(for: month)
-        let monthsInBetween = calendar.dateComponents([.month],
-                                                                    from: startOfMonthForStartDate,
-                                                                    to: startOfMonthForToBeCurrentMonth).month!
-
-        pagerManager.scroll(to: monthsInBetween)
+        let page = calendar.monthsBetween(startDate, and: month)
+        pagerManager.scroll(to: page)
     }
 
 }
@@ -102,6 +102,18 @@ extension MonthlyCalendarManagerDirectAccess {
 
     var selectedDate: Date? {
         calendarManager.selectedDate
+    }
+
+}
+
+extension Calendar {
+
+    func monthsBetween(_ date1: Date, and date2: Date) -> Int {
+        let startOfMonthForDate1 = startOfMonth(for: date1)
+        let startOfMonthForDate2 = startOfMonth(for: date2)
+        return dateComponents([.month],
+                              from: startOfMonthForDate1,
+                              to: startOfMonthForDate2).month!
     }
 
 }
