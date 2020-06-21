@@ -9,8 +9,6 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
 
     weak var parent: ElegantCalendarManager?
 
-    private var scrollTracker: CalendarScrollTracker!
-
     let configuration: CalendarConfiguration
     let months: [Date]
 
@@ -77,23 +75,9 @@ extension MonthlyCalendarManager: ElegantPagerProvider {
             .erased
     }
 
-    func onRearrange() {
-        scrollTracker.resetToCenter()
-    }
-
 }
 
 extension MonthlyCalendarManager {
-
-    func attach(to scrollView: UIScrollView, with initialMonth: Date?) {
-        if scrollTracker == nil {
-            scrollTracker = CalendarScrollTracker(delegate: self,
-                                                  scrollView: scrollView.withPagination)
-//            if let initialMonth = initialMonth {
-//                scrollToMonth(initialMonth)
-//            }
-        }
-    }
 
     func scrollBackToToday() {
         scrollToMonth(Date())
