@@ -13,6 +13,7 @@ struct ScrollBackToTodayButton: View {
                 .resizable()
                 .frame(width: 20, height: 20)
                 .foregroundColor(color)
+                .padding(10)
         }
         .animation(.easeInOut)
     }

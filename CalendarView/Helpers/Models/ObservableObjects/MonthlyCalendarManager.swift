@@ -7,6 +7,8 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
     @Published var currentMonthIndex: Int = 0
     @Published public var selectedDate: Date? = nil
 
+    private var animateMonthChange = false
+
     weak var parent: ElegantCalendarManager?
 
     let configuration: CalendarConfiguration
@@ -31,6 +33,8 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
 extension MonthlyCalendarManager: ListPaginationDelegate {
 
     func willDisplay(page: Int) {
+        animateMonthChange = false
+
         if page == 1 {
             if currentMonthIndex == 0 {
                 // just scrolled from first page to second page
@@ -62,8 +66,8 @@ extension MonthlyCalendarManager: ListPaginationDelegate {
 
 extension MonthlyCalendarManager: ElegantPagerProvider {
 
-    var currentPage: Int {
-        currentMonthIndex
+    var currentPage: (index: Int, animated: Bool) {
+        (currentMonthIndex, animateMonthChange)
     }
 
     var pageCount: Int {
@@ -90,14 +94,15 @@ extension MonthlyCalendarManager {
         delegate?.elegantCalendar(didSelectDate: day)
     }
 
-    // TODO: Fix this
     public func scrollToMonth(_ month: Date) {
         let startOfMonthForStartDate = calendar.startOfMonth(for: startDate)
         let startOfMonthForToBeCurrentMonth = calendar.startOfMonth(for: month)
         let monthsInBetween = calendar.dateComponents([.month],
                                                                     from: startOfMonthForStartDate,
                                                                     to: startOfMonthForToBeCurrentMonth).month!
-//        scrollTracker.scroll(to: monthsInBetween)
+
+        animateMonthChange = true
+        currentMonthIndex = monthsInBetween
     }
 
 }
