@@ -26,9 +26,6 @@ struct CalendarConstants {
             return (cellWidth - totalHorizontalPadding - innerGridSpacing) / daysInRow
         }()
 
-        static let scrollButtonTrailingPadding = horizontalPadding + dayWidth/2
-        static let scrollButtonOffset = topPadding + 10
-
     }
 
     struct Yearly {

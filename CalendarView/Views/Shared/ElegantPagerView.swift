@@ -4,7 +4,7 @@ import SwiftUI
 
 protocol ElegantPagerProvider: ObservableObject {
 
-    var currentPage: Int { get }
+    var currentPage: (index: Int, animated: Bool) { get }
     var pageCount: Int { get }
     func view(for page: Int) -> AnyView
 
@@ -26,7 +26,7 @@ private enum ScrollDirection {
 }
 
 fileprivate let scrollResistanceCutOff: CGFloat = 40
-fileprivate let pageTurnCutOff: CGFloat = 120
+fileprivate let pageTurnCutOff: CGFloat = 80
 fileprivate let pageTurnAnimation: Animation = .interactiveSpring(response: 0.15, dampingFraction: 1.5, blendDuration: 0.25)
 
 struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvider {
@@ -77,11 +77,11 @@ struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvid
         guard !isTurningPage else { return }
 
         if offset > 0 && offset > pageTurnCutOff {
-            guard provider.currentPage != 0 else { return }
+            guard provider.currentPage.index != 0 else { return }
 
             scroll(direction: .up)
         } else if offset < 0 && offset < -pageTurnCutOff {
-            guard provider.currentPage != provider.pageCount-1 else { return }
+            guard provider.currentPage.index != provider.pageCount-1 else { return }
 
             scroll(direction: .down)
         }
@@ -107,14 +107,48 @@ struct ElegantPagerView<Provider>: UIViewControllerRepresentable where Provider:
     @ObservedObject var provider: Provider
     @Binding var activeIndex: Int
 
+    init(provider: Provider, activeIndex: Binding<Int>) {
+        self.provider = provider
+        self._activeIndex = activeIndex
+    }
+
     func makeUIViewController(context: Context) -> ElegantPagerController<Provider> {
         ElegantPagerController(provider: provider)
     }
 
-    func updateUIViewController(_ uiViewController: ElegantPagerController<Provider>, context: Context) {
-        uiViewController.rearrange(provider: provider) {
-            DispatchQueue.main.async {
-                self.activeIndex = 1 // resets view to center
+    func updateUIViewController(_ controller: ElegantPagerController<Provider>, context: Context) {
+        if provider.currentPage.animated {
+            let currentPageIndex = provider.currentPage.index
+            if currentPageIndex == 0 {
+                setActiveIndex(0, animated: true)
+                controller.reset(provider: provider)
+            } else if currentPageIndex == provider.pageCount-1 {
+                setActiveIndex(2, animated: true)
+                // controller code to set pages from end-3 -> end-1
+            } else {
+                if currentPageIndex > controller.previousPage {
+                    setActiveIndex(2, animated: true)
+                    // controller code
+                } else {
+                    setActiveIndex(0, animated: true)
+                    // controller code
+                }
+            }
+        } else {
+            controller.rearrange(provider: provider) {
+                self.setActiveIndex(1, animated: false) // resets to center
+            }
+        }
+    }
+
+    private func setActiveIndex(_ index: Int, animated: Bool) {
+        DispatchQueue.main.async {
+            if animated {
+                withAnimation(pageTurnAnimation) {
+                    self.activeIndex = index
+                }
+            } else {
+                self.activeIndex = index
             }
         }
     }
@@ -124,10 +158,10 @@ struct ElegantPagerView<Provider>: UIViewControllerRepresentable where Provider:
 class ElegantPagerController<Provider>: UIViewController where Provider: ElegantPagerProvider {
 
     private var controllers: [UIHostingController<AnyView>]
-    private var previousPage: Int
+    private(set) var previousPage: Int
 
     init(provider: Provider) {
-        previousPage = provider.currentPage
+        previousPage = provider.currentPage.index
 
         let trailingPage = previousPage+2.clamped(to: 0...provider.pageCount-1)
         controllers = (previousPage...trailingPage).map { page in
@@ -151,24 +185,26 @@ class ElegantPagerController<Provider>: UIViewController where Provider: Elegant
     }
 
     func rearrange(provider: Provider, completion: @escaping () -> Void) {
+        let currentPageIndex = provider.currentPage.index
+
         defer {
-            previousPage = provider.currentPage
+            previousPage = currentPageIndex
         }
 
         // rearrange if...
-        guard provider.currentPage != previousPage && // not same page
+        guard currentPageIndex != previousPage && // not same page
             (previousPage != 0 &&
-                provider.currentPage != 0) && // not 1st or 2nd page
+                currentPageIndex != 0) && // not 1st or 2nd page
             (previousPage != provider.pageCount-1 &&
-                provider.currentPage != provider.pageCount-1) // not last page or 2nd to last page
+                currentPageIndex != provider.pageCount-1) // not last page or 2nd to last page
         else { return }
 
-        if provider.currentPage > previousPage { // scrolled down
+        if currentPageIndex > previousPage { // scrolled down
             controllers.append(controllers.removeFirst())
-            controllers.last!.rootView = provider.view(for: provider.currentPage+1)
+            controllers.last!.rootView = provider.view(for: currentPageIndex+1)
         } else { // scrolled up
             controllers.insert(controllers.removeLast(), at: 0)
-            controllers.first!.rootView = provider.view(for: provider.currentPage-1)
+            controllers.first!.rootView = provider.view(for: currentPageIndex-1)
         }
 
         resetPositions()
@@ -181,8 +217,24 @@ class ElegantPagerController<Provider>: UIViewController where Provider: Elegant
         }
     }
 
-    func scroll(to page: Int) {
+    func reset(provider: Provider, completion: (() -> Void)? = nil) {
+        let currentPageIndex = provider.currentPage.index
+        defer {
+            previousPage = currentPageIndex
+        }
 
+        let startingPage: Int
+        if currentPageIndex+2 > provider.pageCount-3 {
+            startingPage = provider.pageCount-3
+        } else {
+            startingPage = currentPageIndex
+        }
+
+        zip(controllers, (startingPage...startingPage+2)).forEach { controller, page in
+            controller.rootView = provider.view(for: page)
+        }
+
+        completion?()
     }
 
 }

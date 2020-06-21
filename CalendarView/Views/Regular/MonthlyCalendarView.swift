@@ -8,6 +8,10 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
     var initialMonth: Date? = nil
 
+    private var isTodayWithinDateRange: Bool {
+        Date() >= startDate && Date() <= endDate
+    }
+
     private var isCurrentMonthYearSameAsTodayMonthYear: Bool {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
@@ -18,8 +22,8 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
                 .zIndex(0)
             if !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
-                    .padding(.trailing, CalendarConstants.Monthly.scrollButtonTrailingPadding)
-                    .offset(y: CalendarConstants.Monthly.scrollButtonOffset)
+                    .padding(.trailing, CalendarConstants.horizontalPadding)
+                    .offset(y: CalendarConstants.Monthly.topPadding)
                     .transition(.opacity)
                     .zIndex(1)
             }
