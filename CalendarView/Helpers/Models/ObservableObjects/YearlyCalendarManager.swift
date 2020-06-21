@@ -35,7 +35,9 @@ extension YearlyCalendarManager {
         if scrollTracker == nil {
             scrollTracker = YearlyCalendarScrollTracker(delegate: self,
                                                         scrollView: scrollView.withPagination)
-            scrollToYear(currentYear) // accounts for initial year if any. TODO: Don't know why but this isn't working
+
+            let page = calendar.yearsBetween(startDate, and: currentYear)
+            scrollTracker.scroll(to: page) // scroll to initial year
         }
     }
 

@@ -17,12 +17,12 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            yearsList // TODO: Fix the cells in scrollview. they are being offset or wrong size or something
+            yearsList
                 .zIndex(0)
             if isTodayWithinDateRange && !isCurrentYearSameAsTodayYear {
                 scrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.horizontalPadding)
-                    .offset(y: CalendarConstants.Yearly.topPadding)
+                    .offset(y: CalendarConstants.Yearly.scrollButtonTopOffset)
                     .transition(.opacity)
                     .zIndex(1)
             }
