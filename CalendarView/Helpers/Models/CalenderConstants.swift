@@ -15,6 +15,8 @@ struct CalendarConstants {
 
     static let daysInRow: CGFloat = 7
 
+    static let calendarTurnAnimation: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.86, blendDuration: 0.25)
+
     struct Monthly {
 
         static let topPadding: CGFloat = cellHeight * 0.078
@@ -48,9 +50,6 @@ struct CalendarConstants {
             return (monthWidth - innerGridSpacing) / daysInRow
         }()
         static let daysStackHeight: CGFloat = 6*dayWidth + 5*daysGridVerticalSpacing
-
-        static let scrollButtonTrailingPadding = horizontalPadding + dayWidth*2
-        static let scrollButtonOffset = topPadding - statusBarHeight+10
 
     }
 

@@ -63,7 +63,8 @@ public class ElegantCalendarManager: ObservableObject {
     init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
         self.configuration = configuration
 
-        yearlyManager = YearlyCalendarManager(configuration: configuration)
+        yearlyManager = YearlyCalendarManager(configuration: configuration,
+                                              initialYear: initialMonth)
         monthlyManager = MonthlyCalendarManager(configuration: configuration,
                                                 initialMonth: initialMonth)
 
@@ -92,8 +93,10 @@ public class ElegantCalendarManager: ObservableObject {
 extension ElegantCalendarManager {
 
     func scrollToMonthAndShowMonthlyView(_ month: Date) {
-        pagerState.activeIndex = 1
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        withAnimation(CalendarConstants.calendarTurnAnimation) {
+            pagerState.activeIndex = 1
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
             self.scrollToMonth(month)
         }
     }
@@ -104,7 +107,9 @@ extension ElegantCalendarManager {
     }
 
     func showYearlyView() {
-        pagerState.activeIndex = 0
+        withAnimation(CalendarConstants.calendarTurnAnimation) {
+            pagerState.activeIndex = 0
+        }
     }
 
 }

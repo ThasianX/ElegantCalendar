@@ -74,8 +74,10 @@ extension MonthlyCalendarManager {
     }
 
     public func scrollToMonth(_ month: Date) {
-        let page = calendar.monthsBetween(startDate, and: month)
-        pagerManager.scroll(to: page)
+        if !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year]) {
+            let page = calendar.monthsBetween(startDate, and: month)
+            pagerManager.scroll(to: page)
+        }
     }
 
 }
@@ -108,7 +110,7 @@ extension MonthlyCalendarManagerDirectAccess {
 
 }
 
-extension Calendar {
+private extension Calendar {
 
     func monthsBetween(_ date1: Date, and date2: Date) -> Int {
         let startOfMonthForDate1 = startOfMonth(for: date1)
