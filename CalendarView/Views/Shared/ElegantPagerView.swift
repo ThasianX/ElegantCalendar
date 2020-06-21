@@ -25,8 +25,9 @@ private enum ScrollDirection {
 
 }
 
-fileprivate let scrollResistanceCutOff: CGFloat = 60
+fileprivate let scrollResistanceCutOff: CGFloat = 40
 fileprivate let pageTurnCutOff: CGFloat = 120
+fileprivate let pageTurnAnimation: Animation = .interactiveSpring(response: 0.15, dampingFraction: 1.5, blendDuration: 0.25)
 
 struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvider {
 
@@ -53,13 +54,13 @@ struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvid
         .gesture(
             DragGesture(minimumDistance: 1, coordinateSpace: .local)
                 .onChanged { value in
-                    withAnimation(.interactiveSpring()) {
+                    withAnimation(pageTurnAnimation) {
                         self.translation = self.resistanceTranslationForOffset(value.translation.height)
                         self.turnPageIfNeededForOffset(value.translation.height)
                     }
                 }
                 .onEnded { value in
-                    withAnimation(.interactiveSpring()) {
+                    withAnimation(pageTurnAnimation) {
                         self.translation = .zero
                         self.isTurningPage = false
                     }
