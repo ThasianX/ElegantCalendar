@@ -51,7 +51,6 @@ class ElegantPagerManager: ObservableObject {
 
     func scroll(to page: Int) {
         currentPage = (page, .scroll)
-        delegate?.willDisplay(page: page)
     }
 
     func setUserDraggedPage(_ page: Int) {
@@ -80,7 +79,6 @@ class ElegantPagerManager: ObservableObject {
         }
 
         currentPage = (currentIndex, .rearrange)
-        delegate?.willDisplay(page: currentPage.index) // TODO: Fix this. delegate should be called in completion
     }
 
 }
@@ -227,6 +225,7 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
         DispatchQueue.main.async {
             self.setProperPage(for: controller)
         }
+        pagerManager.delegate?.willDisplay(page: currentPage.index)
     }
 
     private func setProperPage(for controller: ElegantPagerController) {
@@ -260,7 +259,7 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
         }
 
         if complete {
-            self.pagerManager.currentPage.state = .completed
+            pagerManager.currentPage.state = .completed
         }
     }
 
