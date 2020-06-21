@@ -104,7 +104,7 @@ private enum ScrollDirection {
 
 fileprivate let scrollResistanceCutOff: CGFloat = 40
 fileprivate let pageTurnCutOff: CGFloat = 80
-fileprivate let pageTurnAnimation: Animation = .interactiveSpring(response: 0.15, dampingFraction: 1.5, blendDuration: 0.25)
+fileprivate let pageTurnAnimation: Animation = .interactiveSpring(response: 0.25, dampingFraction: 0.86, blendDuration: 0.25)
 
 struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
 
