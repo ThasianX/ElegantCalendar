@@ -60,11 +60,12 @@ public class ElegantCalendarManager: ObservableObject {
 
     private var anyCancellable = Set<AnyCancellable>()
 
-    init(configuration: CalendarConfiguration) {
+    init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
         self.configuration = configuration
 
         yearlyManager = YearlyCalendarManager(configuration: configuration)
-        monthlyManager = MonthlyCalendarManager(configuration: configuration)
+        monthlyManager = MonthlyCalendarManager(configuration: configuration,
+                                                initialMonth: initialMonth)
 
         yearlyManager.parent = self
         monthlyManager.parent = self

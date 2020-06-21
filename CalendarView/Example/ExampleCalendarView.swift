@@ -15,15 +15,15 @@ struct ExampleCalendarView: View {
                                                   startDate: ascVisits.first!.arrivalDate,
                                                   endDate: ascVisits.last!.arrivalDate,
                                                   themeColor: .blackPearl)
-        calendarManager = ElegantCalendarManager(configuration: configuration)
+        calendarManager = ElegantCalendarManager(configuration: configuration,
+                                                 initialMonth: .daysFromToday(30))
         visitsByDay = Dictionary(grouping: ascVisits, by: { calendar.startOfDay(for: $0.arrivalDate) })
         calendarManager.datasource = self
         calendarManager.delegate = self
     }
 
     var body: some View {
-        ElegantCalendarView(calendarManager: calendarManager,
-            initialMonth: Date().addingTimeInterval(60*60*24*90))
+        ElegantCalendarView(calendarManager: calendarManager)
     }
     
 }

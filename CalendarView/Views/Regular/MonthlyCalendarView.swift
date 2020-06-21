@@ -6,8 +6,6 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
     @EnvironmentObject var calendarManager: MonthlyCalendarManager
 
-    var initialMonth: Date? = nil
-
     private var isTodayWithinDateRange: Bool {
         Date() >= startDate && Date() <= endDate
     }
@@ -20,7 +18,7 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         ZStack(alignment: .top) {
             monthsList
                 .zIndex(0)
-            if !isCurrentMonthYearSameAsTodayMonthYear {
+            if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.horizontalPadding)
                     .offset(y: CalendarConstants.Monthly.topPadding)
@@ -46,13 +44,13 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
 struct MonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        MonthlyCalendarManagerGroup {
+        Group { // TODO: Add different envr objects
             DarkThemePreview {
                 MonthlyCalendarView()
             }
 
             DarkThemePreview {
-                MonthlyCalendarView(initialMonth: .daysFromToday(90))
+                MonthlyCalendarView()
             }
         }
     }

@@ -25,14 +25,28 @@ enum PageState {
 class ElegantPagerManager: ObservableObject {
 
     @Published var currentPage: (index: Int, state: PageState)
+    @Published var activeIndex: Int
+
     let pageCount: Int
+    let pagerHeight: CGFloat
 
     var datasource: ElegantPagerDataSource!
     var delegate: ElegantPagerDelegate?
 
     init(startingPage: Int = 0, pageCount: Int) {
+        guard pageCount > 0 else { fatalError("Error: pages must exist") }
+
         currentPage = (startingPage, .completed)
         self.pageCount = pageCount
+        pagerHeight = screen.height * CGFloat(pageCount.clamped(to: 1...3))
+
+        if startingPage == 0 {
+            activeIndex = 0
+        } else if startingPage == pageCount-1 {
+            activeIndex = 2
+        } else {
+            activeIndex = 1
+        }
     }
 
     func scroll(to page: Int) {
@@ -66,7 +80,25 @@ class ElegantPagerManager: ObservableObject {
         }
 
         currentPage = (currentIndex, .rearrange)
-        delegate?.willDisplay(page: currentPage.index)
+        delegate?.willDisplay(page: currentPage.index) // TODO: Fix this. delegate should be called in completion
+    }
+
+}
+
+private extension ElegantPagerManager {
+
+    var pageRange: ClosedRange<Int> {
+        let startingPage: Int
+
+        if currentPage.index == pageCount-1 {
+            startingPage = (pageCount-3).clamped(to: 0...pageCount-1)
+        } else {
+            startingPage = (currentPage.index-1).clamped(to: 0...pageCount-1)
+        }
+
+        let trailingPage = (startingPage+2).clamped(to: 0...pageCount-1)
+
+        return startingPage...trailingPage
     }
 
 }
@@ -85,6 +117,10 @@ extension ElegantPagerManagerDirectAccess {
 
     var pageCount: Int {
         pagerManager.pageCount
+    }
+
+    var activeIndex: Int {
+        pagerManager.activeIndex
     }
 
 }
@@ -108,7 +144,6 @@ fileprivate let pageTurnAnimation: Animation = .interactiveSpring(response: 0.25
 
 struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
 
-    @State private var activeIndex: Int = 0
     @State private var translation: CGFloat = .zero
     @State private var isTurningPage = false
 
@@ -124,8 +159,8 @@ struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ElegantPagerView(pagerManager: pagerManager, activeIndex: $activeIndex)
-                .frame(height: screen.height*3)
+            ElegantPagerView(pagerManager: pagerManager)
+                .frame(height: pagerManager.pagerHeight)
         }
         .frame(height: screen.height, alignment: .top)
         .offset(y: currentScrollOffset)
@@ -168,7 +203,7 @@ struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
     private func scroll(direction: ScrollDirection) {
         isTurningPage = true // Prevents user drag from continuing
         translation = .zero
-        activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
+        pagerManager.activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
 
         pagerManager.setUserDraggedPage(activeIndex)
     }
@@ -183,7 +218,6 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
     private let bugFix = UpdateUIViewControllerBugFixClass()
 
     @ObservedObject var pagerManager: ElegantPagerManager
-    @Binding var activeIndex: Int
 
     func makeUIViewController(context: Context) -> ElegantPagerController {
         ElegantPagerController(provider: pagerManager)
@@ -198,18 +232,20 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
     private func setProperPage(for controller: ElegantPagerController) {
         switch currentPage.state {
         case .rearrange:
-            controller.rearrange(provider: pagerManager) {
+            controller.rearrange(manager: pagerManager) {
                 self.setActiveIndex(1, animated: false, complete: true) // resets to center
             }
         case .scroll:
+            let pageToTurnTo = currentPage.index > controller.previousPage ? 2 : 0
+
             if currentPage.index == 0 || currentPage.index == pageCount-1 {
-                let pageToTurnTo = currentPage.index == 0 ? 0 : 2
                 setActiveIndex(pageToTurnTo, animated: true, complete: true)
-                controller.reset(provider: pagerManager)
+                controller.reset(manager: pagerManager)
             } else {
-                let pageToTurnTo = currentPage.index > controller.previousPage ? 2 : 0
+                // This first call to `setActiveIndex` is responsible for animating the page
+                // turn to whatever page we want to scroll to
                 setActiveIndex(pageToTurnTo, animated: true, complete: false)
-                controller.reset(provider: pagerManager) {
+                controller.reset(manager: pagerManager) {
                     self.setActiveIndex(1, animated: false, complete: true)
                 }
             }
@@ -220,7 +256,7 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
 
     private func setActiveIndex(_ index: Int, animated: Bool, complete: Bool) {
         withAnimation(animated ? pageTurnAnimation : nil) {
-            self.activeIndex = index
+            self.pagerManager.activeIndex = index
         }
 
         if complete {
@@ -238,9 +274,7 @@ class ElegantPagerController: UIViewController {
     init(provider: ElegantPagerManager) {
         previousPage = provider.currentPage.index
 
-        // TODO: Fix this starting page stuff
-        let trailingPage = previousPage+2.clamped(to: 0...provider.pageCount-1)
-        controllers = (previousPage...trailingPage).map { page in
+        controllers = provider.pageRange.map { page in
             UIHostingController(rootView: provider.datasource.view(for: page))
         }
         super.init(nibName: nil, bundle: nil)
@@ -248,8 +282,10 @@ class ElegantPagerController: UIViewController {
         controllers.enumerated().forEach { i, controller in
             addChild(controller)
 
-            controller.view.frame = CGRect(x: 0, y: 0, width: CalendarConstants.cellWidth, height: CalendarConstants.cellHeight)
-            controller.view.frame.origin = CGPoint(x: 0, y: CalendarConstants.cellHeight * CGFloat(i))
+            controller.view.frame = CGRect(x: 0,
+                                           y: screen.height * CGFloat(i),
+                                           width: screen.width,
+                                           height: screen.height)
 
             view.addSubview(controller.view)
             controller.didMove(toParent: self)
@@ -260,55 +296,47 @@ class ElegantPagerController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func rearrange(provider: ElegantPagerManager, completion: @escaping () -> Void) {
+    func rearrange(manager: ElegantPagerManager, completion: @escaping () -> Void) {
         defer {
-            previousPage = provider.currentPage.index
-
+            previousPage = manager.currentPage.index
         }
 
         // rearrange if...
-        guard provider.currentPage.index != previousPage && // not same page
+        guard manager.currentPage.index != previousPage && // not same page
             (previousPage != 0 &&
-                provider.currentPage.index != 0) && // not 1st or 2nd page
-            (previousPage != provider.pageCount-1 &&
-                provider.currentPage.index != provider.pageCount-1) // not last page or 2nd to last page
+                manager.currentPage.index != 0) && // not 1st or 2nd page
+            (previousPage != manager.pageCount-1 &&
+                manager.currentPage.index != manager.pageCount-1) // not last page or 2nd to last page
         else { return }
 
-        if provider.currentPage.index > previousPage { // scrolled down
-            controllers.append(controllers.removeFirst())
-            controllers.last!.rootView = provider.datasource.view(for: provider.currentPage.index+1)
-        } else { // scrolled up
-            controllers.insert(controllers.removeLast(), at: 0)
-            controllers.first!.rootView = provider.datasource.view(for: provider.currentPage.index-1)
-        }
-
-        resetPositions()
+        rearrangeControllersAndUpdatePage(manager: manager)
+        resetPagePositions()
         completion()
     }
 
-    func resetPositions() {
-        controllers.enumerated().forEach { i, controller in
-            controller.view.frame.origin = CGPoint(x: 0, y: CalendarConstants.cellHeight * CGFloat(i))
+    private func rearrangeControllersAndUpdatePage(manager: ElegantPagerManager) {
+        if manager.currentPage.index > previousPage { // scrolled down
+            controllers.append(controllers.removeFirst())
+            controllers.last!.rootView = manager.datasource.view(for: manager.currentPage.index+1)
+        } else { // scrolled up
+            controllers.insert(controllers.removeLast(), at: 0)
+            controllers.first!.rootView = manager.datasource.view(for: manager.currentPage.index-1)
         }
     }
 
-    func reset(provider: ElegantPagerManager, completion: (() -> Void)? = nil) {
+    private func resetPagePositions() {
+        controllers.enumerated().forEach { i, controller in
+            controller.view.frame.origin = CGPoint(x: 0, y: screen.height * CGFloat(i))
+        }
+    }
+
+    func reset(manager: ElegantPagerManager, completion: (() -> Void)? = nil) {
         defer {
-            previousPage = provider.currentPage.index
+            previousPage = manager.currentPage.index
         }
 
-        let startingPage: Int
-
-        if provider.currentPage.index == 0 {
-            startingPage = 0
-        } else if provider.currentPage.index == provider.pageCount-1 {
-            startingPage = provider.pageCount-3
-        } else {
-            startingPage = provider.currentPage.index-1
-        }
-
-        zip(controllers, (startingPage...startingPage+2)).forEach { controller, page in
-            controller.rootView = provider.datasource.view(for: page)
+        zip(controllers, manager.pageRange).forEach { controller, page in
+            controller.rootView = manager.datasource.view(for: page)
         }
 
         completion?()

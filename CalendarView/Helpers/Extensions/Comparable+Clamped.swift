@@ -9,11 +9,3 @@ extension Comparable {
     }
 
 }
-
-extension Strideable where Stride: SignedInteger {
-
-    func clamped(to limits: CountableClosedRange<Self>) -> Self {
-        return min(max(self, limits.lowerBound), limits.upperBound)
-    }
-
-}
