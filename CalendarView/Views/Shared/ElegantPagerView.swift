@@ -9,18 +9,89 @@ protocol ElegantPagerProvider: ObservableObject {
     var currentPage: Int { get }
     var pageCount: Int { get }
     func view(for page: Int) -> AnyView
-    func onRearrange()
+
+    func willDisplay(page: Int)
+
+}
+
+fileprivate let scrollResistanceCutOff: CGFloat = 60
+fileprivate let pageTurnCutOff: CGFloat = 120
+
+struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvider {
+
+    @State private var activeIndex: Int = 0
+    @State private var translation: CGFloat = .zero
+    @State private var isTurningPage = false
+    @ObservedObject var provider: Provider
+
+    private var pageOffset: CGFloat {
+        return -CGFloat(activeIndex) * screen.height
+    }
+
+    private var currentScrollOffset: CGFloat {
+        pageOffset + translation
+    }
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 0) {
+            ElegantPagerView(provider: provider)
+                .frame(height: screen.height*3)
+        }
+        .frame(height: screen.height, alignment: .top)
+        .offset(y: currentScrollOffset)
+        .gesture(
+            DragGesture(minimumDistance: 1, coordinateSpace: .local)
+                .onChanged { value in
+                    withAnimation(.interactiveSpring()) {
+                        self.translation = self.resistanceTranslationForOffset(value.translation.height)
+                        self.turnPageIfNeededForOffset(value.translation.height)
+                    }
+                }
+                .onEnded { value in
+                    withAnimation(.interactiveSpring()) {
+                        self.translation = .zero
+                        self.isTurningPage = false
+                    }
+                }
+        )
+    }
+
+    private func resistanceTranslationForOffset(_ offset: CGFloat) -> CGFloat {
+        guard !isTurningPage else { return 0 }
+        return (offset / pageTurnCutOff) * scrollResistanceCutOff
+    }
+
+    private func turnPageIfNeededForOffset(_ offset: CGFloat) {
+        guard !isTurningPage else { return }
+
+        if offset > 0 && offset > pageTurnCutOff {
+            guard provider.currentPage != 0 else { return }
+
+            self.isTurningPage = true
+            self.translation = .zero
+            self.activeIndex = self.activeIndex-1.clamped(to: 0...2)
+//            provider.willDisplay(page: self.activeIndex)
+        } else if offset < 0 && offset < -pageTurnCutOff {
+            guard provider.currentPage != provider.pageCount-1 else { return }
+
+            self.isTurningPage = true
+            self.translation = .zero
+            self.activeIndex = (self.activeIndex+1).clamped(to: 0...2)
+//            provider.willDisplay(page: self.activeIndex)
+        }
+    }
 
 }
 
 struct ElegantPagerView<Provider>: UIViewControllerRepresentable where Provider: ElegantPagerProvider {
 
-    typealias UIViewControllerType = ElegantPagerController
+    fileprivate typealias UIViewControllerType = ElegantPagerController
 
     // See https://stackoverflow.com/questions/58635048/in-a-uiviewcontrollerrepresentable-how-can-i-pass-an-observedobjects-value-to
     private let bugFix = UpdateUIViewControllerBugFixClass()
 
     @ObservedObject var provider: Provider
+//    @Binding var activeIndex: Int
 
     func makeUIViewController(context: Context) -> ElegantPagerController<Provider> {
         ElegantPagerController(provider: provider)
@@ -28,7 +99,7 @@ struct ElegantPagerView<Provider>: UIViewControllerRepresentable where Provider:
 
     func updateUIViewController(_ uiViewController: ElegantPagerController<Provider>, context: Context) {
         uiViewController.rearrange(provider: provider) {
-            self.provider.onRearrange()
+//            self.activeIndex = 1
         }
     }
 

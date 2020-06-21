@@ -27,13 +27,7 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var monthsList: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            ElegantPagerView(provider: calendarManager)
-                .frame(height: CalendarConstants.cellHeight*3)
-        }
-        .introspectScrollView { scrollView in
-            self.calendarManager.attach(to: scrollView, with: self.initialMonth)
-        }
+        ElegantPagedScrollView(provider: calendarManager)
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
