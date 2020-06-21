@@ -2,8 +2,6 @@
 
 import SwiftUI
 
-private class UpdateUIViewControllerBugFixClass { }
-
 protocol ElegantPagerProvider: ObservableObject {
 
     var currentPage: Int { get }
@@ -11,6 +9,19 @@ protocol ElegantPagerProvider: ObservableObject {
     func view(for page: Int) -> AnyView
 
     func willDisplay(page: Int)
+
+}
+
+private class UpdateUIViewControllerBugFixClass { }
+
+private enum ScrollDirection {
+
+    case up
+    case down
+
+    var additiveFactor: Int {
+        self == .up ? -1 : 1
+    }
 
 }
 
@@ -34,7 +45,7 @@ struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvid
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ElegantPagerView(provider: provider)
+            ElegantPagerView(provider: provider, activeIndex: $activeIndex)
                 .frame(height: screen.height*3)
         }
         .frame(height: screen.height, alignment: .top)
@@ -67,18 +78,20 @@ struct ElegantPagedScrollView<Provider>: View where Provider: ElegantPagerProvid
         if offset > 0 && offset > pageTurnCutOff {
             guard provider.currentPage != 0 else { return }
 
-            self.isTurningPage = true
-            self.translation = .zero
-            self.activeIndex = self.activeIndex-1.clamped(to: 0...2)
-//            provider.willDisplay(page: self.activeIndex)
+            scroll(direction: .up)
         } else if offset < 0 && offset < -pageTurnCutOff {
             guard provider.currentPage != provider.pageCount-1 else { return }
 
-            self.isTurningPage = true
-            self.translation = .zero
-            self.activeIndex = (self.activeIndex+1).clamped(to: 0...2)
-//            provider.willDisplay(page: self.activeIndex)
+            scroll(direction: .down)
         }
+    }
+
+    private func scroll(direction: ScrollDirection) {
+        isTurningPage = true // Prevents user drag from continuing
+        translation = .zero
+        activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
+
+        provider.willDisplay(page: activeIndex)
     }
 
 }
@@ -91,7 +104,7 @@ struct ElegantPagerView<Provider>: UIViewControllerRepresentable where Provider:
     private let bugFix = UpdateUIViewControllerBugFixClass()
 
     @ObservedObject var provider: Provider
-//    @Binding var activeIndex: Int
+    @Binding var activeIndex: Int
 
     func makeUIViewController(context: Context) -> ElegantPagerController<Provider> {
         ElegantPagerController(provider: provider)
@@ -99,7 +112,9 @@ struct ElegantPagerView<Provider>: UIViewControllerRepresentable where Provider:
 
     func updateUIViewController(_ uiViewController: ElegantPagerController<Provider>, context: Context) {
         uiViewController.rearrange(provider: provider) {
-//            self.activeIndex = 1
+            DispatchQueue.main.async {
+                self.activeIndex = 1 // resets view to center
+            }
         }
     }
 

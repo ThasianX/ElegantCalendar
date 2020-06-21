@@ -52,13 +52,11 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var backgroundColor: some View {
         Group {
-            if isDayWithinDateRange {
-                if isDayToday {
-                    Color.white
-                } else {
-                    themeColor
-                        .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
-                }
+            if isDayToday {
+                Color.white
+            } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
+                themeColor
+                    .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
             } else {
                 Color.clear
             }
