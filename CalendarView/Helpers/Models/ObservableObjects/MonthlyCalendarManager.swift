@@ -16,6 +16,7 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
         months[currentMonthIndex]
     }
 
+    // TODO: Definitely need to do a check to see if today is even a month within months. right now, the months view is showing the button even though today isn't part of it
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
 

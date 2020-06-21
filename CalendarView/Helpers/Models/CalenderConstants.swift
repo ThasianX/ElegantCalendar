@@ -27,7 +27,7 @@ struct CalendarConstants {
         }()
 
         static let scrollButtonTrailingPadding = horizontalPadding + dayWidth/2
-        static let scrollButtonOffset = topPadding - statusBarHeight+10
+        static let scrollButtonOffset = topPadding + 10
 
     }
 
