@@ -13,7 +13,7 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
     private var scrollTracker: YearlyCalendarScrollTracker!
 
-    init(configuration: CalendarConfiguration) {
+    init(configuration: CalendarConfiguration, initialYear: Date? = nil) {
         self.configuration = configuration
 
         years = configuration.calendar.generateDates(
@@ -21,7 +21,11 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
                                  end: configuration.endDate),
             matching: .firstDayOfEveryYear)
 
-        currentYear = years.first!
+        if let initialYear = initialYear {
+            currentYear = initialYear
+        } else {
+            currentYear = years.first!
+        }
     }
 }
 
@@ -31,6 +35,7 @@ extension YearlyCalendarManager {
         if scrollTracker == nil {
             scrollTracker = YearlyCalendarScrollTracker(delegate: self,
                                                         scrollView: scrollView.withPagination)
+            scrollToYear(currentYear) // accounts for initial year if any. TODO: Don't know why but this isn't working
         }
     }
 
@@ -38,16 +43,11 @@ extension YearlyCalendarManager {
         scrollToYear(Date())
     }
 
-    // TODO: Fix later
     func scrollToYear(_ year: Date) {
-        let startOfYearForStartDate = calendar.startOfYear(for: startDate)
-        let startOfYearForToBeCurrentYear = calendar.startOfYear(for: year)
-        let yearsInBetween = calendar.dateComponents([.year],
-                                                                    from: startOfYearForStartDate,
-                                                                    to: startOfYearForToBeCurrentYear).year!
-//        if yearsInBetween !=ee 0 {
-//            scrollTracker.scroll(to: yearsInBetween)
-//        }
+        if !calendar.isDate(currentYear, equalTo: year, toGranularity: .year) {
+            let page = calendar.yearsBetween(startDate, and: year)
+            scrollTracker.scroll(to: page)
+        }
     }
 
     func monthTapped(_ month: Date) {
@@ -90,6 +90,18 @@ extension YearlyCalendarManagerDirectAccess {
 
     var years: [Date] {
         calendarManager.years
+    }
+
+}
+
+private extension Calendar {
+
+    func yearsBetween(_ date1: Date, and date2: Date) -> Int {
+        let startOfYearForDate1 = startOfYear(for: date1)
+        let startOfYearForDate2 = startOfYear(for: date2)
+        return dateComponents([.year],
+                              from: startOfYearForDate1,
+                              to: startOfYearForDate2).year!
     }
 
 }

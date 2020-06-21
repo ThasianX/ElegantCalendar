@@ -7,18 +7,25 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
     @EnvironmentObject var calendarManager: YearlyCalendarManager
 
+    private var isTodayWithinDateRange: Bool {
+        Date() >= startDate && Date() <= endDate
+    }
+
     private var isCurrentYearSameAsTodayYear: Bool {
         calendar.isDate(currentYear, equalTo: Date(), toGranularities: [.year])
     }
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            yearsList
-            scrollBackToTodayButton
-                .padding(.trailing, CalendarConstants.Yearly.scrollButtonTrailingPadding)
-                .offset(y: CalendarConstants.Yearly.scrollButtonOffset)
-                .opacity(isCurrentYearSameAsTodayYear ? 0 : 1)
-                .animation(.easeInOut)
+            yearsList // TODO: Fix the cells in scrollview. they are being offset or wrong size or something
+                .zIndex(0)
+            if isTodayWithinDateRange && !isCurrentYearSameAsTodayYear {
+                scrollBackToTodayButton
+                    .padding(.trailing, CalendarConstants.horizontalPadding)
+                    .offset(y: CalendarConstants.Yearly.topPadding)
+                    .transition(.opacity)
+                    .zIndex(1)
+            }
         }
     }
 
