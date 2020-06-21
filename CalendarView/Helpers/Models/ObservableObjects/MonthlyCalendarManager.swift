@@ -4,21 +4,16 @@ import SwiftUI
 
 class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
-    @Published var currentMonthIndex: Int = 0
+    @Published public private(set) var currentMonth: Date
     @Published public var selectedDate: Date? = nil
 
-    private var animateMonthChange = false
+    let pagerManager: ElegantPagerManager
 
     weak var parent: ElegantCalendarManager?
 
-    let configuration: CalendarConfiguration
+    public let configuration: CalendarConfiguration
     let months: [Date]
 
-    public var currentMonth: Date {
-        months[currentMonthIndex]
-    }
-
-    // TODO: Definitely need to do a check to see if today is even a month within months. right now, the months view is showing the button even though today isn't part of it
     init(configuration: CalendarConfiguration) {
         self.configuration = configuration
 
@@ -26,53 +21,17 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
             inside: DateInterval(start: configuration.startDate,
                                  end: configuration.endDate),
             matching: .firstDayOfEveryMonth)
+
+        currentMonth = months.first!
+
+        pagerManager = .init(pageCount: months.count)
+        pagerManager.datasource = self
+        pagerManager.delegate = self
     }
 
 }
 
-extension MonthlyCalendarManager: ListPaginationDelegate {
-
-    func willDisplay(page: Int) {
-        animateMonthChange = false
-
-        if page == 1 {
-            if currentMonthIndex == 0 {
-                // just scrolled from first page to second page
-                currentMonthIndex += 1
-            } else if currentMonthIndex == months.count-1 {
-                // just scrolled from last page to second to last page
-                currentMonthIndex -= 1
-            } else {
-                return
-            }
-        } else {
-            if page == 0 {
-                guard currentMonthIndex != 0 else { return }
-                // case where you're on the first page and you drag and stay on the first page
-                currentMonthIndex -= 1
-            } else if page == 2 {
-                guard currentMonthIndex != months.count-1 else { return }
-                // case where you're on the first page and you drag and stay on the first page
-                currentMonthIndex += 1
-            }
-        }
-
-        selectedDate = nil
-
-        parent?.willDisplay(month: currentMonth)
-    }
-
-}
-
-extension MonthlyCalendarManager: ElegantPagerProvider {
-
-    var currentPage: (index: Int, animated: Bool) {
-        (currentMonthIndex, animateMonthChange)
-    }
-
-    var pageCount: Int {
-        months.count
-    }
+extension MonthlyCalendarManager: ElegantPagerDataSource {
 
     func view(for page: Int) -> AnyView {
         MonthView(month: months[page])
@@ -82,9 +41,22 @@ extension MonthlyCalendarManager: ElegantPagerProvider {
 
 }
 
+extension MonthlyCalendarManager: ElegantPagerDelegate {
+
+    func willDisplay(page: Int) {
+        if months[page] != currentMonth {
+            currentMonth = months[page]
+            selectedDate = nil
+
+            parent?.willDisplay(month: currentMonth)
+        }
+    }
+
+}
+
 extension MonthlyCalendarManager {
 
-    func scrollBackToToday() {
+    public func scrollBackToToday() {
         scrollToMonth(Date())
         dayTapped(day: Date())
     }
@@ -101,8 +73,7 @@ extension MonthlyCalendarManager {
                                                                     from: startOfMonthForStartDate,
                                                                     to: startOfMonthForToBeCurrentMonth).month!
 
-        animateMonthChange = true
-        currentMonthIndex = monthsInBetween
+        pagerManager.scroll(to: monthsInBetween)
     }
 
 }
