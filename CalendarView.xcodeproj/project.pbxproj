@@ -44,7 +44,6 @@
 		1EDC9A832495BFFC00A78BFA /* SmallMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC9A822495BFFC00A78BFA /* SmallMonthView.swift */; };
 		1EDC9A852495C06400A78BFA /* SmallWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC9A842495C06400A78BFA /* SmallWeekView.swift */; };
 		1EDC9A872495C0AB00A78BFA /* SmallDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC9A862495C0AB00A78BFA /* SmallDayView.swift */; };
-		1EDC9A892495C37100A78BFA /* UITableView+Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDC9A882495C37100A78BFA /* UITableView+Pagination.swift */; };
 		1EEA23982497111B00677B07 /* ScrollBackToTodayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */; };
 		1EEA239A249734FA00677B07 /* UIScrollView+Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA2399249734FA00677B07 /* UIScrollView+Pagination.swift */; };
 		1EEA239C2497353B00677B07 /* YearlyCalendarScrollTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA239B2497353B00677B07 /* YearlyCalendarScrollTracker.swift */; };
@@ -93,7 +92,6 @@
 		1EDC9A822495BFFC00A78BFA /* SmallMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallMonthView.swift; sourceTree = "<group>"; };
 		1EDC9A842495C06400A78BFA /* SmallWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWeekView.swift; sourceTree = "<group>"; };
 		1EDC9A862495C0AB00A78BFA /* SmallDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallDayView.swift; sourceTree = "<group>"; };
-		1EDC9A882495C37100A78BFA /* UITableView+Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Pagination.swift"; sourceTree = "<group>"; };
 		1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBackToTodayButton.swift; sourceTree = "<group>"; };
 		1EEA2399249734FA00677B07 /* UIScrollView+Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Pagination.swift"; sourceTree = "<group>"; };
 		1EEA239B2497353B00677B07 /* YearlyCalendarScrollTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyCalendarScrollTracker.swift; sourceTree = "<group>"; };
@@ -134,7 +132,6 @@
 				1E71D77D248C83DC003A3B0B /* Date+toString.swift */,
 				1E744D9A2495755E00C8B7E0 /* Enumeration+Matching.swift */,
 				1EEA2399249734FA00677B07 /* UIScrollView+Pagination.swift */,
-				1EDC9A882495C37100A78BFA /* UITableView+Pagination.swift */,
 				1E912CFD2495ABE100AFCD4C /* View+Erased.swift */,
 			);
 			path = Extensions;
@@ -357,7 +354,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E71D782248CB7F2003A3B0B /* CalendarConfiguration.swift in Sources */,
-				1EDC9A892495C37100A78BFA /* UITableView+Pagination.swift in Sources */,
 				1E71D78A248CC0F3003A3B0B /* DayView.swift in Sources */,
 				1E71D77E248C83DD003A3B0B /* Date+toString.swift in Sources */,
 				1E744D9724956F7400C8B7E0 /* Visit.swift in Sources */,
