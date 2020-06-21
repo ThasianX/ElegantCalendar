@@ -6,12 +6,12 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
     @Published var currentYear: Date
 
+    let pagerManager: ElegantPagerManager
+
     weak var parent: ElegantCalendarManager?
 
     let configuration: CalendarConfiguration
     let years: [Date]
-
-    private var scrollTracker: YearlyCalendarScrollTracker!
 
     init(configuration: CalendarConfiguration, initialYear: Date? = nil) {
         self.configuration = configuration
@@ -21,25 +21,40 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
                                  end: configuration.endDate),
             matching: .firstDayOfEveryYear)
 
+        var startingPage: Int = 0
         if let initialYear = initialYear {
-            currentYear = initialYear
-        } else {
-            currentYear = years.first!
+            startingPage = configuration.calendar.yearsBetween(configuration.startDate, and: initialYear)
         }
+
+        currentYear = years[startingPage]
+
+        pagerManager = .init(startingPage: startingPage, pageCount: years.count)
+        pagerManager.datasource = self
+        pagerManager.delegate = self
     }
 }
 
-extension YearlyCalendarManager {
+extension YearlyCalendarManager: ElegantPagerDataSource {
 
-    func attach(toSmallCalendar scrollView: UIScrollView) {
-        if scrollTracker == nil {
-            scrollTracker = YearlyCalendarScrollTracker(delegate: self,
-                                                        scrollView: scrollView.withPagination)
+    func view(for page: Int) -> AnyView {
+        YearView(year: years[page])
+            .environmentObject(self)
+            .erased
+    }
 
-            let page = calendar.yearsBetween(startDate, and: currentYear)
-            scrollTracker.scroll(to: page) // scroll to initial year
+}
+
+extension YearlyCalendarManager: ElegantPagerDelegate {
+
+    func willDisplay(page: Int) {
+        if currentYear != years[page] {
+            currentYear = years[page]
         }
     }
+
+}
+
+extension YearlyCalendarManager {
 
     func scrollBackToToday() {
         scrollToYear(Date())
@@ -48,22 +63,12 @@ extension YearlyCalendarManager {
     func scrollToYear(_ year: Date) {
         if !calendar.isDate(currentYear, equalTo: year, toGranularity: .year) {
             let page = calendar.yearsBetween(startDate, and: year)
-            scrollTracker.scroll(to: page)
+            pagerManager.scroll(to: page)
         }
     }
 
     func monthTapped(_ month: Date) {
         parent?.scrollToMonthAndShowMonthlyView(month)
-    }
-
-}
-
-extension YearlyCalendarManager: ListPaginationDelegate {
-
-    func willDisplay(page: Int) {
-        if currentYear != years[page] {
-            currentYear = years[page]
-        }
     }
 
 }

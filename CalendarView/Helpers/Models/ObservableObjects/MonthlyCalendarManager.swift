@@ -53,7 +53,7 @@ extension MonthlyCalendarManager: ElegantPagerDelegate {
             currentMonth = months[page]
             selectedDate = nil
 
-            parent?.willDisplay(month: currentMonth)
+            delegate?.elegantCalendar(willDisplay: currentMonth)
         }
     }
 
