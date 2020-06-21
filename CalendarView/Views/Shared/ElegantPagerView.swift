@@ -43,7 +43,7 @@ class ElegantPagerManager: ObservableObject {
         if startingPage == 0 {
             activeIndex = 0
         } else if startingPage == pageCount-1 {
-            activeIndex = 2
+            activeIndex = 2.clamped(to: 0...pageCount-1)
         } else {
             activeIndex = 1
         }
