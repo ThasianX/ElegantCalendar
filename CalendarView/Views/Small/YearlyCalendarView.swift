@@ -30,12 +30,7 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private var yearsList: some View {
-        ScrollView(.vertical) {
-            ForEach(years, id: \.self) { year in
-                YearView(year: year)
-            }
-        }
-        .introspectScrollView(customize: calendarManager.attach)
+        ElegantPagedScrollView(pagerManager: calendarManager.pagerManager)
     }
 
     private var scrollBackToTodayButton: some View {

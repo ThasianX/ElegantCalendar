@@ -96,19 +96,19 @@ extension ElegantCalendarManager {
         withAnimation(CalendarConstants.calendarTurnAnimation) {
             pagerState.activeIndex = 1
         }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
             self.scrollToMonth(month)
         }
     }
 
-    func willDisplay(month: Date) {
-        delegate?.elegantCalendar(willDisplay: currentMonth)
-        yearlyManager.scrollToYear(month)
-    }
-
     func showYearlyView() {
         withAnimation(CalendarConstants.calendarTurnAnimation) {
             pagerState.activeIndex = 0
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            self.yearlyManager.scrollToYear(self.currentMonth)
         }
     }
 
