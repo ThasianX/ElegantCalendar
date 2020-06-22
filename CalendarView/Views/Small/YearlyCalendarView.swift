@@ -32,8 +32,8 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     private var yearsList: some View {
         YearlyCalendarScrollView {
             ForEach(self.years, id: \.self) { year in
-                // TODO: Find a better way to propogate down the calendar accessible
-                YearView(calendarAccessible: self.calendarManager, year: year)
+                YearView(year: year)
+                    .environment(\.yearlyCalendar, self.calendarManager)
             }
         }
     }

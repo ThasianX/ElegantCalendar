@@ -2,28 +2,6 @@
 
 import SwiftUI
 
-protocol YearlyCalendarAccessible {
-
-    var configuration: CalendarConfiguration { get }
-    func monthTapped(_ month: Date)
-
-}
-
-protocol YearlyCalendarAccessibleDirectAccess: ConfigurationDirectAccess {
-
-    var calendarAccessible: YearlyCalendarAccessible { get }
-    var configuration: CalendarConfiguration { get }
-
-}
-
-extension YearlyCalendarAccessibleDirectAccess {
-
-    var configuration: CalendarConfiguration {
-        calendarAccessible.configuration
-    }
-
-}
-
 class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
     @Published var currentPage: Int = 0

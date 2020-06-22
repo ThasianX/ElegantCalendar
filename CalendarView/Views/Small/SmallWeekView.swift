@@ -4,7 +4,7 @@ import SwiftUI
 
 struct SmallWeekView: View, YearlyCalendarAccessibleDirectAccess {
 
-    let calendarAccessible: YearlyCalendarAccessible
+    @Environment(\.yearlyCalendar) var calendarAccessible: YearlyCalendarAccessible
 
     let week: Date
 
@@ -20,7 +20,7 @@ struct SmallWeekView: View, YearlyCalendarAccessibleDirectAccess {
     var body: some View {
         HStack(spacing: CalendarConstants.Yearly.daysGridHorizontalSpacing) {
             ForEach(days, id: \.self) { day in
-                SmallDayView(calendarAccessible: self.calendarAccessible, week: self.week, day: day)
+                SmallDayView(week: self.week, day: day)
             }
         }
     }
