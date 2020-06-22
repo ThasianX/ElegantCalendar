@@ -49,7 +49,7 @@ extension EarlyCutOffConfiguration {
     static let `default` = EarlyCutOffConfiguration(
         scrollResistanceCutOff: 40,
         pageTurnCutOff: 80,
-        pageTurnAnimation: .interactiveSpring(response: 0.25, dampingFraction: 0.86, blendDuration: 0.25))
+        pageTurnAnimation: .spring(response: 0.4, dampingFraction: 0.95))
 
 }
 
