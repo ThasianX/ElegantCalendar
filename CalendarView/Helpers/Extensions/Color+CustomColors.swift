@@ -5,6 +5,5 @@ import SwiftUI
 extension Color {
     
     static let blackPearl = Color("blackPearl")
-    static let blackPearlComplement = Color("blackPearlComplement")
     
 }

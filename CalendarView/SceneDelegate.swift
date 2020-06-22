@@ -21,7 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
                                            end: .daysFromToday(30*36))))
             self.window = window
-            window.overrideUserInterfaceStyle = .dark
             window.makeKeyAndVisible()
         }
     }

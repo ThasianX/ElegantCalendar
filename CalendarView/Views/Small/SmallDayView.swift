@@ -24,9 +24,9 @@ struct SmallDayView: View, YearlyCalendarAccessibleDirectAccess {
     var body: some View {
         Text(numericDay)
             .font(.system(size: 8))
-            .foregroundColor(isDayToday ? .black : .white)
+            .foregroundColor(isDayToday ? .systemBackground : .primary)
             .frame(width: CalendarConstants.Yearly.dayWidth, height: CalendarConstants.Yearly.dayWidth)
-            .background(isDayToday ? Circle().fill(Color.white) : nil)
+            .background(isDayToday ? Circle().fill(Color.primary) : nil)
             .opacity(isDayWithinDateRange && isDayWithinWeekMonthAndYear ? 1 : 0)
     }
 
