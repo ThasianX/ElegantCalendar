@@ -28,7 +28,9 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
         currentYear = years[startingPage]
 
-        pagerManager = .init(startingPage: startingPage, pageCount: years.count)
+        pagerManager = .init(startingPage: startingPage,
+                             configuration: .init(pageCount: years.count,
+                                                  pageTurnType: .regular))
         pagerManager.datasource = self
         pagerManager.delegate = self
     }

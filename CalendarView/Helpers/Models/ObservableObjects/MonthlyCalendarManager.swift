@@ -29,7 +29,9 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
 
         currentMonth = months[startingPage]
 
-        pagerManager = .init(startingPage: startingPage, pageCount: months.count)
+        pagerManager = .init(startingPage: startingPage,
+                             configuration: .init(pageCount: months.count,
+                                                  pageTurnType: .earlyCutoff(.default)))
         pagerManager.datasource = self
         pagerManager.delegate = self
     }
