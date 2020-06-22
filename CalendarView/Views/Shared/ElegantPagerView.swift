@@ -221,9 +221,14 @@ struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
         }
         .frame(height: screen.height, alignment: .top)
         .offset(y: currentScrollOffset)
-        .gesture(
-            DragGesture(minimumDistance: 1, coordinateSpace: .local)
+        .simultaneousGesture(
+            DragGesture()
                 .onChanged { value in
+                    if abs(value.translation.width) > abs(value.translation.height) {
+                        self.translation = .zero
+                        return
+                    }
+
                     withAnimation(self.pageTurnAnimation) {
                         self.translation = self.translationForOffset(value.translation.height)
                         self.turnPageIfNeededForChangingOffset(value.translation.height)

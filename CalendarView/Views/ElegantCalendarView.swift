@@ -33,9 +33,14 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
         pagerHorizontalStack
             .frame(width: pagerWidth, alignment: .leading)
             .offset(x: currentScrollOffset)
-            .gesture( // TODO: Fix this gesture from interfering with existing list gestures
-                DragGesture(minimumDistance: 1, coordinateSpace: .local)
+            .simultaneousGesture(
+                DragGesture()
                     .onChanged { value in
+                        if abs(value.translation.height) > abs(value.translation.width) {
+                            self.pagerState.translation = .zero
+                            return
+                        }
+                        
                         withAnimation(CalendarConstants.calendarTurnAnimation) {
                             self.pagerState.translation = self.resistanceTranslationForOffset(value.translation.width)
                             self.turnPageIfNeededForOffset(value.translation.width)
