@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
+struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
 
-    @EnvironmentObject var calendarManager: YearlyCalendarManager
+    let calendarAccessible: YearlyCalendarAccessible
 
     let month: Date
 
@@ -50,7 +50,7 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
     private var weeksViewStack: some View {
         VStack(spacing: CalendarConstants.Yearly.daysGridVerticalSpacing) {
             ForEach(weeks, id: \.self) { week in
-                SmallWeekView(week: week)
+                SmallWeekView(calendarAccessible: self.calendarAccessible, week: week)
             }
             if weeks.count == 5 {
                 Spacer()
@@ -59,25 +59,26 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private func currentMonthSelected() {
-        calendarManager.monthTapped(month)
+        calendarAccessible.monthTapped(month)
     }
 
 }
 
-struct SmallMonthView_Previews: PreviewProvider {
-    static var previews: some View {
-        YearlyCalendarManagerGroup {
-            DarkThemePreview {
-                SmallMonthView(month: Date())
-            }
-
-            DarkThemePreview {
-                SmallMonthView(month: .daysFromToday(45))
-            }
-
-            DarkThemePreview {
-                SmallMonthView(month: .daysFromToday(-30))
-            }
-        }
-    }
-}
+// TODO
+//struct SmallMonthView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        YearlyCalendarManagerGroup {
+//            DarkThemePreview {
+//                SmallMonthView(month: Date())
+//            }
+//
+//            DarkThemePreview {
+//                SmallMonthView(month: .daysFromToday(45))
+//            }
+//
+//            DarkThemePreview {
+//                SmallMonthView(month: .daysFromToday(-30))
+//            }
+//        }
+//    }
+//}

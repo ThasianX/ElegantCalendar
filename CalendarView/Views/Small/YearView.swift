@@ -2,23 +2,26 @@
 
 import SwiftUI
 
-struct YearView: View, YearlyCalendarManagerDirectAccess {
+struct YearView: View, YearlyCalendarAccessibleDirectAccess {
 
-    @EnvironmentObject var calendarManager: YearlyCalendarManager
-    
+    let calendarAccessible: YearlyCalendarAccessible
     let year: Date
 
-    private var months: [Date] {
-        guard let yearInterval = calendar.dateInterval(of: .year, for: year) else {
-            return []
-        }
-        return calendar.generateDates(
-            inside: yearInterval,
-            matching: .firstDayOfEveryMonth)
-    }
+    var months = [Date]()
 
     private var isYearSameAsTodayYear: Bool {
         calendar.isDate(year, equalTo: Date(), toGranularities: [.year])
+    }
+
+    init(calendarAccessible: YearlyCalendarAccessible, year: Date) {
+        self.calendarAccessible = calendarAccessible
+        self.year = year
+
+        if let yearInterval = calendar.dateInterval(of: .year, for: year) {
+            months = calendar.generateDates(
+                inside: yearInterval,
+                matching: .firstDayOfEveryMonth)
+        }
     }
 
     var body: some View {
@@ -42,8 +45,7 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
             ForEach(0..<CalendarConstants.Yearly.monthsInColumn, id: \.self) { row in
                 HStack(spacing: CalendarConstants.Yearly.monthsGridSpacing) {
                     ForEach(0..<CalendarConstants.Yearly.monthsInRow, id: \.self) { col in
-                        SmallMonthView(month: self.month(at: row, col: col))
-                            .listRowInsets(EdgeInsets())
+                        SmallMonthView(calendarAccessible: self.calendarAccessible, month: self.month(at: row, col: col))
                     }
                 }
             }
@@ -56,17 +58,18 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
     
 }
 
-struct YearView_Previews: PreviewProvider {
-    static var previews: some View {
-        YearlyCalendarManagerGroup {
-            DarkThemePreview {
-                YearView(year: Date())
-            }
-
-            DarkThemePreview {
-                YearView(year: .daysFromToday(365*3))
-            }
-        }
-
-    }
-}
+// TODO
+//struct YearView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        YearlyCalendarManagerGroup {
+//            DarkThemePreview {
+//                YearView(year: Date())
+//            }
+//
+//            DarkThemePreview {
+//                YearView(year: .daysFromToday(365*3))
+//            }
+//        }
+//
+//    }
+//}

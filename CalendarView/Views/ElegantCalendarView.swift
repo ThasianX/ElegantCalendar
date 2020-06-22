@@ -52,9 +52,11 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
     private var pagerHorizontalStack: some View {
         HStack(alignment: .center, spacing: 0) {
             yearlyCalendarView
-                .frame(width: CalendarConstants.cellWidth)
+                .frame(width: CalendarConstants.cellWidth,
+                       height: CalendarConstants.cellHeight)
             monthlyCalendarView
-                .frame(width: CalendarConstants.cellWidth)
+                .frame(width: CalendarConstants.cellWidth,
+                       height: CalendarConstants.cellHeight)
         }
     }
 
