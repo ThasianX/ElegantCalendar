@@ -25,6 +25,8 @@ extension CalendarConfiguration {
         endDate: .daysFromToday(365*3),
         themeColor: .blackPearl)
 
+    static let stub = CalendarConfiguration(startDate: Date(), endDate: Date(), themeColor: .clear)
+
 }
 
 protocol ConfigurationDirectAccess {

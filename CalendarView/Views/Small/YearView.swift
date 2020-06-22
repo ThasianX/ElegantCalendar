@@ -4,24 +4,12 @@ import SwiftUI
 
 struct YearView: View, YearlyCalendarAccessibleDirectAccess {
 
-    let calendarAccessible: YearlyCalendarAccessible
-    let year: Date
+    @Environment(\.yearlyCalendar) var calendarAccessible: YearlyCalendarAccessible
 
-    var months = [Date]()
+    let year: Date
 
     private var isYearSameAsTodayYear: Bool {
         calendar.isDate(year, equalTo: Date(), toGranularities: [.year])
-    }
-
-    init(calendarAccessible: YearlyCalendarAccessible, year: Date) {
-        self.calendarAccessible = calendarAccessible
-        self.year = year
-
-        if let yearInterval = calendar.dateInterval(of: .year, for: year) {
-            months = calendar.generateDates(
-                inside: yearInterval,
-                matching: .firstDayOfEveryMonth)
-        }
     }
 
     var body: some View {
@@ -41,19 +29,24 @@ struct YearView: View, YearlyCalendarAccessibleDirectAccess {
     }
 
     private var monthsStack: some View {
-        VStack(spacing: CalendarConstants.Yearly.monthsGridSpacing) {
+        let months: [Date]
+        if let yearInterval = calendar.dateInterval(of: .year, for: year) {
+            months = calendar.generateDates(
+                inside: yearInterval,
+                matching: .firstDayOfEveryMonth)
+        } else {
+            months = []
+        }
+
+        return VStack(spacing: CalendarConstants.Yearly.monthsGridSpacing) {
             ForEach(0..<CalendarConstants.Yearly.monthsInColumn, id: \.self) { row in
                 HStack(spacing: CalendarConstants.Yearly.monthsGridSpacing) {
                     ForEach(0..<CalendarConstants.Yearly.monthsInRow, id: \.self) { col in
-                        SmallMonthView(calendarAccessible: self.calendarAccessible, month: self.month(at: row, col: col))
+                        SmallMonthView(month: months[row*CalendarConstants.Yearly.monthsInRow + col])
                     }
                 }
             }
         }
-    }
-
-    private func month(at row: Int, col: Int) -> Date {
-        months[row*CalendarConstants.Yearly.monthsInRow + col]
     }
     
 }

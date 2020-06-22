@@ -4,7 +4,7 @@ import SwiftUI
 
 struct SmallDayView: View, YearlyCalendarAccessibleDirectAccess {
 
-    let calendarAccessible: YearlyCalendarAccessible
+    @Environment(\.yearlyCalendar) var calendarAccessible: YearlyCalendarAccessible
 
     let week: Date
     let day: Date

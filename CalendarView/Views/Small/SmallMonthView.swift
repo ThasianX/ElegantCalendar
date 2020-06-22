@@ -4,7 +4,7 @@ import SwiftUI
 
 struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
 
-    let calendarAccessible: YearlyCalendarAccessible
+    @Environment(\.yearlyCalendar) var calendarAccessible: YearlyCalendarAccessible
 
     let month: Date
 
@@ -50,7 +50,7 @@ struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
     private var weeksViewStack: some View {
         VStack(spacing: CalendarConstants.Yearly.daysGridVerticalSpacing) {
             ForEach(weeks, id: \.self) { week in
-                SmallWeekView(calendarAccessible: self.calendarAccessible, week: week)
+                SmallWeekView(week: week)
             }
             if weeks.count == 5 {
                 Spacer()
