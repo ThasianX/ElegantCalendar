@@ -64,7 +64,7 @@ private extension MonthView {
             .font(.title)
             .bold()
             .tracking(6)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .white)
+            .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .primary)
     }
 
     var yearText: some View {
@@ -173,7 +173,6 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
         }
 
         return Text(monthDayText.uppercased())
-            .foregroundColor(.white)
             .font(.subheadline)
             .bold()
     }

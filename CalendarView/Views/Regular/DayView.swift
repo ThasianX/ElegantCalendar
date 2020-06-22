@@ -2,6 +2,22 @@
 
 import SwiftUI
 
+public extension Color {
+    static let lightText = Color(UIColor.lightText)
+    static let darkText = Color(UIColor.darkText)
+
+    static let label = Color(UIColor.label)
+    static let secondaryLabel = Color(UIColor.secondaryLabel)
+    static let tertiaryLabel = Color(UIColor.tertiaryLabel)
+    static let quaternaryLabel = Color(UIColor.quaternaryLabel)
+
+    static let systemBackground = Color(UIColor.systemBackground)
+    static let secondarySystemBackground = Color(UIColor.secondarySystemBackground)
+    static let tertiarySystemBackground = Color(UIColor.tertiarySystemBackground)
+
+    // There are more..
+}
+
 struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     @EnvironmentObject var calendarManager: MonthlyCalendarManager
@@ -44,16 +60,16 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var foregroundColor: Color {
         if isDayToday {
-            return .black
+            return .systemBackground
         } else {
-            return .white
+            return .primary
         }
     }
 
     private var backgroundColor: some View {
         Group {
             if isDayToday {
-                Color.white
+                Color.primary
             } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
                 themeColor
                     .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
@@ -81,7 +97,7 @@ private struct CircularSelectionView: View {
 
     var body: some View {
         Circle()
-            .stroke(Color.white, lineWidth: 2)
+            .stroke(Color.primary, lineWidth: 2)
             .frame(width: radius, height: radius)
             .opacity(startBounce ? 1 : 0)
             .animation(.interpolatingSpring(stiffness: 150, damping: 10))
