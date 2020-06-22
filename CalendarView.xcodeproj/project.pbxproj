@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,7 +14,6 @@
 		1E31EB2E24A127CC00BACCDD /* EnvironmentKey+YearlyCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31EB2D24A127CC00BACCDD /* EnvironmentKey+YearlyCalendar.swift */; };
 		1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35EA21248D62D4003C584D /* CalenderConstants.swift */; };
 		1E35EA26248D674C003C584D /* DarkThemePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E35EA25248D674C003C584D /* DarkThemePreview.swift */; };
-		1E35EA29248D70FD003C584D /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 1E35EA28248D70FD003C584D /* Introspect */; };
 		1E40D947248C7823005ECA82 /* ElegantCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40D946248C7823005ECA82 /* ElegantCalendarView.swift */; };
 		1E40D94B248C7A00005ECA82 /* Color+CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E40D94A248C7A00005ECA82 /* Color+CustomColors.swift */; };
 		1E71D77E248C83DD003A3B0B /* Date+toString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E71D77D248C83DC003A3B0B /* Date+toString.swift */; };
@@ -104,7 +103,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E35EA29248D70FD003C584D /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +288,6 @@
 			);
 			name = CalendarView;
 			packageProductDependencies = (
-				1E35EA28248D70FD003C584D /* Introspect */,
 			);
 			productName = CalendarView;
 			productReference = 1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */;
@@ -321,7 +318,6 @@
 			);
 			mainGroup = 1EC3BC91248C749C0052C61B;
 			packageReferences = (
-				1E35EA27248D70FD003C584D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 1EC3BC9B248C749C0052C61B /* Products */;
 			projectDirPath = "";
@@ -584,25 +580,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		1E35EA27248D70FD003C584D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		1E35EA28248D70FD003C584D /* Introspect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1E35EA27248D70FD003C584D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1EC3BC92248C749C0052C61B /* Project object */;
 }
