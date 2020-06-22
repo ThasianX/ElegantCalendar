@@ -17,9 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(
-                rootView: ExampleCalendarView(
-                    ascVisits: Visit.mocks(start: .daysFromToday(-30*13),
-                                           end: .daysFromToday(30*12))))
+                rootView: ExampleYearlyCalendarView(
+                    ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
+                                           end: .daysFromToday(30*36))))
             self.window = window
             window.overrideUserInterfaceStyle = .dark
             window.makeKeyAndVisible()

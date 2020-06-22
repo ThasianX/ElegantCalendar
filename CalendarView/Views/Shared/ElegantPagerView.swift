@@ -22,28 +22,86 @@ enum PageState {
 
 }
 
-class ElegantPagerManager: ObservableObject {
+struct ElegantPagerConfiguration {
+
+    let pageCount: Int
+    let pageTurnType: ElegantPageTurnType
+
+}
+
+enum ElegantPageTurnType {
+
+    case regular
+    case earlyCutoff(EarlyCutOffConfiguration)
+
+}
+
+struct EarlyCutOffConfiguration {
+
+    let scrollResistanceCutOff: CGFloat
+    let pageTurnCutOff: CGFloat
+    let pageTurnAnimation: Animation
+
+}
+
+extension EarlyCutOffConfiguration {
+
+    static let `default` = EarlyCutOffConfiguration(
+        scrollResistanceCutOff: 40,
+        pageTurnCutOff: 80,
+        pageTurnAnimation: .interactiveSpring(response: 0.25, dampingFraction: 0.86, blendDuration: 0.25))
+
+}
+
+protocol ElegantPagerConfigurationDirectAccess {
+
+    var configuration: ElegantPagerConfiguration { get }
+
+}
+
+extension ElegantPagerConfigurationDirectAccess {
+
+    var pageCount: Int {
+        configuration.pageCount
+    }
+
+    var pageTurnType: ElegantPageTurnType {
+        configuration.pageTurnType
+    }
+
+    var pageTurnAnimation: Animation {
+        switch pageTurnType {
+        case .regular:
+            return .easeInOut
+        case let .earlyCutoff(config):
+            return config.pageTurnAnimation
+        }
+    }
+
+}
+
+class ElegantPagerManager: ObservableObject, ElegantPagerConfigurationDirectAccess {
 
     @Published var currentPage: (index: Int, state: PageState)
     @Published var activeIndex: Int
 
-    let pageCount: Int
+    let configuration: ElegantPagerConfiguration
     let pagerHeight: CGFloat
 
     var datasource: ElegantPagerDataSource!
     var delegate: ElegantPagerDelegate?
 
-    init(startingPage: Int = 0, pageCount: Int) {
-        guard pageCount > 0 else { fatalError("Error: pages must exist") }
+    init(startingPage: Int = 0, configuration: ElegantPagerConfiguration) {
+        guard configuration.pageCount > 0 else { fatalError("Error: pages must exist") }
 
         currentPage = (startingPage, .completed)
-        self.pageCount = pageCount
-        pagerHeight = screen.height * CGFloat(pageCount.clamped(to: 1...3))
+        self.configuration = configuration
+        pagerHeight = screen.height * CGFloat(configuration.pageCount.clamped(to: 1...3))
 
         if startingPage == 0 {
             activeIndex = 0
-        } else if startingPage == pageCount-1 {
-            activeIndex = 2.clamped(to: 0...pageCount-1)
+        } else if startingPage == configuration.pageCount-1 {
+            activeIndex = 2.clamped(to: 0...configuration.pageCount-1)
         } else {
             activeIndex = 1
         }
@@ -53,10 +111,10 @@ class ElegantPagerManager: ObservableObject {
         currentPage = (page, .scroll)
     }
 
-    func setUserDraggedPage(_ page: Int) {
+    func setCurrentPageToBeRearranged() {
         var currentIndex = currentPage.index
 
-        if page == 1 {
+        if activeIndex == 1 {
             if currentIndex == 0 {
                 // just scrolled from first page to second page
                 currentIndex += 1
@@ -67,11 +125,11 @@ class ElegantPagerManager: ObservableObject {
                 return
             }
         } else {
-            if page == 0 {
+            if activeIndex == 0 {
                 guard currentIndex != 0 else { return }
                 // case where you're on the first page and you drag and stay on the first page
                 currentIndex -= 1
-            } else if page == 2 {
+            } else if activeIndex == 2 {
                 guard currentIndex != pageCount-1 else { return }
                 // case where you're on the first page and you drag and stay on the first page
                 currentIndex += 1
@@ -101,9 +159,10 @@ private extension ElegantPagerManager {
 
 }
 
-protocol ElegantPagerManagerDirectAccess {
+protocol ElegantPagerManagerDirectAccess: ElegantPagerConfigurationDirectAccess {
 
     var pagerManager: ElegantPagerManager { get }
+    var configuration: ElegantPagerConfiguration { get }
 
 }
 
@@ -121,6 +180,10 @@ extension ElegantPagerManagerDirectAccess {
         pagerManager.activeIndex
     }
 
+    var configuration: ElegantPagerConfiguration {
+        pagerManager.configuration
+    }
+
 }
 
 private class UpdateUIViewControllerBugFixClass { }
@@ -135,10 +198,6 @@ private enum ScrollDirection {
     }
 
 }
-
-fileprivate let scrollResistanceCutOff: CGFloat = 40
-fileprivate let pageTurnCutOff: CGFloat = 80
-fileprivate let pageTurnAnimation: Animation = .interactiveSpring(response: 0.25, dampingFraction: 0.86, blendDuration: 0.25)
 
 struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
 
@@ -165,45 +224,69 @@ struct ElegantPagedScrollView: View, ElegantPagerManagerDirectAccess {
         .gesture(
             DragGesture(minimumDistance: 1, coordinateSpace: .local)
                 .onChanged { value in
-                    withAnimation(pageTurnAnimation) {
-                        self.translation = self.resistanceTranslationForOffset(value.translation.height)
-                        self.turnPageIfNeededForOffset(value.translation.height)
+                    withAnimation(self.pageTurnAnimation) {
+                        self.translation = self.translationForOffset(value.translation.height)
+                        self.turnPageIfNeededForChangingOffset(value.translation.height)
                     }
                 }
                 .onEnded { value in
-                    withAnimation(pageTurnAnimation) {
-                        self.translation = .zero
-                        self.isTurningPage = false
+                    withAnimation(self.pageTurnAnimation) {
+                        self.turnPageIfNeededForEndOffset(value.translation.height)
                     }
                 }
         )
     }
 
-    private func resistanceTranslationForOffset(_ offset: CGFloat) -> CGFloat {
-        guard !isTurningPage else { return 0 }
-        return (offset / pageTurnCutOff) * scrollResistanceCutOff
+    private func translationForOffset(_ offset: CGFloat) -> CGFloat {
+        switch pageTurnType {
+        case .regular:
+            return offset
+        case let .earlyCutoff(config):
+            guard !isTurningPage else { return 0 }
+            return (offset / config.pageTurnCutOff) * config.scrollResistanceCutOff
+        }
     }
 
-    private func turnPageIfNeededForOffset(_ offset: CGFloat) {
-        guard !isTurningPage else { return }
+    private func turnPageIfNeededForChangingOffset(_ offset: CGFloat) {
+        switch pageTurnType {
+        case .regular:
+            return
+        case let .earlyCutoff(config):
+            guard !isTurningPage else { return }
 
-        if offset > 0 && offset > pageTurnCutOff {
-            guard currentPage.index != 0 else { return }
+            if offset > 0 && offset > config.pageTurnCutOff {
+                guard currentPage.index != 0 else { return }
 
-            scroll(direction: .up)
-        } else if offset < 0 && offset < -pageTurnCutOff {
-            guard currentPage.index != pageCount-1 else { return }
+                scroll(direction: .up)
+            } else if offset < 0 && offset < -config.pageTurnCutOff {
+                guard currentPage.index != pageCount-1 else { return }
 
-            scroll(direction: .down)
+                scroll(direction: .down)
+            }
         }
     }
 
     private func scroll(direction: ScrollDirection) {
         isTurningPage = true // Prevents user drag from continuing
         translation = .zero
-        pagerManager.activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
 
-        pagerManager.setUserDraggedPage(activeIndex)
+        pagerManager.activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
+        pagerManager.setCurrentPageToBeRearranged()
+    }
+
+    private func turnPageIfNeededForEndOffset(_ offset: CGFloat) {
+        translation = .zero
+
+        switch pageTurnType {
+        case .regular:
+            let delta = offset / screen.height
+            let newIndex = Int((CGFloat(activeIndex) - delta).rounded())
+            let lastPage = pageCount.clamped(to: 0...2) // in case pageCount is less than 3
+            pagerManager.activeIndex = newIndex.clamped(to: 0...lastPage)
+            pagerManager.setCurrentPageToBeRearranged()
+        case .earlyCutoff:
+            isTurningPage = false
+        }
     }
 
 }
@@ -218,7 +301,7 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
     @ObservedObject var pagerManager: ElegantPagerManager
 
     func makeUIViewController(context: Context) -> ElegantPagerController {
-        ElegantPagerController(provider: pagerManager)
+        ElegantPagerController(manager: pagerManager)
     }
 
     func updateUIViewController(_ controller: ElegantPagerController, context: Context) {
@@ -270,11 +353,11 @@ class ElegantPagerController: UIViewController {
     private var controllers: [UIHostingController<AnyView>]
     private(set) var previousPage: Int
 
-    init(provider: ElegantPagerManager) {
-        previousPage = provider.currentPage.index
+    init(manager: ElegantPagerManager) {
+        previousPage = manager.currentPage.index
 
-        controllers = provider.pageRange.map { page in
-            UIHostingController(rootView: provider.datasource.view(for: page))
+        controllers = manager.pageRange.map { page in
+            UIHostingController(rootView: manager.datasource.view(for: page))
         }
         super.init(nibName: nil, bundle: nil)
 
