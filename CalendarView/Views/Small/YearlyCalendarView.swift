@@ -22,7 +22,7 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
             if isTodayWithinDateRange && !isCurrentYearSameAsTodayYear {
                 scrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.horizontalPadding)
-                    .offset(y: CalendarConstants.Yearly.scrollButtonTopOffset)
+                    .offset(y: CalendarConstants.Yearly.topPadding)
                     .transition(.opacity)
                     .zIndex(1)
             }
@@ -30,12 +30,89 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private var yearsList: some View {
-        ElegantPagedScrollView(pagerManager: calendarManager.pagerManager)
+        YearlyCalendarScrollView {
+            ForEach(self.years, id: \.self) { year in
+                // TODO: Find a better way to propogate down the calendar accessible
+                YearView(calendarAccessible: self.calendarManager, year: year)
+            }
+        }
     }
 
     private var scrollBackToTodayButton: some View {
         ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
                                     color: themeColor)
+    }
+
+}
+
+private struct YearlyCalendarScrollView<Content>: UIViewRepresentable where Content : View {
+
+    typealias UIViewType = UIScrollView
+
+    @EnvironmentObject var calendarManager: YearlyCalendarManager
+
+    let content: () -> Content
+
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+
+    func makeUIView(context: Context) -> UIScrollView {
+        let hosting = UIHostingController(rootView: content())
+
+        let size = hosting.view.sizeThatFits(CGSize(width: screen.width, height: .greatestFiniteMagnitude))
+        hosting.view.frame = CGRect(x: 0, y: 0,
+                                    width: screen.width,
+                                    height: size.height)
+
+        let scrollView = UIScrollView().withPagination(delegate: context.coordinator)
+        scrollView.addSubview(hosting.view)
+        scrollView.contentSize = CGSize(width: screen.width, height: size.height)
+
+        return scrollView
+    }
+
+    func updateUIView(_ scrollView: UIScrollView, context: Context) {
+        let offset = CalendarConstants.cellHeight * CGFloat(calendarManager.currentPage)
+        scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    class Coordinator: NSObject, UIScrollViewDelegate {
+        
+        let parent: YearlyCalendarScrollView
+
+        init(parent: YearlyCalendarScrollView) {
+            self.parent = parent
+        }
+
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            let page = Int(scrollView.contentOffset.y / CalendarConstants.cellHeight)
+            parent.calendarManager.willDisplay(page: page)
+        }
+
+    }
+
+}
+
+private extension UIScrollView {
+
+    func withPagination(delegate: UIScrollViewDelegate) -> UIScrollView {
+        backgroundColor = .none
+        scrollsToTop = false
+        bounces = false
+
+        contentInsetAdjustmentBehavior = .never
+
+        isPagingEnabled = true
+        decelerationRate = .fast
+
+        self.delegate = delegate
+
+        return self
     }
 
 }

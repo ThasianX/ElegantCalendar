@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallWeekView: View, YearlyCalendarManagerDirectAccess {
+struct SmallWeekView: View, YearlyCalendarAccessibleDirectAccess {
 
-    @EnvironmentObject var calendarManager: YearlyCalendarManager
+    let calendarAccessible: YearlyCalendarAccessible
 
     let week: Date
 
@@ -20,23 +20,24 @@ struct SmallWeekView: View, YearlyCalendarManagerDirectAccess {
     var body: some View {
         HStack(spacing: CalendarConstants.Yearly.daysGridHorizontalSpacing) {
             ForEach(days, id: \.self) { day in
-                SmallDayView(week: self.week, day: day)
+                SmallDayView(calendarAccessible: self.calendarAccessible, week: self.week, day: day)
             }
         }
     }
 
 }
 
-struct SmallWeekView_Previews: PreviewProvider {
-    static var previews: some View {
-        YearlyCalendarManagerGroup {
-            DarkThemePreview {
-                SmallWeekView(week: Date())
-            }
-
-            DarkThemePreview {
-                SmallWeekView(week: .daysFromToday(-7))
-            }
-        }
-    }
-}
+// TODO
+//struct SmallWeekView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        YearlyCalendarManagerGroup {
+//            DarkThemePreview {
+//                SmallWeekView(week: Date())
+//            }
+//
+//            DarkThemePreview {
+//                SmallWeekView(week: .daysFromToday(-7))
+//            }
+//        }
+//    }
+//}

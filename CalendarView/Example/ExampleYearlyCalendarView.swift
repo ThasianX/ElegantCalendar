@@ -20,6 +20,8 @@ struct ExampleYearlyCalendarView: View {
     var body: some View {
         YearlyCalendarView()
             .environmentObject(calendarManager)
+            .frame(width: CalendarConstants.cellWidth,
+                   height: CalendarConstants.cellHeight)
     }
 
 }

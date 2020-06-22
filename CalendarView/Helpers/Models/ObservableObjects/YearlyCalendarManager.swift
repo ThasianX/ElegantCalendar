@@ -2,16 +2,40 @@
 
 import SwiftUI
 
+protocol YearlyCalendarAccessible {
+
+    var configuration: CalendarConfiguration { get }
+    func monthTapped(_ month: Date)
+
+}
+
+protocol YearlyCalendarAccessibleDirectAccess: ConfigurationDirectAccess {
+
+    var calendarAccessible: YearlyCalendarAccessible { get }
+    var configuration: CalendarConfiguration { get }
+
+}
+
+extension YearlyCalendarAccessibleDirectAccess {
+
+    var configuration: CalendarConfiguration {
+        calendarAccessible.configuration
+    }
+
+}
+
 class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
-    @Published var currentYear: Date
-
-    let pagerManager: ElegantPagerManager
+    @Published var currentPage: Int = 0
 
     weak var parent: ElegantCalendarManager?
 
     let configuration: CalendarConfiguration
     let years: [Date]
+
+    var currentYear: Date {
+        years[currentPage]
+    }
 
     init(configuration: CalendarConfiguration, initialYear: Date? = nil) {
         self.configuration = configuration
@@ -21,37 +45,18 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
                                  end: configuration.endDate),
             matching: .firstDayOfEveryYear)
 
-        var startingPage: Int = 0
         if let initialYear = initialYear {
-            startingPage = configuration.calendar.yearsBetween(configuration.startDate, and: initialYear)
+            let page = calendar.yearsBetween(startDate, and: initialYear)
+            currentPage = page
         }
-
-        currentYear = years[startingPage]
-
-        pagerManager = .init(startingPage: startingPage,
-                             configuration: .init(pageCount: years.count,
-                                                  pageTurnType: .regular))
-        pagerManager.datasource = self
-        pagerManager.delegate = self
-    }
-}
-
-extension YearlyCalendarManager: ElegantPagerDataSource {
-
-    func view(for page: Int) -> AnyView {
-        YearView(year: years[page])
-            .environmentObject(self)
-            .erased
     }
 
 }
 
-extension YearlyCalendarManager: ElegantPagerDelegate {
+extension YearlyCalendarManager: YearlyCalendarAccessible {
 
-    func willDisplay(page: Int) {
-        if currentYear != years[page] {
-            currentYear = years[page]
-        }
+    func monthTapped(_ month: Date) {
+        parent?.scrollToMonthAndShowMonthlyView(month)
     }
 
 }
@@ -65,12 +70,14 @@ extension YearlyCalendarManager {
     func scrollToYear(_ year: Date) {
         if !calendar.isDate(currentYear, equalTo: year, toGranularity: .year) {
             let page = calendar.yearsBetween(startDate, and: year)
-            pagerManager.scroll(to: page)
+            currentPage = page
         }
     }
 
-    func monthTapped(_ month: Date) {
-        parent?.scrollToMonthAndShowMonthlyView(month)
+    func willDisplay(page: Int) {
+        if currentPage != page {
+            currentPage = page
+        }
     }
 
 }

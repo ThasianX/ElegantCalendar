@@ -22,6 +22,8 @@ struct ExampleMonthlyCalendarView: View {
     var body: some View {
         MonthlyCalendarView()
             .environmentObject(calendarManager.monthlyManager)
+            .frame(width: CalendarConstants.cellWidth,
+                   height: CalendarConstants.cellHeight)
     }
 
 }

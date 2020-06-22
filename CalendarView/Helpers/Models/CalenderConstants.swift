@@ -50,8 +50,6 @@ struct CalendarConstants {
             return (monthWidth - innerGridSpacing) / daysInRow
         }()
         static let daysStackHeight: CGFloat = 6*dayWidth + 5*daysGridVerticalSpacing
-
-        static let scrollButtonTopOffset = topPadding - statusBarHeight
     }
 
 }

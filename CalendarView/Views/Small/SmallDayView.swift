@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallDayView: View, YearlyCalendarManagerDirectAccess {
+struct SmallDayView: View, YearlyCalendarAccessibleDirectAccess {
 
-    @EnvironmentObject var calendarManager: YearlyCalendarManager
+    let calendarAccessible: YearlyCalendarAccessible
 
     let week: Date
     let day: Date
@@ -36,16 +36,17 @@ struct SmallDayView: View, YearlyCalendarManagerDirectAccess {
 
 }
 
-struct SmallDayView_Previews: PreviewProvider {
-    static var previews: some View {
-        YearlyCalendarManagerGroup {
-            DarkThemePreview {
-                SmallDayView(week: Date(), day: Date())
-            }
-
-            DarkThemePreview {
-                SmallDayView(week: Date(), day: .daysFromToday(3))
-            }
-        }
-    }
-}
+// TODO
+//struct SmallDayView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        YearlyCalendarManagerGroup {
+//            DarkThemePreview {
+//                SmallDayView(week: Date(), day: Date())
+//            }
+//
+//            DarkThemePreview {
+//                SmallDayView(week: Date(), day: .daysFromToday(3))
+//            }
+//        }
+//    }
+//}
