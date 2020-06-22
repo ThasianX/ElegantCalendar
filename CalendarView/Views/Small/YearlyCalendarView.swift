@@ -73,7 +73,9 @@ private struct YearlyCalendarScrollView<Content>: UIViewRepresentable where Cont
 
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         let offset = CalendarConstants.cellHeight * CGFloat(calendarManager.currentPage)
-        scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+        DispatchQueue.main.async {
+            scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+        }
     }
 
     func makeCoordinator() -> Coordinator {
