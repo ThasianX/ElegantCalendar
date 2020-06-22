@@ -7,5 +7,5 @@ extension Color {
     static let blackPearl = Color("blackPearl")
 
     static let systemBackground = Color(UIColor.systemBackground)
-    
+
 }
