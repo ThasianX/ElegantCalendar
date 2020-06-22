@@ -82,7 +82,7 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
     private func turnPageIfNeededForOffset(_ offset: CGFloat) {
         if offset > 0 && offset > pageTurnCutOff {
             pagerState.translation = .zero
-            pagerState.activeIndex = 0
+            calendarManager.showYearlyView()
         } else if offset < 0 && offset < -pageTurnCutOff {
             pagerState.translation = .zero
             pagerState.activeIndex = 1
