@@ -1,6 +1,5 @@
 // Kevin Li - 9:22 PM - 6/13/20
 
-import Introspect
 import SwiftUI
 
 struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
