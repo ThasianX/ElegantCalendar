@@ -3,7 +3,7 @@
 import SwiftUI
 
 fileprivate let scrollResistanceCutOff: CGFloat = 40
-fileprivate let pageTurnCutOff: CGFloat = 180
+fileprivate let pageTurnCutOff: CGFloat = 90
 
 struct ElegantCalendarView: View, PagerStateDirectAccess {
 
