@@ -6,7 +6,7 @@ fileprivate let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
 
 struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     
-    @EnvironmentObject var calendarManager: MonthlyCalendarManager
+    @ObservedObject var calendarManager: MonthlyCalendarManager
 
     let month: Date
 
@@ -100,7 +100,7 @@ private extension MonthView {
     var weeksViewStack: some View {
         VStack(spacing: CalendarConstants.Monthly.gridSpacing) {
             ForEach(weeks, id: \.self) { week in
-                WeekView(week: week)
+                WeekView(calendarManager: self.calendarManager, week: week)
             }
         }
     }
@@ -188,22 +188,22 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
 }
 
-struct MonthView_Previews: PreviewProvider {
-    static var previews: some View {
-        MonthlyCalendarManagerGroup {
-
-            LightThemePreview {
-                MonthView(month: Date())
-
-                MonthView(month: .daysFromToday(45))
-            }
-
-            DarkThemePreview {
-                MonthView(month: Date())
-
-                MonthView(month: .daysFromToday(45))
-            }
-
-        }
-    }
-}
+//struct MonthView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MonthlyCalendarManagerGroup {
+//
+//            LightThemePreview {
+//                MonthView(month: Date())
+//
+//                MonthView(month: .daysFromToday(45))
+//            }
+//
+//            DarkThemePreview {
+//                MonthView(month: Date())
+//
+//                MonthView(month: .daysFromToday(45))
+//            }
+//
+//        }
+//    }
+//}

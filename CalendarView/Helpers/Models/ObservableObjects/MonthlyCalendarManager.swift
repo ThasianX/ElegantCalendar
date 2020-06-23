@@ -41,8 +41,7 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
 extension MonthlyCalendarManager: ElegantPagerDataSource {
 
     func view(for page: Int) -> AnyView {
-        MonthView(month: months[page])
-            .environmentObject(self)
+        MonthView(calendarManager: self, month: months[page])
             .erased
     }
 

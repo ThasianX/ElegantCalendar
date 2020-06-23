@@ -18,8 +18,7 @@ struct ElegantCalendarView: View {
     }
 
     private var monthlyCalendarView: some View {
-        MonthlyCalendarView()
-            .environmentObject(calendarManager.monthlyManager)
+        MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
     }
 
 }
