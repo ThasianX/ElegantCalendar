@@ -51,18 +51,23 @@ struct YearView: View, YearlyCalendarAccessibleDirectAccess {
     
 }
 
-// TODO
-//struct YearView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        YearlyCalendarManagerGroup {
-//            DarkThemePreview {
-//                YearView(year: Date())
-//            }
-//
-//            DarkThemePreview {
-//                YearView(year: .daysFromToday(365*3))
-//            }
-//        }
-//
-//    }
-//}
+struct YearView_Previews: PreviewProvider {
+    static var previews: some View {
+        YearlyCalendarManagerGroup {
+
+            LightThemePreview {
+                YearView(year: Date())
+
+                YearView(year: .daysFromToday(365))
+            }
+
+            DarkThemePreview {
+                YearView(year: Date())
+
+                YearView(year: .daysFromToday(365))
+            }
+
+        }
+
+    }
+}

@@ -36,17 +36,22 @@ struct SmallDayView: View, YearlyCalendarAccessibleDirectAccess {
 
 }
 
-// TODO
-//struct SmallDayView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        YearlyCalendarManagerGroup {
-//            DarkThemePreview {
-//                SmallDayView(week: Date(), day: Date())
-//            }
-//
-//            DarkThemePreview {
-//                SmallDayView(week: Date(), day: .daysFromToday(3))
-//            }
-//        }
-//    }
-//}
+struct SmallDayView_Previews: PreviewProvider {
+    static var previews: some View {
+        YearlyCalendarManagerGroup {
+
+            LightThemePreview {
+                SmallDayView(week: Date(), day: Date())
+
+                SmallDayView(week: Date(), day: .daysFromToday(3))
+            }
+
+            DarkThemePreview {
+                SmallDayView(week: Date(), day: Date())
+                
+                SmallDayView(week: Date(), day: .daysFromToday(3))
+            }
+
+        }
+    }
+}

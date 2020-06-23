@@ -57,11 +57,7 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
     private var pagerHorizontalStack: some View {
         HStack(alignment: .center, spacing: 0) {
             yearlyCalendarView
-                .frame(width: CalendarConstants.cellWidth,
-                       height: CalendarConstants.cellHeight)
             monthlyCalendarView
-                .frame(width: CalendarConstants.cellWidth,
-                       height: CalendarConstants.cellHeight)
         }
     }
 
@@ -94,11 +90,11 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
 
 struct ElegantCalendarView_Previews: PreviewProvider {
     static var previews: some View {
+        // Only run one calendar at a time. SwiftUI has a limit for rendering time
         DarkThemePreview {
             ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
 
-            // TODO :update models here
-            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
+//            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock, initialMonth: Date()))
         }
     }
 }

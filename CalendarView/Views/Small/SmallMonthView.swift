@@ -64,21 +64,26 @@ struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
 
 }
 
-// TODO
-//struct SmallMonthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        YearlyCalendarManagerGroup {
-//            DarkThemePreview {
-//                SmallMonthView(month: Date())
-//            }
-//
-//            DarkThemePreview {
-//                SmallMonthView(month: .daysFromToday(45))
-//            }
-//
-//            DarkThemePreview {
-//                SmallMonthView(month: .daysFromToday(-30))
-//            }
-//        }
-//    }
-//}
+struct SmallMonthView_Previews: PreviewProvider {
+    static var previews: some View {
+        YearlyCalendarManagerGroup {
+
+            LightThemePreview {
+                SmallMonthView(month: Date())
+
+                SmallMonthView(month: .daysFromToday(45))
+
+                SmallMonthView(month: .daysFromToday(-30))
+            }
+
+            DarkThemePreview {
+                SmallMonthView(month: Date())
+
+                SmallMonthView(month: .daysFromToday(45))
+                
+                SmallMonthView(month: .daysFromToday(-30))
+            }
+
+        }
+    }
+}
