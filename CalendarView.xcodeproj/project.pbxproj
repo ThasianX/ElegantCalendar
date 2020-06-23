@@ -148,8 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				1E40D946248C7823005ECA82 /* ElegantCalendarView.swift */,
-				1EDC9A802495BFD100A78BFA /* Regular */,
-				1EDC9A812495BFE100A78BFA /* Small */,
+				1EDC9A802495BFD100A78BFA /* Monthly */,
+				1EDC9A812495BFE100A78BFA /* Yearly */,
 				1EEA23962497110D00677B07 /* Shared */,
 			);
 			path = Views;
@@ -239,7 +239,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		1EDC9A802495BFD100A78BFA /* Regular */ = {
+		1EDC9A802495BFD100A78BFA /* Monthly */ = {
 			isa = PBXGroup;
 			children = (
 				1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */,
@@ -247,10 +247,10 @@
 				1E71D785248CB8A9003A3B0B /* WeekView.swift */,
 				1E71D789248CC0F3003A3B0B /* DayView.swift */,
 			);
-			path = Regular;
+			path = Monthly;
 			sourceTree = "<group>";
 		};
-		1EDC9A812495BFE100A78BFA /* Small */ = {
+		1EDC9A812495BFE100A78BFA /* Yearly */ = {
 			isa = PBXGroup;
 			children = (
 				1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */,
@@ -259,14 +259,14 @@
 				1EDC9A842495C06400A78BFA /* SmallWeekView.swift */,
 				1EDC9A862495C0AB00A78BFA /* SmallDayView.swift */,
 			);
-			path = Small;
+			path = Yearly;
 			sourceTree = "<group>";
 		};
 		1EEA23962497110D00677B07 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */,
 				1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */,
+				1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
