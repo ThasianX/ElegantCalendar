@@ -29,7 +29,7 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var monthsList: some View {
-        ElegantPagedScrollView(pagerManager: calendarManager.pagerManager)
+        ElegantVPageView(pagerManager: calendarManager.pagerManager)
             .frame(width: CalendarConstants.cellWidth,
                    height: CalendarConstants.cellHeight)
     }
