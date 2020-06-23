@@ -34,6 +34,7 @@
 		1E84A5042495993000401180 /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E84A5032495993000401180 /* VisitCell.swift */; };
 		1E912CFE2495ABE100AFCD4C /* View+Erased.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E912CFD2495ABE100AFCD4C /* View+Erased.swift */; };
 		1E912D002495AF8A00AFCD4C /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */; };
+		1E9F037924A1E1B800B0E282 /* PageViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F037824A1E1B800B0E282 /* PageViewBuilder.swift */; };
 		1EC3BC9E248C749C0052C61B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC3BC9D248C749C0052C61B /* AppDelegate.swift */; };
 		1EC3BCA0248C749C0052C61B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */; };
 		1EC3BCA4248C749D0052C61B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC3BCA3248C749D0052C61B /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 		1E84A5032495993000401180 /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
 		1E912CFD2495ABE100AFCD4C /* View+Erased.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Erased.swift"; sourceTree = "<group>"; };
 		1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
+		1E9F037824A1E1B800B0E282 /* PageViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewBuilder.swift; sourceTree = "<group>"; };
 		1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarViewSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC3BC9D248C749C0052C61B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */,
 				1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */,
+				1E9F037824A1E1B800B0E282 /* PageViewBuilder.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				1E71D784248CB85E003A3B0B /* MonthView.swift in Sources */,
 				1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */,
 				1EEA23982497111B00677B07 /* ScrollBackToTodayButton.swift in Sources */,
+				1E9F037924A1E1B800B0E282 /* PageViewBuilder.swift in Sources */,
 				1E40D94B248C7A00005ECA82 /* Color+CustomColors.swift in Sources */,
 				1E7B3C582496F60C00A2907D /* ElegantCalendarDelegate.swift in Sources */,
 				1E1829F92491B163006A55A3 /* ElegantCalendarManager.swift in Sources */,

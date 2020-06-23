@@ -22,17 +22,19 @@ enum PageState {
 
 }
 
-public struct ElegantPagerConfiguration {
-
-    let pageCount: Int
-    let pageTurnType: ElegantPageTurnType
-
-}
-
 public enum ElegantPageTurnType {
 
     case regular(pageTurnDelta: CGFloat)
     case earlyCutoff(config: EarlyCutOffConfiguration)
+
+    var pageTurnAnimation: Animation {
+        switch self {
+        case .regular:
+            return .easeInOut
+        case let .earlyCutoff(config):
+            return config.pageTurnAnimation
+        }
+    }
 
 }
 
@@ -60,55 +62,30 @@ extension EarlyCutOffConfiguration {
 
 }
 
-protocol ElegantPagerConfigurationDirectAccess {
-
-    var configuration: ElegantPagerConfiguration { get }
-
-}
-
-extension ElegantPagerConfigurationDirectAccess {
-
-    var pageCount: Int {
-        configuration.pageCount
-    }
-
-    var pageTurnType: ElegantPageTurnType {
-        configuration.pageTurnType
-    }
-
-    var pageTurnAnimation: Animation {
-        switch pageTurnType {
-        case .regular:
-            return .easeInOut
-        case let .earlyCutoff(config):
-            return config.pageTurnAnimation
-        }
-    }
-
-}
-
-class ElegantPagerManager: ObservableObject, ElegantPagerConfigurationDirectAccess {
+class ElegantPagerManager: ObservableObject {
 
     @Published var currentPage: (index: Int, state: PageState)
     @Published var activeIndex: Int
 
-    public let configuration: ElegantPagerConfiguration
+    public let pageCount: Int
+    public let pageTurnType: ElegantPageTurnType
 
     let maxPageIndex: Int
 
     public var datasource: ElegantPagerDataSource!
     public var delegate: ElegantPagerDelegate?
 
-    init(startingPage: Int = 0, configuration: ElegantPagerConfiguration) {
-        guard configuration.pageCount > 0 else { fatalError("Error: pages must exist") }
+    init(startingPage: Int = 0, pageCount: Int, pageTurnType: ElegantPageTurnType) {
+        guard pageCount > 0 else { fatalError("Error: pages must exist") }
 
         currentPage = (startingPage, .completed)
-        self.configuration = configuration
-        maxPageIndex = (configuration.pageCount-1).clamped(to: 0...2)
+        self.pageCount = pageCount
+        self.pageTurnType = pageTurnType
+        maxPageIndex = (pageCount-1).clamped(to: 0...2)
 
         if startingPage == 0 {
             activeIndex = 0
-        } else if startingPage == configuration.pageCount-1 {
+        } else if startingPage == pageCount-1 {
             activeIndex = maxPageIndex
         } else {
             activeIndex = 1
@@ -168,10 +145,9 @@ private extension ElegantPagerManager {
 
 }
 
-protocol ElegantPagerManagerDirectAccess: ElegantPagerConfigurationDirectAccess {
+protocol ElegantPagerManagerDirectAccess {
 
     var pagerManager: ElegantPagerManager { get }
-    var configuration: ElegantPagerConfiguration { get }
 
 }
 
@@ -189,15 +165,67 @@ extension ElegantPagerManagerDirectAccess {
         pagerManager.activeIndex
     }
 
-    var configuration: ElegantPagerConfiguration {
-        pagerManager.configuration
-    }
-
     var maxPageIndex: Int {
         pagerManager.maxPageIndex
     }
 
+    var pageTurnType: ElegantPageTurnType {
+        pagerManager.pageTurnType
+    }
+
+    var pageTurnAnimation: Animation {
+        pageTurnType.pageTurnAnimation
+    }
+
 }
+
+class ElegantSimplePagerManager: ObservableObject {
+
+    @Published var currentPage: Int
+
+    public let pageTurnType: ElegantPageTurnType
+
+    public var delegate: ElegantPagerDelegate?
+
+    init(startingPage: Int = 0, pageTurnType: ElegantPageTurnType) {
+        currentPage = startingPage
+        self.pageTurnType = pageTurnType
+    }
+
+    public func scroll(to page: Int) {
+        withAnimation(pageTurnType.pageTurnAnimation) {
+            currentPage = page
+        }
+    }
+
+}
+
+protocol ElegantSimplePagerManagerDirectAccess {
+
+    var pagerManager: ElegantSimplePagerManager { get }
+
+}
+
+extension ElegantSimplePagerManagerDirectAccess {
+
+    var currentPage: Int {
+        pagerManager.currentPage
+    }
+
+    var pageTurnType: ElegantPageTurnType {
+        pagerManager.pageTurnType
+    }
+
+    var pageTurnAnimation: Animation {
+        pageTurnType.pageTurnAnimation
+    }
+
+    var delegate: ElegantPagerDelegate? {
+        pagerManager.delegate
+    }
+
+}
+
 
 private class UpdateUIViewControllerBugFixClass { }
 
@@ -433,6 +461,120 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
             pagerManager.setCurrentPageToBeRearranged()
         case .earlyCutoff:
             isTurningPage = false
+        }
+    }
+
+}
+
+struct ElegantHSimplePageView<Pages>: View, ElegantSimplePagerManagerDirectAccess where Pages: View {
+
+    @State private var translation: CGFloat = .zero
+
+    @ObservedObject var pagerManager: ElegantSimplePagerManager
+
+    public let pages: PageContainer<Pages>
+    let pageCount: Int
+    let bounces: Bool
+
+    private var pageOffset: CGFloat {
+        -CGFloat(currentPage) * screen.width
+    }
+
+    private var properTranslation: CGFloat {
+        guard !bounces else { return translation }
+
+        if (currentPage == 0 && translation > 0) ||
+            (currentPage == pageCount-1 && translation < 0) {
+            return 0
+        }
+        return translation
+    }
+
+    private var currentScrollOffset: CGFloat {
+        pageOffset + properTranslation
+    }
+
+    init(pagerManager: ElegantSimplePagerManager,
+         bounces: Bool = false,
+         @PageViewBuilder builder: () -> PageContainer<Pages>) {
+        self.pagerManager = pagerManager
+        self.bounces = bounces
+        let pages = builder()
+        pageCount = pages.count
+        self.pages = pages
+    }
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 0) {
+            pages
+                .frame(width: screen.width, height: screen.height)
+        }
+        .frame(width: screen.width, height: screen.height, alignment: .leading)
+        .offset(x: currentScrollOffset)
+        .simultaneousGesture(
+            DragGesture()
+                .onChanged { value in
+                    if abs(value.translation.height) > abs(value.translation.width) {
+                        self.translation = .zero
+                        return
+                    }
+
+                    withAnimation(self.pageTurnAnimation) {
+                        self.translation = self.translationForOffset(value.translation.width)
+                        self.turnPageIfNeededForChangingOffset(value.translation.width)
+                    }
+                }
+                .onEnded { value in
+                    withAnimation(self.pageTurnAnimation) {
+                        self.turnPageIfNeededForEndOffset(value.translation.width)
+                    }
+                }
+        )
+    }
+
+    private func translationForOffset(_ offset: CGFloat) -> CGFloat {
+        switch pageTurnType {
+        case .regular:
+            return offset
+        case let .earlyCutoff(config):
+            return (offset / config.pageTurnCutOff) * config.scrollResistanceCutOff
+        }
+    }
+
+    private func turnPageIfNeededForChangingOffset(_ offset: CGFloat) {
+        switch pageTurnType {
+        case .regular:
+            return
+        case let .earlyCutoff(config):
+            if offset > 0 && offset > config.pageTurnCutOff {
+                guard currentPage != 0 else { return }
+
+                scroll(direction: .left)
+            } else if offset < 0 && offset < -config.pageTurnCutOff {
+                guard currentPage != pageCount-1 else { return }
+
+                scroll(direction: .right)
+            }
+        }
+    }
+
+    private func scroll(direction: ScrollDirection) {
+        translation = .zero
+        pagerManager.currentPage = currentPage + direction.additiveFactor
+        delegate?.willDisplay(page: currentPage)
+    }
+
+    private func turnPageIfNeededForEndOffset(_ offset: CGFloat) {
+        translation = .zero
+
+        switch pageTurnType {
+        case .regular:
+            let delta = offset / screen.width
+            let newIndex = Int((CGFloat(currentPage) - delta).rounded())
+            pagerManager.currentPage = newIndex.clamped(to: 0...pageCount-1)
+            delegate?.willDisplay(page: currentPage)
+        case .earlyCutoff:
+            ()
         }
     }
 

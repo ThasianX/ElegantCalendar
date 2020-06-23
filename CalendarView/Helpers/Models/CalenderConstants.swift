@@ -15,8 +15,6 @@ struct CalendarConstants {
 
     static let daysInRow: CGFloat = 7
 
-    static let calendarTurnAnimation: Animation = .interactiveSpring(response: 0.35, dampingFraction: 0.86, blendDuration: 0.25)
-
     struct Monthly {
 
         static let topPadding: CGFloat = cellHeight * 0.078

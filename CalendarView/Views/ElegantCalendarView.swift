@@ -2,60 +2,12 @@
 
 import SwiftUI
 
-fileprivate let scrollResistanceCutOff: CGFloat = 40
-fileprivate let pageTurnCutOff: CGFloat = 90
-
-struct ElegantCalendarView: View, PagerStateDirectAccess {
+struct ElegantCalendarView: View {
 
     @ObservedObject var calendarManager: ElegantCalendarManager
 
-    var pagerState: PagerState {
-        calendarManager.pagerState
-    }
-
-    private var pageOffset: CGFloat {
-        return -CGFloat(activeIndex) * pagerWidth
-    }
-
-    private var boundedTranslation: CGFloat {
-        if (activeIndex == 0 && translation > 0) ||
-            (activeIndex == 1 && translation < 0) {
-            return 0
-        }
-        return translation
-    }
-
-    private var currentScrollOffset: CGFloat {
-        pageOffset + boundedTranslation
-    }
-
     var body: some View {
-        pagerHorizontalStack
-            .frame(width: pagerWidth, alignment: .leading)
-            .offset(x: currentScrollOffset)
-            .simultaneousGesture(
-                DragGesture()
-                    .onChanged { value in
-                        if abs(value.translation.height) > abs(value.translation.width) {
-                            self.pagerState.translation = .zero
-                            return
-                        }
-                        
-                        withAnimation(CalendarConstants.calendarTurnAnimation) {
-                            self.pagerState.translation = self.resistanceTranslationForOffset(value.translation.width)
-                            self.turnPageIfNeededForOffset(value.translation.width)
-                        }
-                    }
-                    .onEnded { value in
-                        withAnimation(CalendarConstants.calendarTurnAnimation) {
-                            self.pagerState.translation = .zero
-                        }
-                    }
-            )
-    }
-
-    private var pagerHorizontalStack: some View {
-        HStack(alignment: .center, spacing: 0) {
+        ElegantHSimplePageView(pagerManager: calendarManager.pagerManager) {
             yearlyCalendarView
             monthlyCalendarView
         }
@@ -69,20 +21,6 @@ struct ElegantCalendarView: View, PagerStateDirectAccess {
     private var monthlyCalendarView: some View {
         MonthlyCalendarView()
             .environmentObject(calendarManager.monthlyManager)
-    }
-
-    private func resistanceTranslationForOffset(_ offset: CGFloat) -> CGFloat {
-        (offset / pageTurnCutOff) * scrollResistanceCutOff
-    }
-
-    private func turnPageIfNeededForOffset(_ offset: CGFloat) {
-        if offset > 0 && offset > pageTurnCutOff {
-            pagerState.translation = .zero
-            calendarManager.showYearlyView()
-        } else if offset < 0 && offset < -pageTurnCutOff {
-            pagerState.translation = .zero
-            pagerState.activeIndex = 1
-        }
     }
 
 }
