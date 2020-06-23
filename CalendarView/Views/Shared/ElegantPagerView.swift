@@ -214,9 +214,11 @@ struct ElegantVPageView: View, ElegantPagerManagerDirectAccess {
     @ObservedObject var pagerManager: ElegantPagerManager
 
     let pagerHeight: CGFloat
+    let bounces: Bool
 
-    init(pagerManager: ElegantPagerManager) {
+    init(pagerManager: ElegantPagerManager, bounces: Bool = false) {
         self.pagerManager = pagerManager
+        self.bounces = bounces
         pagerHeight = screen.height * CGFloat(pagerManager.configuration.pageCount.clamped(to: 1...3))
     }
 
@@ -224,8 +226,18 @@ struct ElegantVPageView: View, ElegantPagerManagerDirectAccess {
         return -CGFloat(activeIndex) * screen.height
     }
 
+    private var properTranslation: CGFloat {
+        guard !bounces else { return translation }
+
+        if (activeIndex == 0 && translation > 0) ||
+            (activeIndex == pagerManager.pageCount.clamped(to: 0...2) && translation < 0) {
+            return 0
+        }
+        return translation
+    }
+
     private var currentScrollOffset: CGFloat {
-        pageOffset + translation
+        pageOffset + properTranslation
     }
 
     var body: some View {
@@ -318,9 +330,11 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
     @ObservedObject var pagerManager: ElegantPagerManager
 
     let pagerWidth: CGFloat
+    let bounces: Bool
 
-    init(pagerManager: ElegantPagerManager) {
+    init(pagerManager: ElegantPagerManager, bounces: Bool = false) {
         self.pagerManager = pagerManager
+        self.bounces = bounces
         pagerWidth = screen.width * CGFloat(pagerManager.configuration.pageCount.clamped(to: 1...3))
     }
 
@@ -328,8 +342,18 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
         return -CGFloat(activeIndex) * screen.height
     }
 
+    private var properTranslation: CGFloat {
+        guard !bounces else { return translation }
+
+        if (activeIndex == 0 && translation > 0) ||
+            (activeIndex == pagerManager.pageCount.clamped(to: 0...2) && translation < 0) {
+            return 0
+        }
+        return translation
+    }
+
     private var currentScrollOffset: CGFloat {
-        pageOffset + translation
+        pageOffset + properTranslation
     }
 
     var body: some View {
