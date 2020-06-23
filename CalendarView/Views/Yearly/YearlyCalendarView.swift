@@ -4,7 +4,7 @@ import SwiftUI
 
 struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: YearlyCalendarManager
+    @ObservedObject var calendarManager: YearlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
         Date() >= startDate && Date() <= endDate
@@ -29,10 +29,9 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private var yearsList: some View {
-        YearlyCalendarScrollView {
+        YearlyCalendarScrollView(calendarManager: calendarManager) {
             ForEach(self.years, id: \.self) { year in
-                YearView(year: year)
-                    .environment(\.yearlyCalendar, self.calendarManager)
+                YearView(calendarManager: self.calendarManager, year: year)
             }
         }
         .frame(width: CalendarConstants.cellWidth,
@@ -50,11 +49,12 @@ private struct YearlyCalendarScrollView: UIViewRepresentable {
 
     typealias UIViewType = UIScrollView
 
-    @EnvironmentObject var calendarManager: YearlyCalendarManager
+    @ObservedObject var calendarManager: YearlyCalendarManager
 
     let content: AnyView
 
-    init<Content: View>(@ViewBuilder content: @escaping () -> Content) {
+    init<Content: View>(calendarManager: YearlyCalendarManager, @ViewBuilder content: @escaping () -> Content) {
+        self.calendarManager = calendarManager
         self.content = AnyView(content())
     }
 
@@ -120,27 +120,27 @@ private extension UIScrollView {
 
 }
 
-struct YearlyCalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Only run one calendar at a time. SwiftUI has a limit for rendering time
-        Group {
-
-//            LightThemePreview {
-//                YearlyCalendarView()
-//                    .environmentObject(YearlyCalendarManager(configuration: .mock))
+//struct YearlyCalendarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Only run one calendar at a time. SwiftUI has a limit for rendering time
+//        Group {
+//
+////            LightThemePreview {
+////                YearlyCalendarView()
+////                    .environmentObject(YearlyCalendarManager(configuration: .mock))
+////
+////                YearlyCalendarView()
+////                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
+////            }
+//
+//            DarkThemePreview {
+////                YearlyCalendarView()
+////                    .environmentObject(YearlyCalendarManager(configuration: .mock))
 //
 //                YearlyCalendarView()
 //                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
 //            }
-
-            DarkThemePreview {
-//                YearlyCalendarView()
-//                    .environmentObject(YearlyCalendarManager(configuration: .mock))
-
-                YearlyCalendarView()
-                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
-            }
-
-        }
-    }
-}
+//
+//        }
+//    }
+//}

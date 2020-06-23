@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
+struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
 
-    @Environment(\.yearlyCalendar) var calendarAccessible: YearlyCalendarAccessible
+    let calendarManager: YearlyCalendarManager
 
     let month: Date
 
@@ -50,7 +50,7 @@ struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
     private var weeksViewStack: some View {
         VStack(spacing: CalendarConstants.Yearly.daysGridVerticalSpacing) {
             ForEach(weeks, id: \.self) { week in
-                SmallWeekView(week: week)
+                SmallWeekView(calendarManager: self.calendarManager, week: week)
             }
             if weeks.count == 5 {
                 Spacer()
@@ -59,31 +59,31 @@ struct SmallMonthView: View, YearlyCalendarAccessibleDirectAccess {
     }
 
     private func currentMonthSelected() {
-        calendarAccessible.monthTapped(month)
+        calendarManager.monthTapped(month)
     }
 
 }
 
-struct SmallMonthView_Previews: PreviewProvider {
-    static var previews: some View {
-        YearlyCalendarManagerGroup {
-
-            LightThemePreview {
-                SmallMonthView(month: Date())
-
-                SmallMonthView(month: .daysFromToday(45))
-
-                SmallMonthView(month: .daysFromToday(-30))
-            }
-
-            DarkThemePreview {
-                SmallMonthView(month: Date())
-
-                SmallMonthView(month: .daysFromToday(45))
-                
-                SmallMonthView(month: .daysFromToday(-30))
-            }
-
-        }
-    }
-}
+//struct SmallMonthView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        YearlyCalendarManagerGroup {
+//
+//            LightThemePreview {
+//                SmallMonthView(month: Date())
+//
+//                SmallMonthView(month: .daysFromToday(45))
+//
+//                SmallMonthView(month: .daysFromToday(-30))
+//            }
+//
+//            DarkThemePreview {
+//                SmallMonthView(month: Date())
+//
+//                SmallMonthView(month: .daysFromToday(45))
+//                
+//                SmallMonthView(month: .daysFromToday(-30))
+//            }
+//
+//        }
+//    }
+//}
