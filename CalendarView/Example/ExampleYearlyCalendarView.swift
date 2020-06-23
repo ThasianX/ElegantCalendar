@@ -18,8 +18,7 @@ struct ExampleYearlyCalendarView: View {
     }
 
     var body: some View {
-        YearlyCalendarView()
-            .environmentObject(calendarManager)
+        YearlyCalendarView(calendarManager: calendarManager)
     }
 
 }

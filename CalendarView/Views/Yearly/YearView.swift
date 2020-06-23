@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct YearView: View, YearlyCalendarAccessibleDirectAccess {
+struct YearView: View, YearlyCalendarManagerDirectAccess {
 
-    @Environment(\.yearlyCalendar) var calendarAccessible: YearlyCalendarAccessible
+    let calendarManager: YearlyCalendarManager
 
     let year: Date
 
@@ -42,7 +42,7 @@ struct YearView: View, YearlyCalendarAccessibleDirectAccess {
             ForEach(0..<CalendarConstants.Yearly.monthsInColumn, id: \.self) { row in
                 HStack(spacing: CalendarConstants.Yearly.monthsGridSpacing) {
                     ForEach(0..<CalendarConstants.Yearly.monthsInRow, id: \.self) { col in
-                        SmallMonthView(month: months[row*CalendarConstants.Yearly.monthsInRow + col])
+                        SmallMonthView(calendarManager: self.calendarManager, month: months[row*CalendarConstants.Yearly.monthsInRow + col])
                     }
                 }
             }
@@ -51,23 +51,23 @@ struct YearView: View, YearlyCalendarAccessibleDirectAccess {
     
 }
 
-struct YearView_Previews: PreviewProvider {
-    static var previews: some View {
-        YearlyCalendarManagerGroup {
-
-            LightThemePreview {
-                YearView(year: Date())
-
-                YearView(year: .daysFromToday(365))
-            }
-
-            DarkThemePreview {
-                YearView(year: Date())
-
-                YearView(year: .daysFromToday(365))
-            }
-
-        }
-
-    }
-}
+//struct YearView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        YearlyCalendarManagerGroup {
+//
+//            LightThemePreview {
+//                YearView(year: Date())
+//
+//                YearView(year: .daysFromToday(365))
+//            }
+//
+//            DarkThemePreview {
+//                YearView(year: Date())
+//
+//                YearView(year: .daysFromToday(365))
+//            }
+//
+//        }
+//
+//    }
+//}
