@@ -94,6 +94,8 @@ class ElegantPagerManager: ObservableObject, ElegantPagerConfigurationDirectAcce
 
     public let configuration: ElegantPagerConfiguration
 
+    let maxPageIndex: Int
+
     public var datasource: ElegantPagerDataSource!
     public var delegate: ElegantPagerDelegate?
 
@@ -102,11 +104,12 @@ class ElegantPagerManager: ObservableObject, ElegantPagerConfigurationDirectAcce
 
         currentPage = (startingPage, .completed)
         self.configuration = configuration
+        maxPageIndex = (configuration.pageCount-1).clamped(to: 0...2)
 
         if startingPage == 0 {
             activeIndex = 0
         } else if startingPage == configuration.pageCount-1 {
-            activeIndex = 2.clamped(to: 0...configuration.pageCount-1)
+            activeIndex = maxPageIndex
         } else {
             activeIndex = 1
         }
@@ -116,6 +119,7 @@ class ElegantPagerManager: ObservableObject, ElegantPagerConfigurationDirectAcce
         currentPage = (page, .scroll)
     }
 
+    // Only ever called for a page view with more than 3 pages
     func setCurrentPageToBeRearranged() {
         var currentIndex = currentPage.index
 
@@ -189,6 +193,10 @@ extension ElegantPagerManagerDirectAccess {
         pagerManager.configuration
     }
 
+    var maxPageIndex: Int {
+        pagerManager.maxPageIndex
+    }
+
 }
 
 private class UpdateUIViewControllerBugFixClass { }
@@ -213,24 +221,21 @@ struct ElegantVPageView: View, ElegantPagerManagerDirectAccess {
 
     @ObservedObject var pagerManager: ElegantPagerManager
 
-    let pagerHeight: CGFloat
-    let bounces: Bool
+    var bounces: Bool = false
 
-    init(pagerManager: ElegantPagerManager, bounces: Bool = false) {
-        self.pagerManager = pagerManager
-        self.bounces = bounces
-        pagerHeight = screen.height * CGFloat(pagerManager.configuration.pageCount.clamped(to: 1...3))
+    private var pagerHeight: CGFloat {
+        screen.height * CGFloat(maxPageIndex+1)
     }
 
     private var pageOffset: CGFloat {
-        return -CGFloat(activeIndex) * screen.height
+        -CGFloat(activeIndex) * screen.height
     }
 
     private var properTranslation: CGFloat {
         guard !bounces else { return translation }
 
         if (activeIndex == 0 && translation > 0) ||
-            (activeIndex == pagerManager.pageCount.clamped(to: 0...2) && translation < 0) {
+            (activeIndex == maxPageIndex && translation < 0) {
             return 0
         }
         return translation
@@ -301,7 +306,7 @@ struct ElegantVPageView: View, ElegantPagerManagerDirectAccess {
         isTurningPage = true // Prevents user drag from continuing
         translation = .zero
 
-        pagerManager.activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
+        pagerManager.activeIndex = activeIndex + direction.additiveFactor
         pagerManager.setCurrentPageToBeRearranged()
     }
 
@@ -312,8 +317,7 @@ struct ElegantVPageView: View, ElegantPagerManagerDirectAccess {
         case .regular:
             let delta = offset / screen.height
             let newIndex = Int((CGFloat(activeIndex) - delta).rounded())
-            let lastPage = pageCount.clamped(to: 0...2) // in case pageCount is less than 3
-            pagerManager.activeIndex = newIndex.clamped(to: 0...lastPage)
+            pagerManager.activeIndex = newIndex.clamped(to: 0...maxPageIndex)
             pagerManager.setCurrentPageToBeRearranged()
         case .earlyCutoff:
             isTurningPage = false
@@ -329,24 +333,21 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
 
     @ObservedObject var pagerManager: ElegantPagerManager
 
-    let pagerWidth: CGFloat
-    let bounces: Bool
+    var bounces: Bool = false
 
-    init(pagerManager: ElegantPagerManager, bounces: Bool = false) {
-        self.pagerManager = pagerManager
-        self.bounces = bounces
-        pagerWidth = screen.width * CGFloat(pagerManager.configuration.pageCount.clamped(to: 1...3))
+    private var pagerWidth: CGFloat {
+        screen.width * CGFloat(maxPageIndex+1)
     }
 
     private var pageOffset: CGFloat {
-        return -CGFloat(activeIndex) * screen.height
+        -CGFloat(activeIndex) * screen.width
     }
 
     private var properTranslation: CGFloat {
         guard !bounces else { return translation }
 
         if (activeIndex == 0 && translation > 0) ||
-            (activeIndex == pagerManager.pageCount.clamped(to: 0...2) && translation < 0) {
+            (activeIndex == maxPageIndex && translation < 0) {
             return 0
         }
         return translation
@@ -361,7 +362,7 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
             ElegantPagerView(pagerManager: pagerManager, axis: .horizontal)
                 .frame(width: pagerWidth)
         }
-        .frame(width: screen.width, height: screen.height, alignment: .center)
+        .frame(width: screen.width, height: screen.height, alignment: .leading)
         .offset(x: currentScrollOffset)
         .simultaneousGesture(
             DragGesture()
@@ -417,7 +418,7 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
         isTurningPage = true // Prevents user drag from continuing
         translation = .zero
 
-        pagerManager.activeIndex = (activeIndex + direction.additiveFactor).clamped(to: 0...2)
+        pagerManager.activeIndex = activeIndex + direction.additiveFactor
         pagerManager.setCurrentPageToBeRearranged()
     }
 
@@ -428,8 +429,7 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
         case .regular:
             let delta = offset / screen.width
             let newIndex = Int((CGFloat(activeIndex) - delta).rounded())
-            let lastPage = pageCount.clamped(to: 0...2) // in case pageCount is less than 3
-            pagerManager.activeIndex = newIndex.clamped(to: 0...lastPage)
+            pagerManager.activeIndex = newIndex.clamped(to: 0...maxPageIndex)
             pagerManager.setCurrentPageToBeRearranged()
         case .earlyCutoff:
             isTurningPage = false
@@ -467,7 +467,7 @@ struct ElegantPagerView: UIViewControllerRepresentable, ElegantPagerManagerDirec
                 self.setActiveIndex(1, animated: false, complete: true) // resets to center
             }
         case .scroll:
-            let pageToTurnTo = currentPage.index > controller.previousPage ? 2 : 0
+            let pageToTurnTo = currentPage.index > controller.previousPage ? maxPageIndex : 0
 
             if currentPage.index == 0 || currentPage.index == pageCount-1 {
                 setActiveIndex(pageToTurnTo, animated: true, complete: true)
