@@ -55,7 +55,7 @@ extension MonthlyCalendarManager: ElegantPagerDelegate {
             currentMonth = months[page]
             selectedDate = nil
 
-            delegate?.elegantCalendar(willDisplay: currentMonth)
+            delegate?.calendar(willDisplayMonth: currentMonth)
         }
     }
 
@@ -65,7 +65,7 @@ extension MonthlyCalendarManager {
 
     public func scrollBackToToday() {
         scrollToMonth(Date())
-        if datasource?.calendar(canSelectDay: Date()) ?? true {
+        if datasource?.calendar(canSelectDate: Date()) ?? true {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
                 self.dayTapped(day: Date())
             }
@@ -74,7 +74,7 @@ extension MonthlyCalendarManager {
 
     func dayTapped(day: Date) {
         selectedDate = day
-        delegate?.elegantCalendar(didSelectDate: day)
+        delegate?.calendar(didSelectDate: day)
     }
 
     public func scrollToMonth(_ month: Date) {

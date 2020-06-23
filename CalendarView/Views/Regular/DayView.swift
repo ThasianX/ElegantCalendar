@@ -18,7 +18,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var canSelectDay: Bool {
-        datasource?.calendar(canSelectDay: day) ?? true
+        datasource?.calendar(canSelectDate: day) ?? true
     }
 
     private var isDaySelectableAndInRange: Bool {
@@ -64,7 +64,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
                 Color.primary
             } else if isDaySelectableAndInRange {
                 themeColor
-                    .opacity(datasource?.calendar(backgroundColorOpacityForDay: day) ?? 1)
+                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
             } else {
                 Color.clear
             }

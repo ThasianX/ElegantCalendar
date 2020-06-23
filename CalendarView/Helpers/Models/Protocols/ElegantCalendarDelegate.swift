@@ -4,15 +4,15 @@ import SwiftUI
 
 public protocol ElegantCalendarDelegate {
 
-    func elegantCalendar(didSelectDate date: Date)
-    func elegantCalendar(willDisplay month: Date)
+    func calendar(didSelectDate date: Date)
+    func calendar(willDisplayMonth date: Date)
 
 }
 
 public extension ElegantCalendarDelegate {
 
-    func elegantCalendar(didSelectDate date: Date) { }
+    func calendar(didSelectDate date: Date) { }
 
-    func elegantCalendar(willDisplay month: Date) { }
+    func calendar(willDisplayMonth date: Date) { }
 
 }

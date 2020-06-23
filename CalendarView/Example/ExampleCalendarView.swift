@@ -2,8 +2,6 @@
 
 import SwiftUI
 
-let currentCalendar = Calendar.current
-
 struct ExampleCalendarView: View {
 
     @ObservedObject private var calendarManager: ElegantCalendarManager
@@ -30,18 +28,18 @@ struct ExampleCalendarView: View {
 
 extension ExampleCalendarView: ElegantCalendarDataSource {
 
-    func calendar(backgroundColorOpacityForDay day: Date) -> Double {
-        let startOfDay = currentCalendar.startOfDay(for: day)
+    func calendar(backgroundColorOpacityForDate date: Date) -> Double {
+        let startOfDay = currentCalendar.startOfDay(for: date)
         return Double((visitsByDay[startOfDay]?.count ?? 0) + 3) / 15.0
     }
 
-    func calendar(canSelectDay day: Date) -> Bool {
-        let day = currentCalendar.dateComponents([.day], from: day).day!
+    func calendar(canSelectDate date: Date) -> Bool {
+        let day = currentCalendar.dateComponents([.day], from: date).day!
         return day != 4
     }
 
-    func calendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
-        let startOfDay = currentCalendar.startOfDay(for: day)
+    func calendar(viewForSelectedDate date: Date, dimensions size: CGSize) -> AnyView {
+        let startOfDay = currentCalendar.startOfDay(for: date)
         return VisitsListView(visits: visitsByDay[startOfDay] ?? [], height: size.height).erased
     }
     
@@ -49,12 +47,12 @@ extension ExampleCalendarView: ElegantCalendarDataSource {
 
 extension ExampleCalendarView: ElegantCalendarDelegate {
 
-    func elegantCalendar(_ calendarManager: ElegantCalendarManager, didSelectDate date: Date) {
+    func calendar(didSelectDate date: Date) {
         print("Date selected: \(date)")
     }
 
-    func elegantCalendar(_ calendarManager: ElegantCalendarManager, willDisplay month: Date) {
-        print("Month displayed: \(month)")
+    func calendar(willDisplayMonth date: Date) {
+        print("Month displayed: \(date)")
     }
 
 }

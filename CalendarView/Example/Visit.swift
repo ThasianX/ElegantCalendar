@@ -2,6 +2,8 @@
 
 import SwiftUI
 
+let currentCalendar = Calendar.current
+
 struct Visit {
 
     let locationName: String
