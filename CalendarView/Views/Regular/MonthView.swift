@@ -135,8 +135,8 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
         VStack {
             selectedDayInformationView
             GeometryReader { geometry in
-                self.datasource?.elegantCalendar(viewForSelectedDay: self.selectedDate!,
-                                                 dimensions: geometry.size)
+                self.datasource?.calendar(viewForSelectedDay: self.selectedDate!,
+                                          dimensions: geometry.size)
             }
         }
         .onAppear(perform: makeVisible)

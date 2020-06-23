@@ -33,7 +33,7 @@ extension Visit {
     }
 
     static func mocks(start: Date, end: Date) -> [Visit] {
-        calendar.generateVisits(
+        currentCalendar.generateVisits(
             start: start,
             end: end)
     }

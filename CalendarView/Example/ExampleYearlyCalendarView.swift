@@ -9,12 +9,12 @@ struct ExampleYearlyCalendarView: View {
     let visitsByDay: [Date: [Visit]]
 
     init(ascVisits: [Visit]) {
-        let configuration = CalendarConfiguration(calendar: calendar,
+        let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
                                                   endDate: ascVisits.last!.arrivalDate,
                                                   themeColor: .blackPearl)
         calendarManager = YearlyCalendarManager(configuration: configuration)
-        visitsByDay = Dictionary(grouping: ascVisits, by: { calendar.startOfDay(for: $0.arrivalDate) })
+        visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
     }
 
     var body: some View {
