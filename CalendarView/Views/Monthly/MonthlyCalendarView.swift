@@ -30,8 +30,6 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
     private var monthsList: some View {
         ElegantVPageView(pagerManager: calendarManager.pagerManager)
-            .frame(width: CalendarConstants.cellWidth,
-                   height: CalendarConstants.cellHeight)
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
