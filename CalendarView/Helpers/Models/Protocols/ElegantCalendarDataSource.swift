@@ -4,18 +4,24 @@ import SwiftUI
 
 public protocol ElegantCalendarDataSource {
 
-    func elegantCalendar(colorOpacityForDay day: Date) -> Double
-    func elegantCalendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView
+    func calendar(backgroundColorOpacityForDay day: Date) -> Double
+    func calendar(canSelectDay day: Date) -> Bool
+
+    func calendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView
 
 }
 
 public extension ElegantCalendarDataSource {
 
-    func elegantCalendar(colorOpacityForDay day: Date) -> Double {
+    func calendar(backgroundColorOpacityForDay day: Date) -> Double {
         1
     }
 
-    func elegantCalendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
+    func calendar(canSelectDay day: Date) -> Bool {
+        true
+    }
+
+    func calendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
         EmptyView().erased
     }
 

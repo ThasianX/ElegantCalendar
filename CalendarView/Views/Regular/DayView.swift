@@ -17,6 +17,14 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(week, equalTo: day, toGranularities: [.month, .year])
     }
 
+    private var canSelectDay: Bool {
+        datasource?.calendar(canSelectDay: day) ?? true
+    }
+
+    private var isDaySelectableAndInRange: Bool {
+        isDayWithinDateRange && isDayWithinWeekMonthAndYear && canSelectDay
+    }
+
     private var isDayToday: Bool {
         calendar.isDateInToday(day)
     }
@@ -54,9 +62,9 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         Group {
             if isDayToday {
                 Color.primary
-            } else if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
+            } else if isDaySelectableAndInRange {
                 themeColor
-                    .opacity(datasource?.elegantCalendar(colorOpacityForDay: day) ?? 1)
+                    .opacity(datasource?.calendar(backgroundColorOpacityForDay: day) ?? 1)
             } else {
                 Color.clear
             }
@@ -64,11 +72,11 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var opacity: Double {
-        isDayWithinDateRange && isDayWithinWeekMonthAndYear ? 1 : 0.15
+        isDaySelectableAndInRange ? 1 : 0.15
     }
 
     private func notifyManager() {
-        if isDayWithinDateRange && isDayWithinWeekMonthAndYear {
+        if isDaySelectableAndInRange {
             calendarManager.dayTapped(day: day)
         }
     }

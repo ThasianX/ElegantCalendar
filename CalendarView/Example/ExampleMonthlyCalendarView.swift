@@ -9,13 +9,13 @@ struct ExampleMonthlyCalendarView: View {
     let visitsByDay: [Date: [Visit]]
 
     init(ascVisits: [Visit]) {
-        let configuration = CalendarConfiguration(calendar: calendar,
+        let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
                                                   endDate: ascVisits.last!.arrivalDate,
                                                   themeColor: .blackPearl)
         calendarManager = ElegantCalendarManager(configuration: configuration,
                                                  initialMonth: .daysFromToday(30))
-        visitsByDay = Dictionary(grouping: ascVisits, by: { calendar.startOfDay(for: $0.arrivalDate) })
+        visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
         calendarManager.datasource = self
     }
 
@@ -30,13 +30,18 @@ struct ExampleMonthlyCalendarView: View {
 
 extension ExampleMonthlyCalendarView: ElegantCalendarDataSource {
 
-    func elegantCalendar(colorOpacityForDay day: Date) -> Double {
-        let startOfDay = calendar.startOfDay(for: day)
+    func calendar(backgroundColorOpacityForDay day: Date) -> Double {
+        let startOfDay = currentCalendar.startOfDay(for: day)
         return Double((visitsByDay[startOfDay]?.count ?? 0) + 3) / 15.0
     }
 
-    func elegantCalendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
-        let startOfDay = calendar.startOfDay(for: day)
+    func calendar(canSelectDay day: Date) -> Bool {
+        let day = currentCalendar.dateComponents([.day], from: day).day!
+        return day != 4
+    }
+
+    func calendar(viewForSelectedDay day: Date, dimensions size: CGSize) -> AnyView {
+        let startOfDay = currentCalendar.startOfDay(for: day)
         return VisitsListView(visits: visitsByDay[startOfDay] ?? [], height: size.height).erased
     }
 

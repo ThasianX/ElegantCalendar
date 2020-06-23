@@ -65,8 +65,10 @@ extension MonthlyCalendarManager {
 
     public func scrollBackToToday() {
         scrollToMonth(Date())
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
-            self.dayTapped(day: Date())
+        if datasource?.calendar(canSelectDay: Date()) ?? true {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
+                self.dayTapped(day: Date())
+            }
         }
     }
 
