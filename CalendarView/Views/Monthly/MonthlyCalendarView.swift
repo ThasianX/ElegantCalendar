@@ -4,7 +4,7 @@ import SwiftUI
 
 struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: MonthlyCalendarManager
+    @ObservedObject var calendarManager: MonthlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
         Date() >= startDate && Date() <= endDate
@@ -42,26 +42,26 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
 }
 
-struct MonthlyCalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-
-            LightThemePreview {
-                MonthlyCalendarView()
-                    .environmentObject(MonthlyCalendarManager(configuration: .mock))
-
-                MonthlyCalendarView()
-                    .environmentObject(MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60)))
-            }
-
-            DarkThemePreview {
-                MonthlyCalendarView()
-                    .environmentObject(MonthlyCalendarManager(configuration: .mock))
-
-                MonthlyCalendarView()
-                    .environmentObject(MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60)))
-            }
-            
-        }
-    }
-}
+//struct MonthlyCalendarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//
+//            LightThemePreview {
+//                MonthlyCalendarView()
+//                    .environmentObject(MonthlyCalendarManager(configuration: .mock))
+//
+//                MonthlyCalendarView()
+//                    .environmentObject(MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60)))
+//            }
+//
+//            DarkThemePreview {
+//                MonthlyCalendarView()
+//                    .environmentObject(MonthlyCalendarManager(configuration: .mock))
+//
+//                MonthlyCalendarView()
+//                    .environmentObject(MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60)))
+//            }
+//
+//        }
+//    }
+//}

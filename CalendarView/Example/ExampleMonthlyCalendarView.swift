@@ -20,8 +20,7 @@ struct ExampleMonthlyCalendarView: View {
     }
 
     var body: some View {
-        MonthlyCalendarView()
-            .environmentObject(calendarManager.monthlyManager)
+        MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
     }
 
 }

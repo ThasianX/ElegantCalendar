@@ -196,6 +196,7 @@ class ElegantSimplePagerManager: ObservableObject {
         withAnimation(pageTurnType.pageTurnAnimation) {
             currentPage = page
         }
+        delegate?.willDisplay(page: page)
     }
 
 }

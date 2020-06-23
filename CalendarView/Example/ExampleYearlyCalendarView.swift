@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ExampleYearlyCalendarView: View {
 
-    @ObservedObject private var calendarManager: YearlyCalendarManager
+    @ObservedObject private var calendarManager: ElegantCalendarManager
 
     let visitsByDay: [Date: [Visit]]
 
@@ -13,12 +13,13 @@ struct ExampleYearlyCalendarView: View {
                                                   startDate: ascVisits.first!.arrivalDate,
                                                   endDate: ascVisits.last!.arrivalDate,
                                                   themeColor: .blackPearl)
-        calendarManager = YearlyCalendarManager(configuration: configuration)
+        calendarManager = ElegantCalendarManager(configuration: configuration,
+                                                 initialMonth: .daysFromToday(365))
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
     }
 
     var body: some View {
-        YearlyCalendarView(calendarManager: calendarManager)
+        YearlyCalendarView(calendarManager: calendarManager.yearlyManager)
     }
 
 }

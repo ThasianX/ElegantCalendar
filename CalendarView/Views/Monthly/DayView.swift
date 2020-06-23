@@ -4,7 +4,7 @@ import SwiftUI
 
 struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: MonthlyCalendarManager
+    @ObservedObject var calendarManager: MonthlyCalendarManager
 
     let week: Date
     let day: Date
@@ -106,22 +106,22 @@ private struct CircularSelectionView: View {
 
 }
 
-struct DayView_Previews: PreviewProvider {
-    static var previews: some View {
-        MonthlyCalendarManagerGroup {
-
-            LightThemePreview {
-                DayView(week: Date(), day: Date())
-
-                DayView(week: Date(), day: .daysFromToday(3))
-            }
-
-            DarkThemePreview {
-                DayView(week: Date(), day: Date())
-
-                DayView(week: Date(), day: .daysFromToday(3))
-            }
-
-        }
-    }
-}
+//struct DayView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MonthlyCalendarManagerGroup {
+//
+//            LightThemePreview {
+//                DayView(week: Date(), day: Date())
+//
+//                DayView(week: Date(), day: .daysFromToday(3))
+//            }
+//
+//            DarkThemePreview {
+//                DayView(week: Date(), day: Date())
+//
+//                DayView(week: Date(), day: .daysFromToday(3))
+//            }
+//
+//        }
+//    }
+//}

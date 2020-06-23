@@ -4,7 +4,7 @@ import SwiftUI
 
 struct WeekView: View, MonthlyCalendarManagerDirectAccess {
 
-    @EnvironmentObject var calendarManager: MonthlyCalendarManager
+    let calendarManager: MonthlyCalendarManager
 
     let week: Date
 
@@ -20,29 +20,29 @@ struct WeekView: View, MonthlyCalendarManagerDirectAccess {
     var body: some View {
         HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
             ForEach(days, id: \.self) { day in
-                DayView(week: self.week, day: day)
+                DayView(calendarManager: self.calendarManager, week: self.week, day: day)
             }
         }
     }
 
 }
 
-struct WeekView_Previews: PreviewProvider {
-    static var previews: some View {
-        MonthlyCalendarManagerGroup {
-
-            LightThemePreview {
-                WeekView(week: Date())
-
-                WeekView(week: .daysFromToday(-7))
-            }
-
-            DarkThemePreview {
-                WeekView(week: Date())
-
-                WeekView(week: .daysFromToday(-7))
-            }
-
-        }
-    }
-}
+//struct WeekView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MonthlyCalendarManagerGroup {
+//
+//            LightThemePreview {
+//                WeekView(week: Date())
+//
+//                WeekView(week: .daysFromToday(-7))
+//            }
+//
+//            DarkThemePreview {
+//                WeekView(week: Date())
+//
+//                WeekView(week: .daysFromToday(-7))
+//            }
+//
+//        }
+//    }
+//}
