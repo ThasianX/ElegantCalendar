@@ -191,13 +191,19 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
         MonthlyCalendarManagerGroup {
-            DarkThemePreview {
+
+            LightThemePreview {
                 MonthView(month: Date())
+
+                MonthView(month: .daysFromToday(45))
             }
 
             DarkThemePreview {
+                MonthView(month: Date())
+
                 MonthView(month: .daysFromToday(45))
             }
+
         }
     }
 }

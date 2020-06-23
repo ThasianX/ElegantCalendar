@@ -23,7 +23,7 @@ struct YearlyCalendarManagerGroup<PreviewGroup: View>: View {
 
     var body: some View {
         previewGroup
-            .environmentObject(YearlyCalendarManager(configuration: .mock))
+            .environment(\.yearlyCalendar, YearlyCalendarManager(configuration: .mock))
     }
 
     init(@ViewBuilder previewGroup: @escaping () -> PreviewGroup) {

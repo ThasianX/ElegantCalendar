@@ -21,8 +21,8 @@ public struct CalendarConfiguration: Equatable {
 extension CalendarConfiguration {
 
     static let mock = CalendarConfiguration(
-        startDate: .daysFromToday(-90),
-        endDate: .daysFromToday(365*3),
+        startDate: .daysFromToday(-365*2),
+        endDate: .daysFromToday(365*2),
         themeColor: .blackPearl)
 
     static let stub = CalendarConfiguration(startDate: Date(), endDate: Date(), themeColor: .clear)

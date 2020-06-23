@@ -30,13 +30,19 @@ struct WeekView: View, MonthlyCalendarManagerDirectAccess {
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
         MonthlyCalendarManagerGroup {
-            DarkThemePreview {
+
+            LightThemePreview {
                 WeekView(week: Date())
+
+                WeekView(week: .daysFromToday(-7))
             }
 
             DarkThemePreview {
+                WeekView(week: Date())
+
                 WeekView(week: .daysFromToday(-7))
             }
+
         }
     }
 }

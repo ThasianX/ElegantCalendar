@@ -27,17 +27,14 @@ struct SmallWeekView: View, YearlyCalendarAccessibleDirectAccess {
 
 }
 
-// TODO
-//struct SmallWeekView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        YearlyCalendarManagerGroup {
-//            DarkThemePreview {
-//                SmallWeekView(week: Date())
-//            }
-//
-//            DarkThemePreview {
-//                SmallWeekView(week: .daysFromToday(-7))
-//            }
-//        }
-//    }
-//}
+struct SmallWeekView_Previews: PreviewProvider {
+    static var previews: some View {
+        YearlyCalendarManagerGroup {
+            DarkThemePreview {
+                SmallWeekView(week: Date())
+                
+                SmallWeekView(week: .daysFromToday(-7))
+            }
+        }
+    }
+}

@@ -35,6 +35,8 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
                     .environment(\.yearlyCalendar, self.calendarManager)
             }
         }
+        .frame(width: CalendarConstants.cellWidth,
+               height: CalendarConstants.cellHeight)
     }
 
     private var scrollBackToTodayButton: some View {
@@ -44,20 +46,24 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
 }
 
-private struct YearlyCalendarScrollView<Content>: UIViewRepresentable where Content : View {
+private struct YearlyCalendarScrollView: UIViewRepresentable {
 
     typealias UIViewType = UIScrollView
 
     @EnvironmentObject var calendarManager: YearlyCalendarManager
 
-    let content: () -> Content
+    let content: AnyView
 
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
+    init<Content: View>(@ViewBuilder content: @escaping () -> Content) {
+        self.content = AnyView(content())
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
     }
 
     func makeUIView(context: Context) -> UIScrollView {
-        let hosting = UIHostingController(rootView: content())
+        let hosting = UIHostingController(rootView: content)
 
         let size = hosting.view.sizeThatFits(CGSize(width: screen.width, height: .greatestFiniteMagnitude))
         hosting.view.frame = CGRect(x: 0, y: 0,
@@ -76,10 +82,6 @@ private struct YearlyCalendarScrollView<Content>: UIViewRepresentable where Cont
         DispatchQueue.main.async {
             scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
         }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
     }
 
     class Coordinator: NSObject, UIScrollViewDelegate {
@@ -120,10 +122,25 @@ private extension UIScrollView {
 
 struct YearlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        YearlyCalendarManagerGroup {
+        // Only run one calendar at a time. SwiftUI has a limit for rendering time
+        Group {
+
+//            LightThemePreview {
+//                YearlyCalendarView()
+//                    .environmentObject(YearlyCalendarManager(configuration: .mock))
+//
+//                YearlyCalendarView()
+//                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
+//            }
+
             DarkThemePreview {
+//                YearlyCalendarView()
+//                    .environmentObject(YearlyCalendarManager(configuration: .mock))
+
                 YearlyCalendarView()
+                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
             }
+
         }
     }
 }

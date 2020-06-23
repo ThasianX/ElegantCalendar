@@ -2,6 +2,22 @@
 
 import SwiftUI
 
+struct LightThemePreview<Preview: View>: View {
+
+    let preview: Preview
+
+    var body: some View {
+        preview
+            .previewLayout(.sizeThatFits)
+            .colorScheme(.light)
+    }
+
+    init(@ViewBuilder preview: @escaping () -> Preview) {
+        self.preview = preview()
+    }
+
+}
+
 struct DarkThemePreview<Preview: View>: View {
 
     let preview: Preview

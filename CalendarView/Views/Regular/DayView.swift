@@ -109,13 +109,19 @@ private struct CircularSelectionView: View {
 struct DayView_Previews: PreviewProvider {
     static var previews: some View {
         MonthlyCalendarManagerGroup {
-            DarkThemePreview {
+
+            LightThemePreview {
                 DayView(week: Date(), day: Date())
+
+                DayView(week: Date(), day: .daysFromToday(3))
             }
 
             DarkThemePreview {
+                DayView(week: Date(), day: Date())
+
                 DayView(week: Date(), day: .daysFromToday(3))
             }
+
         }
     }
 }
