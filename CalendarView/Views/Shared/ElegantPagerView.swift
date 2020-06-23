@@ -233,7 +233,7 @@ struct ElegantVPageView: View, ElegantPagerManagerDirectAccess {
             ElegantPagerView(pagerManager: pagerManager, axis: .vertical)
                 .frame(height: pagerHeight)
         }
-        .frame(height: screen.height, alignment: .top)
+        .frame(width: screen.width, height: screen.height, alignment: .top)
         .offset(y: currentScrollOffset)
         .simultaneousGesture(
             DragGesture()
@@ -337,7 +337,7 @@ struct ElegantHPageView: View, ElegantPagerManagerDirectAccess {
             ElegantPagerView(pagerManager: pagerManager, axis: .horizontal)
                 .frame(width: pagerWidth)
         }
-        .frame(width: screen.width, alignment: .center)
+        .frame(width: screen.width, height: screen.height, alignment: .center)
         .offset(x: currentScrollOffset)
         .simultaneousGesture(
             DragGesture()
