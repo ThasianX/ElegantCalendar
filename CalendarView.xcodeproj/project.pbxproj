@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,9 +29,8 @@
 		1E7B3C602496FD9B00A2907D /* ExampleMonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B3C5F2496FD9B00A2907D /* ExampleMonthlyCalendarView.swift */; };
 		1E84A5012495920600401180 /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E84A5002495920600401180 /* VisitsListView.swift */; };
 		1E84A5042495993000401180 /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E84A5032495993000401180 /* VisitCell.swift */; };
-		1E912CFE2495ABE100AFCD4C /* View+Erased.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E912CFD2495ABE100AFCD4C /* View+Erased.swift */; };
+		1E8A324924A3E71F005929BD /* ElegantPages in Frameworks */ = {isa = PBXBuildFile; productRef = 1E8A324824A3E71F005929BD /* ElegantPages */; };
 		1E912D002495AF8A00AFCD4C /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */; };
-		1E9F037924A1E1B800B0E282 /* PageViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F037824A1E1B800B0E282 /* PageViewBuilder.swift */; };
 		1EC3BC9E248C749C0052C61B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC3BC9D248C749C0052C61B /* AppDelegate.swift */; };
 		1EC3BCA0248C749C0052C61B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */; };
 		1EC3BCA4248C749D0052C61B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EC3BCA3248C749D0052C61B /* Assets.xcassets */; };
@@ -45,8 +44,6 @@
 		1EEA23982497111B00677B07 /* ScrollBackToTodayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */; };
 		1EEA69302495DD8600189398 /* YearlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */; };
 		1EEA69322496CD9000189398 /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */; };
-		1EFFF2B1249EC04F0091CFE9 /* Comparable+Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFFF2B0249EC04F0091CFE9 /* Comparable+Clamped.swift */; };
-		1EFFF2B3249ECB010091CFE9 /* ElegantPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,9 +69,7 @@
 		1E7B3C5F2496FD9B00A2907D /* ExampleMonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleMonthlyCalendarView.swift; sourceTree = "<group>"; };
 		1E84A5002495920600401180 /* VisitsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsListView.swift; sourceTree = "<group>"; };
 		1E84A5032495993000401180 /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
-		1E912CFD2495ABE100AFCD4C /* View+Erased.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Erased.swift"; sourceTree = "<group>"; };
 		1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
-		1E9F037824A1E1B800B0E282 /* PageViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewBuilder.swift; sourceTree = "<group>"; };
 		1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarViewSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC3BC9D248C749C0052C61B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,8 +85,6 @@
 		1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBackToTodayButton.swift; sourceTree = "<group>"; };
 		1EEA692F2495DD8600189398 /* YearlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyCalendarView.swift; sourceTree = "<group>"; };
 		1EEA69312496CD9000189398 /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
-		1EFFF2B0249EC04F0091CFE9 /* Comparable+Clamped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Clamped.swift"; sourceTree = "<group>"; };
-		1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElegantPagerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E8A324924A3E71F005929BD /* ElegantPages in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,11 +112,9 @@
 			children = (
 				1E1829FA2491CE53006A55A3 /* Calender+Dates.swift */,
 				1E40D94A248C7A00005ECA82 /* Color+CustomColors.swift */,
-				1EFFF2B0249EC04F0091CFE9 /* Comparable+Clamped.swift */,
 				1E744D982495747E00C8B7E0 /* Date+DaysFromToday.swift */,
 				1E71D77D248C83DC003A3B0B /* Date+toString.swift */,
 				1E744D9A2495755E00C8B7E0 /* Enumeration+Matching.swift */,
-				1E912CFD2495ABE100AFCD4C /* View+Erased.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -258,9 +250,7 @@
 		1EEA23962497110D00677B07 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				1EFFF2B2249ECB010091CFE9 /* ElegantPagerView.swift */,
 				1EEA23972497111B00677B07 /* ScrollBackToTodayButton.swift */,
-				1E9F037824A1E1B800B0E282 /* PageViewBuilder.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -282,6 +272,7 @@
 			);
 			name = CalendarView;
 			packageProductDependencies = (
+				1E8A324824A3E71F005929BD /* ElegantPages */,
 			);
 			productName = CalendarView;
 			productReference = 1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */;
@@ -312,6 +303,7 @@
 			);
 			mainGroup = 1EC3BC91248C749C0052C61B;
 			packageReferences = (
+				1E8A324724A3E71F005929BD /* XCRemoteSwiftPackageReference "Elegant-Pages" */,
 			);
 			productRefGroup = 1EC3BC9B248C749C0052C61B /* Products */;
 			projectDirPath = "";
@@ -352,7 +344,6 @@
 				1E7B3C5A2496F62400A2907D /* YearlyCalendarManager.swift in Sources */,
 				1E744D992495747E00C8B7E0 /* Date+DaysFromToday.swift in Sources */,
 				1ED241A1249556D90007A3F2 /* ExampleCalendarView.swift in Sources */,
-				1EFFF2B3249ECB010091CFE9 /* ElegantPagerView.swift in Sources */,
 				1E40D947248C7823005ECA82 /* ElegantCalendarView.swift in Sources */,
 				1EDC9A852495C06400A78BFA /* SmallWeekView.swift in Sources */,
 				1E71D786248CB8A9003A3B0B /* WeekView.swift in Sources */,
@@ -364,12 +355,9 @@
 				1E84A5012495920600401180 /* VisitsListView.swift in Sources */,
 				1EEA69302495DD8600189398 /* YearlyCalendarView.swift in Sources */,
 				1E1829FB2491CE53006A55A3 /* Calender+Dates.swift in Sources */,
-				1EFFF2B1249EC04F0091CFE9 /* Comparable+Clamped.swift in Sources */,
-				1E912CFE2495ABE100AFCD4C /* View+Erased.swift in Sources */,
 				1E71D784248CB85E003A3B0B /* MonthView.swift in Sources */,
 				1E35EA22248D62D4003C584D /* CalenderConstants.swift in Sources */,
 				1EEA23982497111B00677B07 /* ScrollBackToTodayButton.swift in Sources */,
-				1E9F037924A1E1B800B0E282 /* PageViewBuilder.swift in Sources */,
 				1E40D94B248C7A00005ECA82 /* Color+CustomColors.swift in Sources */,
 				1E7B3C582496F60C00A2907D /* ElegantCalendarDelegate.swift in Sources */,
 				1E1829F92491B163006A55A3 /* ElegantCalendarManager.swift in Sources */,
@@ -572,6 +560,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1E8A324724A3E71F005929BD /* XCRemoteSwiftPackageReference "Elegant-Pages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ThasianX/Elegant-Pages";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1E8A324824A3E71F005929BD /* ElegantPages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E8A324724A3E71F005929BD /* XCRemoteSwiftPackageReference "Elegant-Pages" */;
+			productName = ElegantPages;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1EC3BC92248C749C0052C61B /* Project object */;
 }

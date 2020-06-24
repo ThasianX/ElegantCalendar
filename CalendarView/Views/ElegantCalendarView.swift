@@ -1,5 +1,6 @@
 // Kevin Li - 6:19 PM - 6/6/20
 
+import ElegantPages
 import SwiftUI
 
 struct ElegantCalendarView: View {
@@ -7,7 +8,7 @@ struct ElegantCalendarView: View {
     @ObservedObject var calendarManager: ElegantCalendarManager
 
     var body: some View {
-        ElegantHSimplePageView(pagerManager: calendarManager.pagerManager) {
+        ElegantHPages(manager: calendarManager.pagerManager) {
             yearlyCalendarView
             monthlyCalendarView
         }
