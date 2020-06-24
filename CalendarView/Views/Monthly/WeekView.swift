@@ -29,20 +29,10 @@ struct WeekView: View, MonthlyCalendarManagerDirectAccess {
 
 struct WeekView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            WeekView(calendarManager: .mock, week: Date())
 
-            LightThemePreview {
-                WeekView(calendarManager: .mock, week: Date())
-
-                WeekView(calendarManager: .mock, week: .daysFromToday(-7))
-            }
-
-            DarkThemePreview {
-                WeekView(calendarManager: .mock, week: Date())
-
-                WeekView(calendarManager: .mock, week: .daysFromToday(-7))
-            }
-
+            WeekView(calendarManager: .mock, week: .daysFromToday(-7))
         }
     }
 }

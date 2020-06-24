@@ -53,20 +53,10 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
 
 struct YearView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            YearView(calendarManager: .mock, year: Date())
 
-            LightThemePreview {
-                YearView(calendarManager: .mock, year: Date())
-
-                YearView(calendarManager: .mock, year: .daysFromToday(365))
-            }
-
-            DarkThemePreview {
-                YearView(calendarManager: .mock, year: Date())
-
-                YearView(calendarManager: .mock, year: .daysFromToday(365))
-            }
-
+            YearView(calendarManager: .mock, year: .daysFromToday(365))
         }
     }
 }

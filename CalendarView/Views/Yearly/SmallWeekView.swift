@@ -29,20 +29,10 @@ struct SmallWeekView: View, YearlyCalendarManagerDirectAccess {
 
 struct SmallWeekView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            SmallWeekView(calendarManager: .mock, week: Date())
 
-            LightThemePreview {
-                SmallWeekView(calendarManager: .mock, week: Date())
-
-                SmallWeekView(calendarManager: .mock, week: .daysFromToday(-7))
-            }
-
-            DarkThemePreview {
-                SmallWeekView(calendarManager: .mock, week: Date())
-
-                SmallWeekView(calendarManager: .mock, week: .daysFromToday(-7))
-            }
-
+            SmallWeekView(calendarManager: .mock, week: .daysFromToday(-7))
         }
     }
 }

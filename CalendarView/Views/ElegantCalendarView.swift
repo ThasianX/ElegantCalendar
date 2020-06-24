@@ -27,10 +27,20 @@ struct ElegantCalendarView: View {
 struct ElegantCalendarView_Previews: PreviewProvider {
     static var previews: some View {
         // Only run one calendar at a time. SwiftUI has a limit for rendering time
-        DarkThemePreview {
-            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
+        Group {
 
-//            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock, initialMonth: Date()))
+//            LightThemePreview {
+//                ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
+
+    //            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock, initialMonth: Date()))
+//            }
+
+            DarkThemePreview {
+                ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock))
+
+    //            ElegantCalendarView(calendarManager: ElegantCalendarManager(configuration: .mock, initialMonth: Date()))
+            }
+            
         }
     }
 }
