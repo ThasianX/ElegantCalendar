@@ -60,6 +60,13 @@ extension YearlyCalendarManager {
 
 }
 
+extension YearlyCalendarManager {
+
+    static let mock = YearlyCalendarManager(configuration: .mock)
+    static let mockWithInitialYear = YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(365))
+
+}
+
 protocol YearlyCalendarManagerDirectAccess: ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
     var calendarManager: YearlyCalendarManager { get }

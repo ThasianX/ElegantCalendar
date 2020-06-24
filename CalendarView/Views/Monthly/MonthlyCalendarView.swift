@@ -42,26 +42,22 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
 }
 
-//struct MonthlyCalendarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//
-//            LightThemePreview {
-//                MonthlyCalendarView()
-//                    .environmentObject(MonthlyCalendarManager(configuration: .mock))
-//
-//                MonthlyCalendarView()
-//                    .environmentObject(MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60)))
-//            }
-//
-//            DarkThemePreview {
-//                MonthlyCalendarView()
-//                    .environmentObject(MonthlyCalendarManager(configuration: .mock))
-//
-//                MonthlyCalendarView()
-//                    .environmentObject(MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60)))
-//            }
-//
-//        }
-//    }
-//}
+struct MonthlyCalendarView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+
+            LightThemePreview {
+                MonthlyCalendarView(calendarManager: .mock)
+
+                MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
+            }
+
+            DarkThemePreview {
+                MonthlyCalendarView(calendarManager: .mock)
+
+                MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
+            }
+
+        }
+    }
+}
