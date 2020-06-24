@@ -1,5 +1,6 @@
 // Kevin Li - 2:26 PM - 6/14/20
 
+import ElegantPages
 import SwiftUI
 
 struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
@@ -29,7 +30,7 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var monthsList: some View {
-        ElegantVPageView(pagerManager: calendarManager.pagerManager)
+        ElegantVList(manager: calendarManager.pagerManager)
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {

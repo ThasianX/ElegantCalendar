@@ -1,5 +1,6 @@
 // Kevin Li - 5:20 PM - 6/14/20
 
+import ElegantPages
 import SwiftUI
 
 class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, ElegantCalendarDirectAccess {
@@ -7,7 +8,7 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
     @Published public private(set) var currentMonth: Date
     @Published public var selectedDate: Date? = nil
 
-    let pagerManager: ElegantPagerManager
+    let pagerManager: ElegantListManager
 
     weak var parent: ElegantCalendarManager?
 
@@ -38,18 +39,18 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
 
 }
 
-extension MonthlyCalendarManager: ElegantPagerDataSource {
+extension MonthlyCalendarManager: ElegantPagesDataSource {
 
-    func view(for page: Int) -> AnyView {
+    func elegantPages(viewForPage page: Int) -> AnyView {
         MonthView(calendarManager: self, month: months[page])
             .erased
     }
 
 }
 
-extension MonthlyCalendarManager: ElegantPagerDelegate {
+extension MonthlyCalendarManager: ElegantPagesDelegate {
 
-    func willDisplay(page: Int) {
+    func elegantPages(willDisplay page: Int) {
         if months[page] != currentMonth {
             currentMonth = months[page]
             selectedDate = nil

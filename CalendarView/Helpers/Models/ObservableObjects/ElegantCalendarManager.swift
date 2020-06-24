@@ -1,6 +1,7 @@
 // Kevin Li - 5:25 PM - 6/10/20
 
 import Combine
+import ElegantPages
 import SwiftUI
 
 class PagerState: ObservableObject {
@@ -56,7 +57,7 @@ public class ElegantCalendarManager: ObservableObject {
     @Published var yearlyManager: YearlyCalendarManager
     @Published var monthlyManager: MonthlyCalendarManager
 
-    let pagerManager: ElegantSimplePagerManager
+    let pagerManager: ElegantPagesManager
 
     private var anyCancellable = Set<AnyCancellable>()
 
@@ -68,8 +69,8 @@ public class ElegantCalendarManager: ObservableObject {
         monthlyManager = MonthlyCalendarManager(configuration: configuration,
                                                 initialMonth: initialMonth)
 
-        pagerManager = ElegantSimplePagerManager(startingPage: 1,
-                                                 pageTurnType: .calendarEarlySwipe)
+        pagerManager = ElegantPagesManager(startingPage: 1,
+                                           pageTurnType: .calendarEarlySwipe)
         pagerManager.delegate = self
 
         yearlyManager.parent = self
@@ -90,11 +91,11 @@ public class ElegantCalendarManager: ObservableObject {
 
 }
 
-extension ElegantCalendarManager: ElegantPagerDelegate {
+extension ElegantCalendarManager: ElegantPagesDelegate {
 
     // accounts for both when the user scrolls to the yearly calendar view and the
     // user presses the month text to scroll to the yearly calendar view
-    public func willDisplay(page: Int) {
+    public func elegantPages(willDisplay page: Int) {
         if page == 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 self.yearlyManager.scrollToYear(self.currentMonth)
@@ -138,9 +139,9 @@ extension ElegantCalendarDirectAccess {
 
 }
 
-private extension ElegantPageTurnType {
+private extension PageTurnType {
 
-    static let calendarEarlySwipe: ElegantPageTurnType = .earlyCutoff(
+    static let calendarEarlySwipe: PageTurnType = .earlyCutoff(
         config: .init(scrollResistanceCutOff: 40,
                       pageTurnCutOff: 90,
                       pageTurnAnimation: .interactiveSpring(response: 0.35, dampingFraction: 0.86, blendDuration: 0.25)))
