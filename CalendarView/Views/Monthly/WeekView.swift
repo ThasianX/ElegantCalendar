@@ -27,22 +27,22 @@ struct WeekView: View, MonthlyCalendarManagerDirectAccess {
 
 }
 
-//struct WeekView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MonthlyCalendarManagerGroup {
-//
-//            LightThemePreview {
-//                WeekView(week: Date())
-//
-//                WeekView(week: .daysFromToday(-7))
-//            }
-//
-//            DarkThemePreview {
-//                WeekView(week: Date())
-//
-//                WeekView(week: .daysFromToday(-7))
-//            }
-//
-//        }
-//    }
-//}
+struct WeekView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+
+            LightThemePreview {
+                WeekView(calendarManager: .mock, week: Date())
+
+                WeekView(calendarManager: .mock, week: .daysFromToday(-7))
+            }
+
+            DarkThemePreview {
+                WeekView(calendarManager: .mock, week: Date())
+
+                WeekView(calendarManager: .mock, week: .daysFromToday(-7))
+            }
+
+        }
+    }
+}

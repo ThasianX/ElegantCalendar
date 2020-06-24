@@ -85,6 +85,13 @@ extension MonthlyCalendarManager {
 
 }
 
+extension MonthlyCalendarManager {
+
+    static let mock = MonthlyCalendarManager(configuration: .mock)
+    static let mockWithInitialMonth = MonthlyCalendarManager(configuration: .mock, initialMonth: .daysFromToday(60))
+
+}
+
 protocol MonthlyCalendarManagerDirectAccess: ConfigurationDirectAccess, ElegantCalendarDirectAccess {
 
     var calendarManager: MonthlyCalendarManager { get }

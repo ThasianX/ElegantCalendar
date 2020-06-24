@@ -188,22 +188,22 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
 }
 
-//struct MonthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MonthlyCalendarManagerGroup {
-//
-//            LightThemePreview {
-//                MonthView(month: Date())
-//
-//                MonthView(month: .daysFromToday(45))
-//            }
-//
-//            DarkThemePreview {
-//                MonthView(month: Date())
-//
-//                MonthView(month: .daysFromToday(45))
-//            }
-//
-//        }
-//    }
-//}
+struct MonthView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+
+            LightThemePreview {
+                MonthView(calendarManager: .mock, month: Date())
+
+                MonthView(calendarManager: .mock, month: .daysFromToday(45))
+            }
+
+            DarkThemePreview {
+                MonthView(calendarManager: .mock, month: Date())
+
+                MonthView(calendarManager: .mock, month: .daysFromToday(45))
+            }
+
+        }
+    }
+}

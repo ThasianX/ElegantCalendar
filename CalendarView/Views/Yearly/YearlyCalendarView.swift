@@ -120,27 +120,23 @@ private extension UIScrollView {
 
 }
 
-//struct YearlyCalendarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        // Only run one calendar at a time. SwiftUI has a limit for rendering time
-//        Group {
+struct YearlyCalendarView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Only run one calendar at a time. SwiftUI has a limit for rendering time
+        Group {
+
+//            LightThemePreview {
+//                YearlyCalendarView(calendarManager: .mock)
 //
-////            LightThemePreview {
-////                YearlyCalendarView()
-////                    .environmentObject(YearlyCalendarManager(configuration: .mock))
-////
-////                YearlyCalendarView()
-////                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
-////            }
-//
-//            DarkThemePreview {
-////                YearlyCalendarView()
-////                    .environmentObject(YearlyCalendarManager(configuration: .mock))
-//
-//                YearlyCalendarView()
-//                    .environmentObject(YearlyCalendarManager(configuration: .mock, initialYear: .daysFromToday(366)))
+//                YearlyCalendarView(calendarManager: .mockWithInitialYear)
 //            }
-//
-//        }
-//    }
-//}
+
+            DarkThemePreview {
+//                YearlyCalendarView(calendarManager: .mock)
+
+                YearlyCalendarView(calendarManager: .mockWithInitialYear)
+            }
+
+        }
+    }
+}

@@ -27,14 +27,22 @@ struct SmallWeekView: View, YearlyCalendarManagerDirectAccess {
 
 }
 
-//struct SmallWeekView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        YearlyCalendarManagerGroup {
-//            DarkThemePreview {
-//                SmallWeekView(week: Date())
-//
-//                SmallWeekView(week: .daysFromToday(-7))
-//            }
-//        }
-//    }
-//}
+struct SmallWeekView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+
+            LightThemePreview {
+                SmallWeekView(calendarManager: .mock, week: Date())
+
+                SmallWeekView(calendarManager: .mock, week: .daysFromToday(-7))
+            }
+
+            DarkThemePreview {
+                SmallWeekView(calendarManager: .mock, week: Date())
+
+                SmallWeekView(calendarManager: .mock, week: .daysFromToday(-7))
+            }
+
+        }
+    }
+}
