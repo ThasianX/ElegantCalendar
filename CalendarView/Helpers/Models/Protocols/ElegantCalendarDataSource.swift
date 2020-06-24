@@ -6,7 +6,6 @@ public protocol ElegantCalendarDataSource {
 
     func calendar(backgroundColorOpacityForDate date: Date) -> Double
     func calendar(canSelectDate date: Date) -> Bool
-
     func calendar(viewForSelectedDate date: Date, dimensions size: CGSize) -> AnyView
 
 }
