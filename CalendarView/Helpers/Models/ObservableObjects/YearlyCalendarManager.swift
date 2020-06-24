@@ -31,14 +31,6 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
 }
 
-extension YearlyCalendarManager: YearlyCalendarAccessible {
-
-    func monthTapped(_ month: Date) {
-        parent?.scrollToMonthAndShowMonthlyView(month)
-    }
-
-}
-
 extension YearlyCalendarManager {
 
     func scrollBackToToday() {
@@ -56,6 +48,10 @@ extension YearlyCalendarManager {
         if currentPage != page {
             currentPage = page
         }
+    }
+
+    func monthTapped(_ month: Date) {
+        parent?.scrollToMonthAndShowMonthlyView(month)
     }
 
 }
