@@ -108,20 +108,10 @@ private struct CircularSelectionView: View {
 
 struct DayView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            DayView(calendarManager: .mock, week: Date(), day: Date())
 
-            LightThemePreview {
-                DayView(calendarManager: .mock, week: Date(), day: Date())
-
-                DayView(calendarManager: .mock, week: Date(), day: .daysFromToday(3))
-            }
-
-            DarkThemePreview {
-                DayView(calendarManager: .mock, week: Date(), day: Date())
-
-                DayView(calendarManager: .mock, week: Date(), day: .daysFromToday(3))
-            }
-
+            DayView(calendarManager: .mock, week: Date(), day: .daysFromToday(3))
         }
     }
 }

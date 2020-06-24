@@ -22,16 +22,8 @@ struct ScrollBackToTodayButton: View {
 
 struct ScrollBackToTodayButton_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-
-            LightThemePreview {
-                ScrollBackToTodayButton(scrollBackToToday: {}, color: .blackPearl)
-            }
-
-            DarkThemePreview {
-                ScrollBackToTodayButton(scrollBackToToday: {}, color: .blackPearl)
-            }
-
+        LightDarkThemePreview {
+            ScrollBackToTodayButton(scrollBackToToday: {}, color: .blackPearl)
         }
     }
 }

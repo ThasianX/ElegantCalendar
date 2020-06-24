@@ -44,20 +44,10 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
 struct MonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            MonthlyCalendarView(calendarManager: .mock)
 
-            LightThemePreview {
-                MonthlyCalendarView(calendarManager: .mock)
-
-                MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
-            }
-
-            DarkThemePreview {
-                MonthlyCalendarView(calendarManager: .mock)
-
-                MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
-            }
-
+            MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
         }
     }
 }

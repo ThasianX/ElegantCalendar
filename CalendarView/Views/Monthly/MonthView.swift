@@ -190,20 +190,10 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
 struct MonthView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            MonthView(calendarManager: .mock, month: Date())
 
-            LightThemePreview {
-                MonthView(calendarManager: .mock, month: Date())
-
-                MonthView(calendarManager: .mock, month: .daysFromToday(45))
-            }
-
-            DarkThemePreview {
-                MonthView(calendarManager: .mock, month: Date())
-
-                MonthView(calendarManager: .mock, month: .daysFromToday(45))
-            }
-
+            MonthView(calendarManager: .mock, month: .daysFromToday(45))
         }
     }
 }

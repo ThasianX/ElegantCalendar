@@ -66,24 +66,12 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
 
 struct SmallMonthView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        LightDarkThemePreview {
+            SmallMonthView(calendarManager: .mock, month: Date())
 
-            LightThemePreview {
-                SmallMonthView(calendarManager: .mock, month: Date())
+            SmallMonthView(calendarManager: .mock, month: .daysFromToday(45))
 
-                SmallMonthView(calendarManager: .mock, month: .daysFromToday(45))
-
-                SmallMonthView(calendarManager: .mock, month: .daysFromToday(-30))
-            }
-
-            DarkThemePreview {
-                SmallMonthView(calendarManager: .mock, month: Date())
-
-                SmallMonthView(calendarManager: .mock, month: .daysFromToday(45))
-
-                SmallMonthView(calendarManager: .mock, month: .daysFromToday(-30))
-            }
-
+            SmallMonthView(calendarManager: .mock, month: .daysFromToday(-30))
         }
     }
 }
