@@ -10,8 +10,8 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 <br/>
 
+<img src="demo.gif" width="300"/>
 <p>
-  <img src="demo.gif" width="300"/>
   <img src="lightmodemonthly.png" width="300"/>
   <img src="lightmodeyearly.png" width="300"/>
 </p>
@@ -21,9 +21,10 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 - [How It Works](#how-it-works)
 - [Customization](#customization)
 - [Demos](#demos)
+- [Installation](#installation)
 - [Requirements](#requirements)
 - [Contributing](#contributing)
-- [Installation](#installation)
+- [Resources](#resources)
 - [License](#license)
 
 ## Introduction
@@ -146,6 +147,10 @@ dependencies: [
 ## Contributing
 
 If you find a bug, or would like to suggest a new feature or enhancement, it'd be nice if you could [search the issue tracker](https://github.com/ThasianX/ElegantCalendar/issues) first; while we don't mind duplicates, keeping issues unique helps us save time and considates effort. If you can't find your issue, feel free to [file a new one](https://github.com/ThasianX/ElegantCalendar/issues/new).
+
+## Resources
+
+Also, here's a [dump of resources](resources.txt) I found useful when working on this
 
 ## License
 
