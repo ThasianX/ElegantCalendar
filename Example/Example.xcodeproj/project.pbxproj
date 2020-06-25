@@ -45,6 +45,9 @@
 		1E029D3E24A44D6400A81FFD /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3A24A44D6400A81FFD /* VisitPreviewConstants.swift */; };
 		1E029D3F24A44D6400A81FFD /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3B24A44D6400A81FFD /* VisitCell.swift */; };
 		1E029D4024A44D6400A81FFD /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3C24A44D6400A81FFD /* VisitsListView.swift */; };
+		1E628BED24A451B900DDD18E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E628BEC24A451B900DDD18E /* ContentView.swift */; };
+		1E628BEF24A4528D00DDD18E /* ExampleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E628BEE24A4528D00DDD18E /* ExampleSelectionView.swift */; };
+		1E628BF124A457C700DDD18E /* Date+FullDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E628BF024A457C700DDD18E /* Date+FullDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +90,9 @@
 		1E029D3A24A44D6400A81FFD /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitPreviewConstants.swift; path = ../VisitPreviewConstants.swift; sourceTree = "<group>"; };
 		1E029D3B24A44D6400A81FFD /* VisitCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitCell.swift; path = ../VisitCell.swift; sourceTree = "<group>"; };
 		1E029D3C24A44D6400A81FFD /* VisitsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitsListView.swift; path = ../VisitsListView.swift; sourceTree = "<group>"; };
+		1E628BEC24A451B900DDD18E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1E628BEE24A4528D00DDD18E /* ExampleSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleSelectionView.swift; sourceTree = "<group>"; };
+		1E628BF024A457C700DDD18E /* Date+FullDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+FullDate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,7 @@
 			children = (
 				1E029C7624A4448A00A81FFD /* AppDelegate.swift */,
 				1E029C7824A4448A00A81FFD /* SceneDelegate.swift */,
+				1E628BEC24A451B900DDD18E /* ContentView.swift */,
 				1E029D3624A44CBC00A81FFD /* Individual Views */,
 				1E029D3724A44CF700A81FFD /* Calendar with Accessory View */,
 				1E029D3524A44CA700A81FFD /* Selection and Exit */,
@@ -258,6 +265,7 @@
 		1E029D3524A44CA700A81FFD /* Selection and Exit */ = {
 			isa = PBXGroup;
 			children = (
+				1E628BEE24A4528D00DDD18E /* ExampleSelectionView.swift */,
 			);
 			path = "Selection and Exit";
 			sourceTree = "<group>";
@@ -284,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				1E029D3324A44C3700A81FFD /* Color+BlackPearl.swift */,
+				1E628BF024A457C700DDD18E /* Date+FullDate.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -392,9 +401,12 @@
 				1E029D2924A448B300A81FFD /* ElegantCalendarDelegate.swift in Sources */,
 				1E029D2624A448B300A81FFD /* ElegantCalendarManager.swift in Sources */,
 				1E029D4024A44D6400A81FFD /* VisitsListView.swift in Sources */,
+				1E628BED24A451B900DDD18E /* ContentView.swift in Sources */,
 				1E029D3D24A44D6400A81FFD /* Visit.swift in Sources */,
+				1E628BEF24A4528D00DDD18E /* ExampleSelectionView.swift in Sources */,
 				1E029D2B24A448B300A81FFD /* Date+toString.swift in Sources */,
 				1E029D2824A448B300A81FFD /* ElegantCalendarDataSource.swift in Sources */,
+				1E628BF124A457C700DDD18E /* Date+FullDate.swift in Sources */,
 				1E029D2D24A448B300A81FFD /* Enumeration+Matching.swift in Sources */,
 				1E029D1C24A448B300A81FFD /* WeekView.swift in Sources */,
 				1E029D1A24A448B300A81FFD /* MonthlyCalendarView.swift in Sources */,
