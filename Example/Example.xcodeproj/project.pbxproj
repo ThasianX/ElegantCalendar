@@ -41,13 +41,13 @@
 		1E029D2F24A448B300A81FFD /* LightDarkThemePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D1624A448B300A81FFD /* LightDarkThemePreview.swift */; };
 		1E029D3224A4492B00A81FFD /* ElegantPages in Frameworks */ = {isa = PBXBuildFile; productRef = 1E029D3124A4492B00A81FFD /* ElegantPages */; };
 		1E029D3424A44C3700A81FFD /* Color+BlackPearl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3324A44C3700A81FFD /* Color+BlackPearl.swift */; };
-		1E029D3D24A44D6400A81FFD /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3924A44D6400A81FFD /* Visit.swift */; };
-		1E029D3E24A44D6400A81FFD /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3A24A44D6400A81FFD /* VisitPreviewConstants.swift */; };
-		1E029D3F24A44D6400A81FFD /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3B24A44D6400A81FFD /* VisitCell.swift */; };
-		1E029D4024A44D6400A81FFD /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E029D3C24A44D6400A81FFD /* VisitsListView.swift */; };
 		1E628BED24A451B900DDD18E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E628BEC24A451B900DDD18E /* ContentView.swift */; };
 		1E628BEF24A4528D00DDD18E /* ExampleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E628BEE24A4528D00DDD18E /* ExampleSelectionView.swift */; };
 		1E628BF124A457C700DDD18E /* Date+FullDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E628BF024A457C700DDD18E /* Date+FullDate.swift */; };
+		1E995AF424A552BA00F436BE /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF024A552BA00F436BE /* Visit.swift */; };
+		1E995AF524A552BA00F436BE /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF124A552BA00F436BE /* VisitsListView.swift */; };
+		1E995AF624A552BA00F436BE /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */; };
+		1E995AF724A552BA00F436BE /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF324A552BA00F436BE /* VisitCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,13 +86,13 @@
 		1E029D1424A448B300A81FFD /* Calender+Dates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Calender+Dates.swift"; sourceTree = "<group>"; };
 		1E029D1624A448B300A81FFD /* LightDarkThemePreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightDarkThemePreview.swift; sourceTree = "<group>"; };
 		1E029D3324A44C3700A81FFD /* Color+BlackPearl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+BlackPearl.swift"; sourceTree = "<group>"; };
-		1E029D3924A44D6400A81FFD /* Visit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Visit.swift; path = ../Visit.swift; sourceTree = "<group>"; };
-		1E029D3A24A44D6400A81FFD /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitPreviewConstants.swift; path = ../VisitPreviewConstants.swift; sourceTree = "<group>"; };
-		1E029D3B24A44D6400A81FFD /* VisitCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitCell.swift; path = ../VisitCell.swift; sourceTree = "<group>"; };
-		1E029D3C24A44D6400A81FFD /* VisitsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisitsListView.swift; path = ../VisitsListView.swift; sourceTree = "<group>"; };
 		1E628BEC24A451B900DDD18E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1E628BEE24A4528D00DDD18E /* ExampleSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleSelectionView.swift; sourceTree = "<group>"; };
 		1E628BF024A457C700DDD18E /* Date+FullDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+FullDate.swift"; sourceTree = "<group>"; };
+		1E995AF024A552BA00F436BE /* Visit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Visit.swift; sourceTree = "<group>"; };
+		1E995AF124A552BA00F436BE /* VisitsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitsListView.swift; sourceTree = "<group>"; };
+		1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
+		1E995AF324A552BA00F436BE /* VisitCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,7 +283,10 @@
 			isa = PBXGroup;
 			children = (
 				1E029CB024A4450200A81FFD /* ExampleCalendarView.swift */,
-				1E029D4124A450CD00A81FFD /* Helpers */,
+				1E995AF024A552BA00F436BE /* Visit.swift */,
+				1E995AF324A552BA00F436BE /* VisitCell.swift */,
+				1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */,
+				1E995AF124A552BA00F436BE /* VisitsListView.swift */,
 			);
 			path = "Calendar with Accessory View";
 			sourceTree = "<group>";
@@ -295,17 +298,6 @@
 				1E628BF024A457C700DDD18E /* Date+FullDate.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		1E029D4124A450CD00A81FFD /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				1E029D3C24A44D6400A81FFD /* VisitsListView.swift */,
-				1E029D3B24A44D6400A81FFD /* VisitCell.swift */,
-				1E029D3924A44D6400A81FFD /* Visit.swift */,
-				1E029D3A24A44D6400A81FFD /* VisitPreviewConstants.swift */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,11 +380,13 @@
 				1E029D1E24A448B300A81FFD /* SmallMonthView.swift in Sources */,
 				1E029CB424A4450200A81FFD /* ExampleMonthlyCalendarView.swift in Sources */,
 				1E029D2124A448B300A81FFD /* SmallWeekView.swift in Sources */,
+				1E995AF424A552BA00F436BE /* Visit.swift in Sources */,
 				1E029D1D24A448B300A81FFD /* DayView.swift in Sources */,
 				1E029D2224A448B300A81FFD /* YearView.swift in Sources */,
 				1E029D2024A448B300A81FFD /* SmallDayView.swift in Sources */,
 				1E029D2724A448B300A81FFD /* MonthlyCalendarManager.swift in Sources */,
 				1E029C7724A4448A00A81FFD /* AppDelegate.swift in Sources */,
+				1E995AF724A552BA00F436BE /* VisitCell.swift in Sources */,
 				1E029D2524A448B300A81FFD /* YearlyCalendarManager.swift in Sources */,
 				1E029D2F24A448B300A81FFD /* LightDarkThemePreview.swift in Sources */,
 				1E029D2324A448B300A81FFD /* CalenderConstants.swift in Sources */,
@@ -400,9 +394,9 @@
 				1E029D3424A44C3700A81FFD /* Color+BlackPearl.swift in Sources */,
 				1E029D2924A448B300A81FFD /* ElegantCalendarDelegate.swift in Sources */,
 				1E029D2624A448B300A81FFD /* ElegantCalendarManager.swift in Sources */,
-				1E029D4024A44D6400A81FFD /* VisitsListView.swift in Sources */,
+				1E995AF624A552BA00F436BE /* VisitPreviewConstants.swift in Sources */,
 				1E628BED24A451B900DDD18E /* ContentView.swift in Sources */,
-				1E029D3D24A44D6400A81FFD /* Visit.swift in Sources */,
+				1E995AF524A552BA00F436BE /* VisitsListView.swift in Sources */,
 				1E628BEF24A4528D00DDD18E /* ExampleSelectionView.swift in Sources */,
 				1E029D2B24A448B300A81FFD /* Date+toString.swift in Sources */,
 				1E029D2824A448B300A81FFD /* ElegantCalendarDataSource.swift in Sources */,
@@ -417,11 +411,9 @@
 				1E029D2C24A448B300A81FFD /* Color+CustomColors.swift in Sources */,
 				1E029CB324A4450200A81FFD /* ExampleCalendarView.swift in Sources */,
 				1E029D1924A448B300A81FFD /* ScrollBackToTodayButton.swift in Sources */,
-				1E029D3E24A44D6400A81FFD /* VisitPreviewConstants.swift in Sources */,
 				1E029CB524A4450200A81FFD /* ExampleYearlyCalendarView.swift in Sources */,
 				1E029D1F24A448B300A81FFD /* YearlyCalendarView.swift in Sources */,
 				1E029D1B24A448B300A81FFD /* MonthView.swift in Sources */,
-				1E029D3F24A44D6400A81FFD /* VisitCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
