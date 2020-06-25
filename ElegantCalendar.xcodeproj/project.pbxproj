@@ -70,7 +70,7 @@
 		1E84A5002495920600401180 /* VisitsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsListView.swift; sourceTree = "<group>"; };
 		1E84A5032495993000401180 /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
 		1E912CFF2495AF8A00AFCD4C /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
-		1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarViewSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EC3BC9A248C749C0052C61B /* ElegantCalendarSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElegantCalendarSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EC3BC9D248C749C0052C61B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EC3BC9F248C749C0052C61B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1EC3BCA3248C749D0052C61B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 		1EC3BC91248C749C0052C61B = {
 			isa = PBXGroup;
 			children = (
-				1EC3BC9C248C749C0052C61B /* CalendarView */,
+				1EC3BC9C248C749C0052C61B /* ElegantCalendar */,
 				1EC3BC9B248C749C0052C61B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -195,12 +195,12 @@
 		1EC3BC9B248C749C0052C61B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */,
+				1EC3BC9A248C749C0052C61B /* ElegantCalendarSwiftUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1EC3BC9C248C749C0052C61B /* CalendarView */ = {
+		1EC3BC9C248C749C0052C61B /* ElegantCalendar */ = {
 			isa = PBXGroup;
 			children = (
 				1EC3BC9D248C749C0052C61B /* AppDelegate.swift */,
@@ -213,7 +213,7 @@
 				1EC3BCAB248C749D0052C61B /* Info.plist */,
 				1EC3BCA5248C749D0052C61B /* Preview Content */,
 			);
-			path = CalendarView;
+			path = ElegantCalendar;
 			sourceTree = "<group>";
 		};
 		1EC3BCA5248C749D0052C61B /* Preview Content */ = {
@@ -258,9 +258,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1EC3BC99248C749C0052C61B /* CalendarView */ = {
+		1EC3BC99248C749C0052C61B /* ElegantCalendar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1EC3BCAE248C749D0052C61B /* Build configuration list for PBXNativeTarget "CalendarView" */;
+			buildConfigurationList = 1EC3BCAE248C749D0052C61B /* Build configuration list for PBXNativeTarget "ElegantCalendar" */;
 			buildPhases = (
 				1EC3BC96248C749C0052C61B /* Sources */,
 				1EC3BC97248C749C0052C61B /* Frameworks */,
@@ -270,12 +270,12 @@
 			);
 			dependencies = (
 			);
-			name = CalendarView;
+			name = ElegantCalendar;
 			packageProductDependencies = (
 				1E8A324824A3E71F005929BD /* ElegantPages */,
 			);
 			productName = CalendarView;
-			productReference = 1EC3BC9A248C749C0052C61B /* CalendarViewSwiftUI.app */;
+			productReference = 1EC3BC9A248C749C0052C61B /* ElegantCalendarSwiftUI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -293,7 +293,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1EC3BC95248C749C0052C61B /* Build configuration list for PBXProject "CalendarView" */;
+			buildConfigurationList = 1EC3BC95248C749C0052C61B /* Build configuration list for PBXProject "ElegantCalendar" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -309,7 +309,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1EC3BC99248C749C0052C61B /* CalendarView */,
+				1EC3BC99248C749C0052C61B /* ElegantCalendar */,
 			);
 		};
 /* End PBXProject section */
@@ -501,17 +501,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"CalendarView/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ElegantCalendar/Preview Content\"";
 				DEVELOPMENT_TEAM = 75H2NCGMKS;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = CalendarView/Info.plist;
+				INFOPLIST_FILE = ElegantCalendar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.CalendarView;
-				PRODUCT_NAME = CalendarViewSwiftUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.ElegantCalendar;
+				PRODUCT_NAME = ElegantCalendarSwiftUI;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -522,17 +522,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"CalendarView/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"ElegantCalendar/Preview Content\"";
 				DEVELOPMENT_TEAM = 75H2NCGMKS;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = CalendarView/Info.plist;
+				INFOPLIST_FILE = ElegantCalendar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.CalendarView;
-				PRODUCT_NAME = CalendarViewSwiftUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.ElegantCalendar;
+				PRODUCT_NAME = ElegantCalendarSwiftUI;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -541,7 +541,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1EC3BC95248C749C0052C61B /* Build configuration list for PBXProject "CalendarView" */ = {
+		1EC3BC95248C749C0052C61B /* Build configuration list for PBXProject "ElegantCalendar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1EC3BCAC248C749D0052C61B /* Debug */,
@@ -550,7 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1EC3BCAE248C749D0052C61B /* Build configuration list for PBXNativeTarget "CalendarView" */ = {
+		1EC3BCAE248C749D0052C61B /* Build configuration list for PBXNativeTarget "ElegantCalendar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1EC3BCAF248C749D0052C61B /* Debug */,
