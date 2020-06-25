@@ -6,8 +6,6 @@ import SwiftUI
 
 class SelectionModel: ObservableObject {
 
-    @Published var showCalendar = false
-
     @Published var calendarManager: ElegantCalendarManager = .init(configuration: .mock)
     let pagesManager = ElegantPagesManager(startingPage: 1, pageTurnType: .earlyCutOffDefault)
 
@@ -44,6 +42,7 @@ struct ExampleSelectionView: View {
     }
 
     var body: some View {
+        // TODO: custom view
         ElegantHPages(manager: pagesManager) {
             calendarView
             homeView

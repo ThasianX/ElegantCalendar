@@ -23,7 +23,7 @@ struct ScrollBackToTodayButton: View {
 struct ScrollBackToTodayButton_Previews: PreviewProvider {
     static var previews: some View {
         LightDarkThemePreview {
-            ScrollBackToTodayButton(scrollBackToToday: {}, color: .blackPearl)
+            ScrollBackToTodayButton(scrollBackToToday: {}, color: .purple)
         }
     }
 }

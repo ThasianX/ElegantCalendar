@@ -23,7 +23,7 @@ extension CalendarConfiguration {
     static let mock = CalendarConfiguration(
         startDate: .daysFromToday(-365*2),
         endDate: .daysFromToday(365*2),
-        themeColor: .blackPearl)
+        themeColor: .purple)
 
 }
 
