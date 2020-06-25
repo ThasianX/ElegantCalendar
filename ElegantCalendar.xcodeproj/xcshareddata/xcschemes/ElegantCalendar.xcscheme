@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1EC3BC99248C749C0052C61B"
-               BuildableName = "CalendarViewSwiftUI.app"
-               BlueprintName = "CalendarView"
-               ReferencedContainer = "container:CalendarView.xcodeproj">
+               BuildableName = "ElegantCalendarSwiftUI.app"
+               BlueprintName = "ElegantCalendar"
+               ReferencedContainer = "container:ElegantCalendar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1EC3BC99248C749C0052C61B"
-            BuildableName = "CalendarViewSwiftUI.app"
-            BlueprintName = "CalendarView"
-            ReferencedContainer = "container:CalendarView.xcodeproj">
+            BuildableName = "ElegantCalendarSwiftUI.app"
+            BlueprintName = "ElegantCalendar"
+            ReferencedContainer = "container:ElegantCalendar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1EC3BC99248C749C0052C61B"
-            BuildableName = "CalendarViewSwiftUI.app"
-            BlueprintName = "CalendarView"
-            ReferencedContainer = "container:CalendarView.xcodeproj">
+            BuildableName = "ElegantCalendarSwiftUI.app"
+            BlueprintName = "ElegantCalendar"
+            ReferencedContainer = "container:ElegantCalendar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
