@@ -4,12 +4,12 @@ import SwiftUI
 
 public struct CalendarConfiguration: Equatable {
 
-    let calendar: Calendar
-    let startDate: Date
-    let endDate: Date
-    let themeColor: Color
+    public let calendar: Calendar
+    public let startDate: Date
+    public let endDate: Date
+    public let themeColor: Color
 
-    init(calendar: Calendar = .current, startDate: Date, endDate: Date, themeColor: Color) {
+    public init(calendar: Calendar = .current, startDate: Date, endDate: Date, themeColor: Color) {
         self.calendar = calendar
         self.startDate = startDate
         self.endDate = endDate
