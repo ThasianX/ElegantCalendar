@@ -3,11 +3,15 @@
 import ElegantPages
 import SwiftUI
 
-struct ElegantCalendarView: View {
+public struct ElegantCalendarView: View {
 
-    @ObservedObject var calendarManager: ElegantCalendarManager
+    @ObservedObject public var calendarManager: ElegantCalendarManager
 
-    var body: some View {
+    public init(calendarManager: ElegantCalendarManager) {
+        self.calendarManager = calendarManager
+    }
+
+    public var body: some View {
         ElegantHPages(manager: calendarManager.pagerManager) {
             yearlyCalendarView
             monthlyCalendarView
