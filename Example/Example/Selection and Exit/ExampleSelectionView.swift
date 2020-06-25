@@ -1,22 +1,17 @@
 // Kevin Li - 8:33 PM - 6/24/20
 
-import Combine
 import ElegantPages
 import SwiftUI
 
+fileprivate let turnAnimation: Animation = .spring(response: 0.4, dampingFraction: 0.95)
+
 class SelectionModel: ObservableObject {
 
-    @Published var calendarManager: ElegantCalendarManager = .init(configuration: .mock)
-    let pagesManager = ElegantPagesManager(startingPage: 1, pageTurnType: .earlyCutOffDefault)
-
-    var anyCancellable: AnyCancellable? = nil
+    @Published var showCalendar = false
+    @Published var calendarManager: ElegantCalendarManager = .init(configuration: .init(startDate: .daysFromToday(-365), endDate: .daysFromToday(365*3), themeColor: .blackPearl))
 
     init() {
         calendarManager.delegate = self
-
-        anyCancellable = calendarManager.objectWillChange.sink {
-            self.objectWillChange.send()
-        }
     }
 
 }
@@ -24,7 +19,11 @@ class SelectionModel: ObservableObject {
 extension SelectionModel: ElegantCalendarDelegate {
 
     func calendar(didSelectDate date: Date) {
-        pagesManager.scroll(to: 1)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(turnAnimation) {
+                self.showCalendar = false
+            }
+        }
     }
 
 }
@@ -37,16 +36,19 @@ struct ExampleSelectionView: View {
         model.calendarManager
     }
 
-    var pagesManager: ElegantPagesManager {
-        model.pagesManager
+    private var offset: CGFloat {
+        model.showCalendar ? -screen.width : -screen.width*2
     }
 
     var body: some View {
-        // TODO: custom view
-        ElegantHPages(manager: pagesManager) {
+        HStack(alignment: .center, spacing: 0) {
             calendarView
+                .frame(width: screen.width*2, height: screen.height, alignment: .trailing)
             homeView
+                .frame(width: screen.width, height: screen.height)
         }
+        .frame(width: screen.width, height: screen.height, alignment: .leading)
+        .offset(x: offset)
     }
 
     private var calendarView: some View {
@@ -56,7 +58,9 @@ struct ExampleSelectionView: View {
     private var homeView: some View {
         VStack(spacing: 25) {
             Button(action: {
-                self.pagesManager.scroll(to: 0)
+                withAnimation(turnAnimation) {
+                    self.model.showCalendar = true
+                }
             }) {
                 Text("Show Calendar").foregroundColor(.blackPearl)
             }
