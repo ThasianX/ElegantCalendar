@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ElegantPages",
+        "repositoryURL": "https://github.com/ThasianX/ElegantPages",
+        "state": {
+          "branch": null,
+          "revision": "092dca01402ad3bd9ac7363594084832b1fe935d",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

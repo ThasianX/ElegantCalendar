@@ -1,4 +1,4 @@
-// Kevin Li - 6:04 PM - 6/6/20
+// Kevin Li - 7:33 PM - 6/24/20
 
 import UIKit
 
@@ -8,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
         return true
     }
 
