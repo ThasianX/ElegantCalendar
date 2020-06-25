@@ -1,15 +1,24 @@
 // Kevin Li - 8:33 PM - 6/24/20
 
+import Combine
+import ElegantPages
 import SwiftUI
 
 class SelectionModel: ObservableObject {
 
     @Published var showCalendar = false
 
-    let calendarManager: ElegantCalendarManager = .init(configuration: .mock)
+    @Published var calendarManager: ElegantCalendarManager = .init(configuration: .mock)
+    let pagesManager = ElegantPagesManager(startingPage: 1, pageTurnType: .earlyCutOffDefault)
+
+    var anyCancellable: AnyCancellable? = nil
 
     init() {
         calendarManager.delegate = self
+
+        anyCancellable = calendarManager.objectWillChange.sink {
+            self.objectWillChange.send()
+        }
     }
 
 }
@@ -17,9 +26,7 @@ class SelectionModel: ObservableObject {
 extension SelectionModel: ElegantCalendarDelegate {
 
     func calendar(didSelectDate date: Date) {
-        withAnimation(.spring()) {
-            showCalendar = false
-        }
+        pagesManager.scroll(to: 1)
     }
 
 }
@@ -32,22 +39,14 @@ struct ExampleSelectionView: View {
         model.calendarManager
     }
 
+    var pagesManager: ElegantPagesManager {
+        model.pagesManager
+    }
+
     var body: some View {
-        ZStack {
-            VStack(spacing: 25) {
-                Button(action: {
-                    withAnimation(.spring()) {
-                        self.model.showCalendar = true
-                    }
-                }) {
-                    Text("Show Calendar").foregroundColor(.blackPearl)
-                }
-
-                Text(calendarManager.selectedDate?.fullDate ?? "No date selected")
-            }
-
+        ElegantHPages(manager: pagesManager) {
             calendarView
-                .modal(isPresented: model.showCalendar)
+            homeView
         }
     }
 
@@ -55,20 +54,16 @@ struct ExampleSelectionView: View {
         ElegantCalendarView(calendarManager: calendarManager)
     }
 
-    private func scrollToSelectedDateIfExists() {
-        if let selectedDate = calendarManager.selectedDate {
-            calendarManager.scrollToMonth(selectedDate)
+    private var homeView: some View {
+        VStack(spacing: 25) {
+            Button(action: {
+                self.pagesManager.scroll(to: 0)
+            }) {
+                Text("Show Calendar").foregroundColor(.blackPearl)
+            }
+
+            Text(calendarManager.selectedDate?.fullDate ?? "No date selected")
         }
-    }
-
-}
-
-extension View {
-
-    func modal(isPresented: Bool) -> some View {
-        self
-            .offset(y: isPresented ? 0 : screen.height)
-            .opacity(isPresented ? 1 : 0)
     }
 
 }
