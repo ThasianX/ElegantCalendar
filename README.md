@@ -29,7 +29,7 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 ## Introduction
 
-`ElegantCalendar` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486). 
+`ElegantCalendar` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486). It also uses [ElegantPages](https://github.com/ThasianX/ElegantPages), another library I wrote specifically for paging so check that out :)
 
 It is mainly meant to be used with apps that require the use of a calendar to function, not as a full screen date picker(may be supported in future).
 
