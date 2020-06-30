@@ -33,7 +33,7 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 It is mainly meant to be used with apps that require the use of a calendar to function, not as a full screen date picker(may be supported in future).
 
-Also, sadly I upgraded my iPhone to iOS14 the other day and couldn't run the app on my phone :c. So could only get screenshots for light mode :c
+Just in case you're wondering how to get to the year view, you can either drag towards the left or click the month header.
 
 ## Basic usage
 
