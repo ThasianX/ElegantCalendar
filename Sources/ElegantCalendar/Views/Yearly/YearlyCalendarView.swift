@@ -7,7 +7,8 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     @ObservedObject var calendarManager: YearlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
-        Date() >= startDate && Date() <= endDate
+        Date() >= calendar.startOfDay(for: startDate) &&
+            calendar.startOfDay(for: Date()) <= endDate
     }
 
     private var isCurrentYearSameAsTodayYear: Bool {
