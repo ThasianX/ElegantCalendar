@@ -49,6 +49,10 @@ public class ElegantCalendarManager: ObservableObject {
         monthlyManager.selectedDate
     }
 
+    public var isShowingYearView: Bool {
+        pagerManager.currentPage == 0
+    }
+
     public var datasource: ElegantCalendarDataSource?
     public var delegate: ElegantCalendarDelegate?
 
