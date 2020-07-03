@@ -9,13 +9,20 @@ struct ExampleCalendarView: View {
     let visitsByDay: [Date: [Visit]]
 
     init(ascVisits: [Visit]) {
-        let configuration = CalendarConfiguration(calendar: currentCalendar,
-                                                  startDate: ascVisits.first!.arrivalDate,
-                                                  endDate: ascVisits.last!.arrivalDate,
-                                                  themeColor: .blackPearl)
-        calendarManager = ElegantCalendarManager(configuration: configuration,
-                                                 initialMonth: .daysFromToday(30))
-        visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
+        let configuration = CalendarConfiguration(
+            calendar: currentCalendar,
+            startDate: ascVisits.first!.arrivalDate,
+            endDate: ascVisits.last!.arrivalDate,
+            themeColor: .blackPearl)
+
+        calendarManager = ElegantCalendarManager(
+            configuration: configuration,
+            initialMonth: .daysFromToday(30))
+
+        visitsByDay = Dictionary(
+            grouping: ascVisits,
+            by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
+
         calendarManager.datasource = self
         calendarManager.delegate = self
     }

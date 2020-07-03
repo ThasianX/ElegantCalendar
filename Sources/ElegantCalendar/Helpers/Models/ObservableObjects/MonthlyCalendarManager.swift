@@ -18,17 +18,19 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
     init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
         self.configuration = configuration
 
-        months = configuration.calendar.generateDates(
+        let months = configuration.calendar.generateDates(
             inside: DateInterval(start: configuration.startDate,
                                  end: configuration.endDate),
             matching: .firstDayOfEveryMonth)
 
+        self.months = configuration.ascending ? months : months.reversed()
+
         var startingPage: Int = 0
         if let initialMonth = initialMonth {
-            startingPage = configuration.calendar.monthsBetween(configuration.startDate, and: initialMonth)
+            startingPage = configuration.calendar.monthsBetween(configuration.referenceDate, and: initialMonth)
         }
 
-        currentMonth = months[startingPage]
+        currentMonth = self.months[startingPage]
 
         pagerManager = .init(startingPage: startingPage,
                              pageCount: months.count,
@@ -83,7 +85,7 @@ extension MonthlyCalendarManager {
 
     func scrollToMonth(_ month: Date, animated: Bool = true) {
         if !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year]) {
-            let page = calendar.monthsBetween(startDate, and: month)
+            let page = calendar.monthsBetween(referenceDate, and: month)
             pagerManager.scroll(to: page, animated: animated)
         }
     }
@@ -130,9 +132,9 @@ private extension Calendar {
     func monthsBetween(_ date1: Date, and date2: Date) -> Int {
         let startOfMonthForDate1 = startOfMonth(for: date1)
         let startOfMonthForDate2 = startOfMonth(for: date2)
-        return dateComponents([.month],
+        return abs(dateComponents([.month],
                               from: startOfMonthForDate1,
-                              to: startOfMonthForDate2).month!
+                              to: startOfMonthForDate2).month!)
     }
 
 }

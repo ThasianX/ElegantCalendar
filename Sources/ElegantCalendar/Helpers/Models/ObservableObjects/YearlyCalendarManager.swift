@@ -18,13 +18,15 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
     init(configuration: CalendarConfiguration, initialYear: Date? = nil) {
         self.configuration = configuration
 
-        years = configuration.calendar.generateDates(
+        let years = configuration.calendar.generateDates(
             inside: DateInterval(start: configuration.startDate,
                                  end: configuration.endDate),
             matching: .firstDayOfEveryYear)
 
+        self.years = configuration.ascending ? years : years.reversed()
+
         if let initialYear = initialYear {
-            let page = calendar.yearsBetween(startDate, and: initialYear)
+            let page = calendar.yearsBetween(referenceDate, and: initialYear)
             currentPage = page
         }
     }
@@ -39,7 +41,7 @@ extension YearlyCalendarManager {
 
     func scrollToYear(_ year: Date) {
         if !calendar.isDate(currentYear, equalTo: year, toGranularity: .year) {
-            let page = calendar.yearsBetween(startDate, and: year)
+            let page = calendar.yearsBetween(referenceDate, and: year)
             currentPage = page
         }
     }
@@ -96,9 +98,9 @@ private extension Calendar {
     func yearsBetween(_ date1: Date, and date2: Date) -> Int {
         let startOfYearForDate1 = startOfYear(for: date1)
         let startOfYearForDate2 = startOfYear(for: date2)
-        return dateComponents([.year],
+        return abs(dateComponents([.year],
                               from: startOfYearForDate1,
-                              to: startOfYearForDate2).year!
+                              to: startOfYearForDate2).year!)
     }
 
 }
