@@ -23,18 +23,13 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(month, equalTo: Date(), toGranularities: [.month, .year])
     }
 
-    private var isWithinSameMonthAndYearAsSelectedDate: Bool {
-        guard let selectedDate = selectedDate else { return false }
-        return calendar.isDate(month, equalTo: selectedDate, toGranularities: [.month, .year])
-    }
-
     var body: some View {
         VStack(spacing: 40) {
             monthYearHeader
                 .padding(.leading, CalendarConstants.horizontalPadding)
                 .onTapGesture { self.parent?.showYearlyView() }
             weeksViewWithDaysOfWeekHeader
-            if isWithinSameMonthAndYearAsSelectedDate {
+            if selectedDate != nil {
                 calenderAccessoryView
                     .padding(.leading, CalendarConstants.horizontalPadding)
                     .id(selectedDate!)
