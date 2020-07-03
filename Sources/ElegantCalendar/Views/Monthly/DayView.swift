@@ -42,7 +42,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
             .background(backgroundColor)
             .clipShape(Circle())
             .opacity(opacity)
-            .overlay(isSelected && isDayWithinWeekMonthAndYear ? CircularSelectionView() : nil)
+            .overlay(isSelected ? CircularSelectionView() : nil)
             .onTapGesture(perform: notifyManager)
     }
 
@@ -52,7 +52,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var foregroundColor: Color {
         if isDayToday {
-            return .systemBackground
+            return themeColor
         } else {
             return .primary
         }
@@ -72,11 +72,15 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var opacity: Double {
-        isDaySelectableAndInRange ? 1 : 0.15
+        guard isDayWithinDateRange else { return 0.15 }
+        guard !isDayToday else { return 1 }
+        return isDayWithinWeekMonthAndYear ? 1 : 0.15
     }
 
     private func notifyManager() {
-        if isDaySelectableAndInRange {
+        guard isDayWithinDateRange else { return }
+
+        if isDayToday || isDayWithinWeekMonthAndYear {
             calendarManager.dayTapped(day: day)
         }
     }
@@ -97,7 +101,7 @@ private struct CircularSelectionView: View {
     }
 
     private var radius: CGFloat {
-        startBounce ? CalendarConstants.Monthly.dayWidth + 5 : CalendarConstants.Monthly.dayWidth + 25
+        startBounce ? CalendarConstants.Monthly.dayWidth + 6 : CalendarConstants.Monthly.dayWidth + 25
     }
 
     private func startBounceAnimation() {

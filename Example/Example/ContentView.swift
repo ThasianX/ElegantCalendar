@@ -4,34 +4,21 @@ import SwiftUI
 
 struct ContentView: View {
 
+    // Uncomment out the view you want to test.
     var body: some View {
-        TabView {
-            ExampleYearlyCalendarView(
-                ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
-                                       end: .daysFromToday(30*36)))
-                .tabItem({
-                    Text("Yearly Calendar")
-                }).tag(0)
+//        ExampleYearlyCalendarView(
+//            ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
+//                                   end: .daysFromToday(30*36)))
 
-            ExampleMonthlyCalendarView(
-                ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
-                                       end: .daysFromToday(30*36)))
-                .tabItem({
-                    Text("Monthly Calendar")
-                }).tag(1)
-
-            ExampleCalendarView(
-                ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
-                                       end: .daysFromToday(30*36)))
-                .tabItem({
-                    Text("Full Calendar")
-                }).tag(2)
-
-            ExampleSelectionView()
-                .tabItem({
-                    Text("Calendar Selection")
-                }).tag(3)
-        }
+//        ExampleMonthlyCalendarView(
+//            ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
+//                                   end: .daysFromToday(30*36)))
+//
+        ExampleCalendarView(
+            ascVisits: Visit.mocks(start: .daysFromToday(-30*36),
+                                   end: .daysFromToday(30*36)))
+//
+//        ExampleSelectionView()
     }
 }
 
