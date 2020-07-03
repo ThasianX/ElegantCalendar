@@ -77,10 +77,10 @@ extension MonthlyCalendarManager {
         delegate?.calendar(didSelectDate: day)
     }
 
-    public func scrollToMonth(_ month: Date) {
+    func scrollToMonth(_ month: Date, animated: Bool = true) {
         if !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year]) {
             let page = calendar.monthsBetween(startDate, and: month)
-            pagerManager.scroll(to: page)
+            pagerManager.scroll(to: page, animated: animated)
         }
     }
 
