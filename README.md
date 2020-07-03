@@ -20,6 +20,7 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 - [Basic Usage](#basic-usage)
 - [How It Works](#how-it-works)
 - [Customization](#customization)
+- [Use Cases](#use-cases)
 - [Demos](#demos)
 - [Installation](#installation)
 - [Requirements](#requirements)
@@ -29,9 +30,11 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 ## Introduction
 
-`ElegantCalendar` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486). It also uses [ElegantPages](https://github.com/ThasianX/ElegantPages), another library I wrote specifically for paging so check that out :)
+`ElegantCalendar` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486). It uses [ElegantPages](https://github.com/ThasianX/ElegantPages), another library I wrote specifically for paging so check that out :)
 
 It is mainly meant to be used with apps that require the use of a calendar to function, not as a full screen date picker(may be supported in future).
+
+It supports both light and dark mode.
 
 Just in case you're wondering how to get to the year view, you can either drag towards the left or click the month header.
 
@@ -67,7 +70,7 @@ So how can this be fixed? Either create a simpler yearly calendar that doesn't r
 
 ## Customization
 
-The following aspects of `ElegantCalendarView` can be customized:
+The following aspects of `ElegantCalendarManager` can be customized:
 
 #### `configuration`: The configuration of the calendar view
 
@@ -76,6 +79,7 @@ The following aspects of `ElegantCalendarView` can be customized:
 public struct CalendarConfiguration: Equatable {
 
     let calendar: Calendar
+    let ascending: Bool
     let startDate: Date
     let endDate: Date
     let themeColor: Color
@@ -83,6 +87,8 @@ public struct CalendarConfiguration: Equatable {
 }
 
 ```
+
+**New**: You can now reverse the direction the calendar is laid out.
 
 #### `initialMonth`: The initial month to display on the calendar. If not specified, automatically defaults to the first month.
 
@@ -117,6 +123,22 @@ public protocol ElegantCalendarDelegate {
 
 This is just a convenience to handle the shortcomings of the `@Published` wrapper which doesn't support `didSet`. Conform to this if you need to do things when a month is displayed or date changes.
 
+## Use Cases
+
+The following aspects of `ElegantCalendarManager` can be used:
+
+`var currentMonth: Date` - The current month displayed on the calendar view.
+
+`var selectedDate: Date?` - The date selected on the calendar view, if any.
+
+`var isShowingYearView: Bool` - Whether the year view is showing. If false, the month view is showing.
+
+`func scrollToMonth(_ month: Date, animated: Bool = true)` - Scroll back to a certain month, animated or not. No date is selected in the process.
+
+`func scrollBackToToday(animated: Bool = true)` - Scroll back to today, animated or not. Today's date is selected in the process.
+
+`func scrollToDay(_ day: Date, animated: Bool = true)` - Scroll back to a certain date, animated or not. The date is selected in the process.
+
 ## Demos
 
 The demo shown in the GIF can be checked out on [example repo](https://github.com/ThasianX/ElegantCalendar/tree/master/Example).
@@ -133,7 +155,7 @@ If you are using `Package.swift`, you can also add `ElegantCalendar` as a depend
 
 dependencies: [
     ...
-    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "1.2.0"))
     ...
 ]
 
