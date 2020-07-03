@@ -93,6 +93,14 @@ public class ElegantCalendarManager: ObservableObject {
         monthlyManager.scrollToMonth(month, animated: animated)
     }
 
+    public func scrollBackToToday(animated: Bool = true) {
+        scrollToDay(Date(), animated: animated)
+    }
+
+    public func scrollToDay(_ day: Date, animated: Bool = true) {
+        monthlyManager.scrollToDay(day, animated: animated)
+    }
+
 }
 
 extension ElegantCalendarManager: ElegantPagesDelegate {

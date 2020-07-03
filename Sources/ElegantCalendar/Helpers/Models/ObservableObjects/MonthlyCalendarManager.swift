@@ -63,11 +63,15 @@ extension MonthlyCalendarManager: ElegantPagesDelegate {
 
 extension MonthlyCalendarManager {
 
-    public func scrollBackToToday() {
-        scrollToMonth(Date())
-        if datasource?.calendar(canSelectDate: Date()) ?? true {
+    func scrollBackToToday() {
+        scrollToDay(Date())
+    }
+
+    func scrollToDay(_ day: Date, animated: Bool = true) {
+        scrollToMonth(day, animated: animated)
+        if datasource?.calendar(canSelectDate: day) ?? true {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
-                self.dayTapped(day: Date())
+                self.dayTapped(day: day)
             }
         }
     }
