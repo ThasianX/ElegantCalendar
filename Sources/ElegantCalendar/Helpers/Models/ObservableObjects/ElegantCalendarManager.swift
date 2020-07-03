@@ -89,8 +89,8 @@ public class ElegantCalendarManager: ObservableObject {
         }.store(in: &anyCancellable)
     }
 
-    public func scrollToMonth(_ month: Date) {
-        monthlyManager.scrollToMonth(month)
+    public func scrollToMonth(_ month: Date, animated: Bool = true) {
+        monthlyManager.scrollToMonth(month, animated: animated)
     }
 
 }

@@ -17,6 +17,7 @@ struct ExampleMonthlyCalendarView: View {
                                                  initialMonth: .daysFromToday(30))
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
         calendarManager.datasource = self
+        calendarManager.delegate = self
     }
 
     var body: some View {
@@ -40,6 +41,18 @@ extension ExampleMonthlyCalendarView: ElegantCalendarDataSource {
     func calendar(viewForSelectedDate date: Date, dimensions size: CGSize) -> AnyView {
         let startOfDay = currentCalendar.startOfDay(for: date)
         return VisitsListView(visits: visitsByDay[startOfDay] ?? [], height: size.height).erased
+    }
+
+}
+
+extension ExampleMonthlyCalendarView: ElegantCalendarDelegate {
+
+    func calendar(willDisplayMonth date: Date) {
+        print("Will show month: \(date)")
+    }
+
+    func calendar(didSelectDate date: Date) {
+        print("Selected date: \(date)")
     }
 
 }
