@@ -15,6 +15,8 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
     public let configuration: CalendarConfiguration
     let months: [Date]
 
+    private var isHapticActive: Bool = true
+
     init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
         self.configuration = configuration
 
@@ -58,6 +60,12 @@ extension MonthlyCalendarManager: ElegantPagesDelegate {
             selectedDate = nil
 
             delegate?.calendar(willDisplayMonth: currentMonth)
+
+            if isHapticActive {
+                UIImpactFeedbackGenerator.generateSelectionHaptic()
+            } else {
+                isHapticActive = true
+            }
         }
     }
 
@@ -84,6 +92,7 @@ extension MonthlyCalendarManager {
     }
 
     func scrollToMonth(_ month: Date, animated: Bool = true) {
+        isHapticActive = animated
         if !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year]) {
             let page = calendar.monthsBetween(referenceDate, and: month)
             pagerManager.scroll(to: page, animated: animated)
