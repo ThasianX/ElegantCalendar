@@ -80,6 +80,7 @@ public struct CalendarConfiguration: Equatable {
 
     let calendar: Calendar
     let ascending: Bool
+    let allowHaptics: Bool
     let startDate: Date
     let endDate: Date
     let themeColor: Color
@@ -88,7 +89,7 @@ public struct CalendarConfiguration: Equatable {
 
 ```
 
-**New**: You can now reverse the direction the calendar is laid out.
+**New**: You can now reverse the direction the calendar is laid out through `ascending`
 
 #### `initialMonth`: The initial month to display on the calendar. If not specified, automatically defaults to the first month.
 
