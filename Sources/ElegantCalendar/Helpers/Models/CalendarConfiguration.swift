@@ -6,13 +6,15 @@ public struct CalendarConfiguration: Equatable {
 
     public let calendar: Calendar
     public let ascending: Bool
+    public let allowHaptics: Bool
     public let startDate: Date
     public let endDate: Date
     public let themeColor: Color
 
-    public init(calendar: Calendar = .current, ascending: Bool = true, startDate: Date, endDate: Date, themeColor: Color) {
+    public init(calendar: Calendar = .current, ascending: Bool = true, allowHaptics: Bool = true, startDate: Date, endDate: Date, themeColor: Color) {
         self.calendar = calendar
         self.ascending = ascending
+        self.allowHaptics = allowHaptics
         self.startDate = startDate
         self.endDate = endDate
         self.themeColor = themeColor
@@ -43,6 +45,10 @@ extension ConfigurationDirectAccess {
 
     var calendar: Calendar {
         configuration.calendar
+    }
+
+    var allowHaptics: Bool {
+        configuration.allowHaptics
     }
 
     var startDate: Date {

@@ -61,7 +61,7 @@ extension MonthlyCalendarManager: ElegantPagesDelegate {
 
             delegate?.calendar(willDisplayMonth: currentMonth)
 
-            if isHapticActive {
+            if allowHaptics && isHapticActive {
                 UIImpactFeedbackGenerator.generateSelectionHaptic()
             } else {
                 isHapticActive = true

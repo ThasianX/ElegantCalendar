@@ -80,9 +80,11 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
     private func notifyManager() {
         guard isDayWithinDateRange else { return }
 
-        UIImpactFeedbackGenerator.generateSelectionHaptic()
-
         if isDayToday || isDayWithinWeekMonthAndYear {
+            if configuration.allowHaptics {
+                UIImpactFeedbackGenerator.generateSelectionHaptic()
+            }
+
             calendarManager.dayTapped(day: day)
         }
     }
