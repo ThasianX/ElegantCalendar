@@ -10,11 +10,7 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 <br/>
 
-<img src="demo.gif" width="300"/>
-<p>
-  <img src="lightmodemonthly.png" width="300"/>
-  <img src="lightmodeyearly.png" width="300"/>
-</p>
+<img src="dark_demo.gif" width="300"/> <img src="light_demo.gif" width="300"/>
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
@@ -32,11 +28,22 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 `ElegantCalendar` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486). It uses [ElegantPages](https://github.com/ThasianX/ElegantPages), another library I wrote specifically for paging so check that out :)
 
-It is mainly meant to be used with apps that require the use of a calendar to function, not as a full screen date picker(may be supported in future).
+It is mainly meant to be used with apps that require the use of a calendar to function, not as a full screen date picker(the demo demonstrates how to do so if you really want to).
 
-It supports both light and dark mode.
+Features:
 
-Just in case you're wondering how to get to the year view, you can either drag towards the left or click the month header.
+* Display months and years in a full screen vertical scrolling layout
+* Custom layout system that allows virtually infinite date ranges with minimal increasing memory usage
+* Customization of individual day views
+* Customization of the calendar color scheme, light and dark
+* Customization of the accessory view displayed when selecting a day
+* Excluding certain days from being selectable on the calendar
+* Scrolling to a particular day, month, or year with or without animation
+* Built in button that scrolls back to today’s month or year
+* Flexibility in either using the full calendar view that has both the monthly and yearly view or just one of the individual views
+* Haptics when performing certain actions
+* Intuitive navigation between the yearly and monthly view: swipe between views or tap on the month header to navigate to the yearly view
+
 
 ## Basic usage
 
@@ -60,6 +67,40 @@ struct ExampleCalendarView: View {
 }
 ```
 
+However, if you just want an individual view, not the entire calendar view, you can do either:
+
+```swift
+
+import ElegantCalendar
+
+struct ExampleMonthlyCalendarView: View {
+
+    @ObservedObject var calendarManager = MonthlyCalendarManager(
+        configuration: CalendarConfiguration(startDate: startDate,
+                                             endDate: endDate,
+                                             themeColor: .blackPearl))
+
+    var body: some View {
+        MonthlyCalendarView(calendarManager: calendarManager)
+    }
+
+}
+
+struct ExampleYearlyCalendarView: View {
+
+    @ObservedObject var calendarManager = YearlyCalendarManager(
+        configuration: CalendarConfiguration(startDate: startDate,
+                                             endDate: endDate,
+                                             themeColor: .blackPearl))
+
+    var body: some View {
+        YearlyCalendarView(calendarManager: calendarManager)
+    }
+
+}
+
+```
+
 ## How it works
 
 [`ElegantCalendarView`](https://github.com/ThasianX/ElegantCalendar/blob/master/Sources/ElegantCalendar/Views/ElegantCalendarView.swift) uses the [`ElegantHPages`](https://github.com/ThasianX/ElegantPages/blob/master/Sources/ElegantPages/Pages/Public/ElegantHPages.swift) view from [`ElegantPages`](https://github.com/ThasianX/ElegantPages). Essentially, it's just a swipable `HStack` that loads all the views immediately. And it's also for this reason that it is not recommended that `ElegantCalendarView` should not be used as a date picker. Here's why.
@@ -79,7 +120,7 @@ The following aspects of `ElegantCalendarManager` can be customized:
 public struct CalendarConfiguration: Equatable {
 
     let calendar: Calendar
-    let ascending: Bool
+    let ascending: Bool // reverses the order in which the calendar is laid out
     let allowHaptics: Bool
     let startDate: Date
     let endDate: Date
@@ -89,21 +130,23 @@ public struct CalendarConfiguration: Equatable {
 
 ```
 
-**New**: You can now reverse the direction the calendar is laid out through `ascending`
-
 #### `initialMonth`: The initial month to display on the calendar. If not specified, automatically defaults to the first month.
 
 #### `datasource`: The datasource of the calendar
 
 ```swift 
 
-public protocol ElegantCalendarDataSource {
+public protocol ElegantCalendarDataSource: MonthlyCalendarDataSource, YearlyCalendarDataSource { }
+
+public protocol MonthlyCalendarDataSource {
 
     func calendar(backgroundColorOpacityForDate date: Date) -> Double
     func calendar(canSelectDate date: Date) -> Bool
     func calendar(viewForSelectedDate date: Date, dimensions size: CGSize) -> AnyView
 
 }
+
+public protocol YearlyCalendarDataSource { }
 
 ```
 
@@ -113,10 +156,19 @@ This allows you to customize the opacity of any given day, whether you want a da
 
 ```swift 
 
-public protocol ElegantCalendarDelegate {
+public protocol ElegantCalendarDelegate: MonthlyCalendarDelegate, YearlyCalendarDelegate { }
 
-    func calendar(didSelectDate date: Date)
+public protocol MonthlyCalendarDelegate {
+
+    func calendar(didSelectDay date: Date)
     func calendar(willDisplayMonth date: Date)
+
+}
+
+public protocol YearlyCalendarDelegate {
+
+    func calendar(didSelectMonth date: Date)
+    func calendar(willDisplayYear date: Date)
 
 }
 
@@ -142,7 +194,7 @@ The following aspects of `ElegantCalendarManager` can be used:
 
 ## Demos
 
-The demo shown in the GIF can be checked out on [example repo](https://github.com/ThasianX/ElegantCalendar/tree/master/Example).
+The demos shown in the GIF can be checked out on [example repo](https://github.com/ThasianX/ElegantCalendar/tree/master/Example).
 
 ## Installation
 
@@ -156,7 +208,7 @@ If you are using `Package.swift`, you can also add `ElegantCalendar` as a depend
 
 dependencies: [
     ...
-    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "1.2.0"))
+    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "2.0.0"))
     ...
 ]
 

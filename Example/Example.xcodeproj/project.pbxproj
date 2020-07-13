@@ -49,6 +49,8 @@
 		1E995AF524A552BA00F436BE /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF124A552BA00F436BE /* VisitsListView.swift */; };
 		1E995AF624A552BA00F436BE /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */; };
 		1E995AF724A552BA00F436BE /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF324A552BA00F436BE /* VisitCell.swift */; };
+		1EA4DC2024BBBB2F006FF8D9 /* PagerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4DC1F24BBBB2F006FF8D9 /* PagerState.swift */; };
+		1EA4DC2224BBBB4D006FF8D9 /* ElegantCalendarCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4DC2124BBBB4C006FF8D9 /* ElegantCalendarCommunicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +97,8 @@
 		1E995AF124A552BA00F436BE /* VisitsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitsListView.swift; sourceTree = "<group>"; };
 		1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
 		1E995AF324A552BA00F436BE /* VisitCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
+		1EA4DC1F24BBBB2F006FF8D9 /* PagerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerState.swift; sourceTree = "<group>"; };
+		1EA4DC2124BBBB4C006FF8D9 /* ElegantCalendarCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElegantCalendarCommunicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,9 +270,10 @@
 		1E115E0F24B81FEE00352C4E /* ObservableObjects */ = {
 			isa = PBXGroup;
 			children = (
-				1E115E1024B81FEE00352C4E /* YearlyCalendarManager.swift */,
 				1E115E1124B81FEE00352C4E /* ElegantCalendarManager.swift */,
+				1E115E1024B81FEE00352C4E /* YearlyCalendarManager.swift */,
 				1E115E1224B81FEE00352C4E /* MonthlyCalendarManager.swift */,
+				1EA4DC1F24BBBB2F006FF8D9 /* PagerState.swift */,
 			);
 			path = ObservableObjects;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 			children = (
 				1E115E1424B81FEE00352C4E /* ElegantCalendarDataSource.swift */,
 				1E115E1524B81FEE00352C4E /* ElegantCalendarDelegate.swift */,
+				1EA4DC2124BBBB4C006FF8D9 /* ElegantCalendarCommunicator.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 				1E115E2B24B81FEE00352C4E /* CalendarConfiguration.swift in Sources */,
 				1E115E3424B81FEE00352C4E /* Color+CustomColors.swift in Sources */,
 				1E115E2F24B81FEE00352C4E /* ElegantCalendarDataSource.swift in Sources */,
+				1EA4DC2224BBBB4D006FF8D9 /* ElegantCalendarCommunicator.swift in Sources */,
 				1E995AF424A552BA00F436BE /* Visit.swift in Sources */,
 				1E115E2724B81FEE00352C4E /* SmallDayView.swift in Sources */,
 				1E029C7724A4448A00A81FFD /* AppDelegate.swift in Sources */,
@@ -415,6 +422,7 @@
 				1E115E2C24B81FEE00352C4E /* YearlyCalendarManager.swift in Sources */,
 				1E029CB324A4450200A81FFD /* ExampleCalendarView.swift in Sources */,
 				1E029CB524A4450200A81FFD /* ExampleYearlyCalendarView.swift in Sources */,
+				1EA4DC2024BBBB2F006FF8D9 /* PagerState.swift in Sources */,
 				1E115E2A24B81FEE00352C4E /* CalenderConstants.swift in Sources */,
 				1E115E2024B81FEE00352C4E /* ScrollBackToTodayButton.swift in Sources */,
 				1E115E2424B81FEE00352C4E /* DayView.swift in Sources */,

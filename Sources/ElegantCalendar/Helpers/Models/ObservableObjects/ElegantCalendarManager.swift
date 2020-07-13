@@ -4,41 +4,6 @@ import Combine
 import ElegantPages
 import SwiftUI
 
-class PagerState: ObservableObject {
-
-    @Published var activeIndex: Int = 1
-    @Published var translation: CGFloat = .zero
-
-    let pagerWidth: CGFloat
-
-    init(pagerWidth: CGFloat) {
-        self.pagerWidth = pagerWidth
-    }
-
-}
-
-protocol PagerStateDirectAccess {
-
-    var pagerState: PagerState { get }
-
-}
-
-extension PagerStateDirectAccess {
-
-    var pagerWidth: CGFloat {
-        pagerState.pagerWidth
-    }
-
-    var activeIndex: Int {
-        pagerState.activeIndex
-    }
-
-    var translation: CGFloat {
-        pagerState.translation
-    }
-
-}
-
 public class ElegantCalendarManager: ObservableObject {
 
     public var currentMonth: Date {
@@ -53,13 +18,13 @@ public class ElegantCalendarManager: ObservableObject {
         pagerManager.currentPage == 0
     }
 
-    public var datasource: ElegantCalendarDataSource?
-    public var delegate: ElegantCalendarDelegate?
+    @Published public var datasource: ElegantCalendarDataSource?
+    @Published public var delegate: ElegantCalendarDelegate?
 
     public let configuration: CalendarConfiguration
 
-    @Published var yearlyManager: YearlyCalendarManager
-    @Published var monthlyManager: MonthlyCalendarManager
+    @Published public var yearlyManager: YearlyCalendarManager
+    @Published public var monthlyManager: MonthlyCalendarManager
 
     let pagerManager: ElegantPagesManager
 
@@ -77,16 +42,26 @@ public class ElegantCalendarManager: ObservableObject {
                                            pageTurnType: .calendarEarlySwipe)
         pagerManager.delegate = self
 
-        yearlyManager.parent = self
-        monthlyManager.parent = self
+        yearlyManager.communicator = self
+        monthlyManager.communicator = self
 
-        yearlyManager.objectWillChange.sink {
-            self.objectWillChange.send()
-        }.store(in: &anyCancellable)
+        $datasource
+            .sink {
+                self.monthlyManager.datasource = $0
+                self.yearlyManager.datasource = $0
+            }
+            .store(in: &anyCancellable)
 
-        monthlyManager.objectWillChange.sink {
-            self.objectWillChange.send()
-        }.store(in: &anyCancellable)
+        $delegate
+            .sink {
+                self.monthlyManager.delegate = $0
+                self.yearlyManager.delegate = $0
+            }
+            .store(in: &anyCancellable)
+
+        Publishers.CombineLatest(yearlyManager.objectWillChange, monthlyManager.objectWillChange)
+            .sink { _ in self.objectWillChange.send() }
+            .store(in: &anyCancellable)
     }
 
     public func scrollToMonth(_ month: Date, animated: Bool = true) {
@@ -117,9 +92,9 @@ extension ElegantCalendarManager: ElegantPagesDelegate {
 
 }
 
-extension ElegantCalendarManager {
+extension ElegantCalendarManager: ElegantCalendarCommunicator {
 
-    func scrollToMonthAndShowMonthlyView(_ month: Date) {
+    public func scrollToMonthAndShowMonthlyView(_ month: Date) {
         pagerManager.scroll(to: 1)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
@@ -127,7 +102,7 @@ extension ElegantCalendarManager {
         }
     }
 
-    func showYearlyView() {
+    public func showYearlyView() {
         pagerManager.scroll(to: 0)
     }
 

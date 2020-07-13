@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
+public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
-    @ObservedObject var calendarManager: YearlyCalendarManager
+    @ObservedObject public var calendarManager: YearlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
         Date() >= calendar.startOfDay(for: startDate) &&
@@ -15,7 +15,11 @@ struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
         calendar.isDate(currentYear, equalTo: Date(), toGranularities: [.year])
     }
 
-    var body: some View {
+    public init(calendarManager: YearlyCalendarManager) {
+        self.calendarManager = calendarManager
+    }
+
+    public var body: some View {
         ZStack(alignment: .topTrailing) {
             yearsList
                 .zIndex(0)
@@ -79,9 +83,13 @@ private struct YearlyCalendarScrollView: UIViewRepresentable {
     }
 
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
-        let offset = CalendarConstants.cellHeight * CGFloat(calendarManager.currentPage)
-        DispatchQueue.main.async {
-            scrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+        switch calendarManager.currentPage.state {
+        case .scroll:
+            DispatchQueue.main.async {
+                scrollView.setContentOffset(CGPoint(x: 0, y: self.calendarManager.destinationOffset), animated: true)
+            }
+        case .completed:
+            ()
         }
     }
 
@@ -89,15 +97,36 @@ private struct YearlyCalendarScrollView: UIViewRepresentable {
         
         let parent: YearlyCalendarScrollView
 
+        private var calendarManager: YearlyCalendarManager {
+            parent.calendarManager
+        }
+
         init(parent: YearlyCalendarScrollView) {
             self.parent = parent
         }
 
+        // Called after the user manually drags from one page to another
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
             let page = Int(scrollView.contentOffset.y / CalendarConstants.cellHeight)
-            parent.calendarManager.willDisplay(page: page)
+            calendarManager.willDisplay(page: page)
         }
 
+        // Called after the `scrollToToday` or any `scrollToYear` animation finishes
+        func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+            if calendarManager.currentPage.state == .scroll {
+                let page = Int(calendarManager.destinationOffset / CalendarConstants.cellHeight)
+                calendarManager.willDisplay(page: page)
+            }
+        }
+
+    }
+
+}
+
+private extension YearlyCalendarManager {
+
+    var destinationOffset: CGFloat {
+        CalendarConstants.cellHeight * CGFloat(currentPage.index)
     }
 
 }

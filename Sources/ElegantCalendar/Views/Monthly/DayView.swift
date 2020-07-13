@@ -72,13 +72,12 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private var opacity: Double {
-        guard isDayWithinDateRange else { return 0.15 }
         guard !isDayToday else { return 1 }
-        return isDayWithinWeekMonthAndYear ? 1 : 0.15
+        return isDaySelectableAndInRange ? 1 : 0.15
     }
 
     private func notifyManager() {
-        guard isDayWithinDateRange else { return }
+        guard isDayWithinDateRange && canSelectDay else { return }
 
         if isDayToday || isDayWithinWeekMonthAndYear {
             if configuration.allowHaptics {

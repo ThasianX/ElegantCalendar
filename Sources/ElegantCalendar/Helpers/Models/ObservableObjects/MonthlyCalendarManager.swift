@@ -1,23 +1,29 @@
 // Kevin Li - 5:20 PM - 6/14/20
 
+import Combine
 import ElegantPages
 import SwiftUI
 
-class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, ElegantCalendarDirectAccess {
+public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
     @Published public private(set) var currentMonth: Date
     @Published public var selectedDate: Date? = nil
 
     let pagerManager: ElegantListManager
 
-    weak var parent: ElegantCalendarManager?
+    @Published public var datasource: MonthlyCalendarDataSource?
+    @Published public var delegate: MonthlyCalendarDelegate?
+
+    public var communicator: ElegantCalendarCommunicator?
 
     public let configuration: CalendarConfiguration
-    let months: [Date]
+    public let months: [Date]
 
     private var isHapticActive: Bool = true
 
-    init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
+    private var anyCancellable: AnyCancellable?
+
+    public init(configuration: CalendarConfiguration, initialMonth: Date? = nil) {
         self.configuration = configuration
 
         let months = configuration.calendar.generateDates(
@@ -32,20 +38,24 @@ class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess, Elega
             startingPage = configuration.calendar.monthsBetween(configuration.referenceDate, and: initialMonth)
         }
 
-        currentMonth = self.months[startingPage]
+        currentMonth = months[startingPage]
 
         pagerManager = .init(startingPage: startingPage,
                              pageCount: months.count,
                              pageTurnType: .earlyCutOffDefault)
         pagerManager.datasource = self
         pagerManager.delegate = self
+
+        anyCancellable = $delegate.sink {
+            $0?.calendar(willDisplayMonth: self.currentMonth)
+        }
     }
 
 }
 
 extension MonthlyCalendarManager: ElegantPagesDataSource {
 
-    func elegantPages(viewForPage page: Int) -> AnyView {
+    public func elegantPages(viewForPage page: Int) -> AnyView {
         MonthView(calendarManager: self, month: months[page])
             .erased
     }
@@ -54,7 +64,7 @@ extension MonthlyCalendarManager: ElegantPagesDataSource {
 
 extension MonthlyCalendarManager: ElegantPagesDelegate {
 
-    func elegantPages(willDisplay page: Int) {
+    public func elegantPages(willDisplay page: Int) {
         if months[page] != currentMonth {
             currentMonth = months[page]
             selectedDate = nil
@@ -73,11 +83,11 @@ extension MonthlyCalendarManager: ElegantPagesDelegate {
 
 extension MonthlyCalendarManager {
 
-    func scrollBackToToday() {
+    public func scrollBackToToday() {
         scrollToDay(Date())
     }
 
-    func scrollToDay(_ day: Date, animated: Bool = true) {
+    public func scrollToDay(_ day: Date, animated: Bool = true) {
         scrollToMonth(day, animated: animated)
         if datasource?.calendar(canSelectDate: day) ?? true {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
@@ -88,10 +98,10 @@ extension MonthlyCalendarManager {
 
     func dayTapped(day: Date) {
         selectedDate = day
-        delegate?.calendar(didSelectDate: day)
+        delegate?.calendar(didSelectDay: day)
     }
 
-    func scrollToMonth(_ month: Date, animated: Bool = true) {
+    public func scrollToMonth(_ month: Date, animated: Bool = true) {
         isHapticActive = animated
         if !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year]) {
             let page = calendar.monthsBetween(referenceDate, and: month)
@@ -108,11 +118,10 @@ extension MonthlyCalendarManager {
 
 }
 
-protocol MonthlyCalendarManagerDirectAccess: ConfigurationDirectAccess, ElegantCalendarDirectAccess {
+protocol MonthlyCalendarManagerDirectAccess: ConfigurationDirectAccess {
 
     var calendarManager: MonthlyCalendarManager { get }
     var configuration: CalendarConfiguration { get }
-    var parent: ElegantCalendarManager? { get }
 
 }
 
@@ -122,8 +131,16 @@ extension MonthlyCalendarManagerDirectAccess {
         calendarManager.configuration
     }
 
-    var parent: ElegantCalendarManager? {
-        calendarManager.parent
+    var communicator: ElegantCalendarCommunicator? {
+        calendarManager.communicator
+    }
+
+    var datasource: MonthlyCalendarDataSource? {
+        calendarManager.datasource
+    }
+
+    var delegate: MonthlyCalendarDelegate? {
+        calendarManager.delegate
     }
 
     var currentMonth: Date {
