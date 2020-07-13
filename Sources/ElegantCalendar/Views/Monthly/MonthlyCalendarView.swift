@@ -3,9 +3,9 @@
 import ElegantPages
 import SwiftUI
 
-struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
+public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
-    @ObservedObject var calendarManager: MonthlyCalendarManager
+    @ObservedObject public var calendarManager: MonthlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
         Date() >= calendar.startOfDay(for: startDate) &&
@@ -16,7 +16,11 @@ struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
 
-    var body: some View {
+    public init(calendarManager: MonthlyCalendarManager) {
+        self.calendarManager = calendarManager
+    }
+
+    public var body: some View {
         ZStack(alignment: .top) {
             monthsList
                 .zIndex(0)

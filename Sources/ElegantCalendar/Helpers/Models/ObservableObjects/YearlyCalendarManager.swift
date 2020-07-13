@@ -1,21 +1,32 @@
 // Kevin Li - 5:19 PM - 6/14/20
 
+import Combine
 import SwiftUI
 
-class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
+public class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
-    @Published var currentPage: Int = 0
-
-    weak var parent: ElegantCalendarManager?
-
-    let configuration: CalendarConfiguration
-    let years: [Date]
-
-    var currentYear: Date {
-        years[currentPage]
+    enum PageState {
+        case scroll
+        case completed
     }
 
-    init(configuration: CalendarConfiguration, initialYear: Date? = nil) {
+    @Published var currentPage: (index: Int, state: PageState) = (0, .completed)
+
+    public var currentYear: Date {
+        years[currentPage.index]
+    }
+
+    @Published public var datasource: YearlyCalendarDataSource?
+    @Published public var delegate: YearlyCalendarDelegate?
+
+    public var communicator: ElegantCalendarCommunicator?
+
+    public let configuration: CalendarConfiguration
+    public let years: [Date]
+
+    private var anyCancellable: AnyCancellable?
+
+    public init(configuration: CalendarConfiguration, initialYear: Date? = nil) {
         self.configuration = configuration
 
         let years = configuration.calendar.generateDates(
@@ -27,7 +38,11 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
         if let initialYear = initialYear {
             let page = calendar.yearsBetween(referenceDate, and: initialYear)
-            currentPage = page
+            currentPage = (page, .scroll)
+        } else {
+            anyCancellable = $delegate.sink {
+                $0?.calendar(willDisplayYear: self.currentYear)
+            }
         }
     }
 
@@ -35,25 +50,27 @@ class YearlyCalendarManager: ObservableObject, ConfigurationDirectAccess {
 
 extension YearlyCalendarManager {
 
-    func scrollBackToToday() {
+    public func scrollBackToToday() {
         scrollToYear(Date())
     }
 
-    func scrollToYear(_ year: Date) {
+    public func scrollToYear(_ year: Date) {
         if !calendar.isDate(currentYear, equalTo: year, toGranularity: .year) {
             let page = calendar.yearsBetween(referenceDate, and: year)
-            currentPage = page
+            currentPage = (page, .scroll)
         }
     }
 
     func willDisplay(page: Int) {
-        if currentPage != page {
-            currentPage = page
+        if currentPage.index != page || currentPage.state == .scroll {
+            currentPage = (page, .completed)
+            delegate?.calendar(willDisplayYear: currentYear)
         }
     }
 
     func monthTapped(_ month: Date) {
-        parent?.scrollToMonthAndShowMonthlyView(month)
+        delegate?.calendar(didSelectMonth: month)
+        communicator?.scrollToMonthAndShowMonthlyView(month)
     }
 
 }
@@ -65,11 +82,10 @@ extension YearlyCalendarManager {
 
 }
 
-protocol YearlyCalendarManagerDirectAccess: ConfigurationDirectAccess, ElegantCalendarDirectAccess {
+protocol YearlyCalendarManagerDirectAccess: ConfigurationDirectAccess {
 
     var calendarManager: YearlyCalendarManager { get }
     var configuration: CalendarConfiguration { get }
-    var parent: ElegantCalendarManager? { get }
 
 }
 
@@ -79,8 +95,16 @@ extension YearlyCalendarManagerDirectAccess {
         calendarManager.configuration
     }
 
-    var parent: ElegantCalendarManager? {
-        calendarManager.parent
+    var communicator: ElegantCalendarCommunicator? {
+        calendarManager.communicator
+    }
+
+    var datasource: YearlyCalendarDataSource? {
+        calendarManager.datasource
+    }
+
+    var delegate: YearlyCalendarDelegate? {
+        calendarManager.delegate
     }
 
     var currentYear: Date {

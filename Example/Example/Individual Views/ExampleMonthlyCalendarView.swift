@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ExampleMonthlyCalendarView: View {
 
-    @ObservedObject private var calendarManager: ElegantCalendarManager
+    @ObservedObject private var calendarManager: MonthlyCalendarManager
 
     let visitsByDay: [Date: [Visit]]
 
@@ -13,20 +13,21 @@ struct ExampleMonthlyCalendarView: View {
                                                   startDate: ascVisits.first!.arrivalDate,
                                                   endDate: ascVisits.last!.arrivalDate,
                                                   themeColor: .blackPearl)
-        calendarManager = ElegantCalendarManager(configuration: configuration,
+        calendarManager = MonthlyCalendarManager(configuration: configuration,
                                                  initialMonth: .daysFromToday(30))
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
+        
         calendarManager.datasource = self
         calendarManager.delegate = self
     }
 
     var body: some View {
-        MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
+        MonthlyCalendarView(calendarManager: calendarManager)
     }
 
 }
 
-extension ExampleMonthlyCalendarView: ElegantCalendarDataSource {
+extension ExampleMonthlyCalendarView: MonthlyCalendarDataSource {
 
     func calendar(backgroundColorOpacityForDate date: Date) -> Double {
         let startOfDay = currentCalendar.startOfDay(for: date)
@@ -45,14 +46,14 @@ extension ExampleMonthlyCalendarView: ElegantCalendarDataSource {
 
 }
 
-extension ExampleMonthlyCalendarView: ElegantCalendarDelegate {
+extension ExampleMonthlyCalendarView: MonthlyCalendarDelegate {
+
+    func calendar(didSelectDay date: Date) {
+        print("Selected date: \(date)")
+    }
 
     func calendar(willDisplayMonth date: Date) {
         print("Will show month: \(date)")
-    }
-
-    func calendar(didSelectDate date: Date) {
-        print("Selected date: \(date)")
     }
 
 }

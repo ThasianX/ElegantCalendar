@@ -2,17 +2,32 @@
 
 import SwiftUI
 
-public protocol ElegantCalendarDelegate {
+public protocol ElegantCalendarDelegate: MonthlyCalendarDelegate, YearlyCalendarDelegate { }
 
-    func calendar(didSelectDate date: Date)
+public protocol MonthlyCalendarDelegate {
+
+    func calendar(didSelectDay date: Date)
     func calendar(willDisplayMonth date: Date)
 
 }
 
-public extension ElegantCalendarDelegate {
+public extension MonthlyCalendarDelegate {
 
-    func calendar(didSelectDate date: Date) { }
-
+    func calendar(didSelectDay date: Date) { }
     func calendar(willDisplayMonth date: Date) { }
+
+}
+
+public protocol YearlyCalendarDelegate {
+
+    func calendar(didSelectMonth date: Date)
+    func calendar(willDisplayYear date: Date)
+
+}
+
+public extension YearlyCalendarDelegate {
+
+    func calendar(didSelectMonth date: Date) { }
+    func calendar(willDisplayYear date: Date) { }
 
 }
