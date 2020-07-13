@@ -56,9 +56,9 @@ private extension MonthView {
 
     var monthText: some View {
         Text(month.fullMonth.uppercased())
-            .font(.title)
+            .font(.system(size: 26))
             .bold()
-            .tracking(6)
+            .tracking(7)
             .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .primary)
     }
 
@@ -67,7 +67,7 @@ private extension MonthView {
             .font(.caption)
             .tracking(2)
             .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .gray)
-            .opacity(0.8)
+            .opacity(0.95)
     }
 
 }
