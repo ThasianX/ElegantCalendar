@@ -32,6 +32,8 @@ struct CalendarConstants {
 
     struct Yearly {
 
+        static let outerHorizontalPadding: CGFloat = horizontalPadding + monthWidth/7
+
         static let topPadding: CGFloat = cellHeight * 0.12
 
         static let monthsInRow = 3
