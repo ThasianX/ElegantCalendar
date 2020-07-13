@@ -26,12 +26,12 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     var body: some View {
         VStack(spacing: 40) {
             monthYearHeader
-                .padding(.leading, CalendarConstants.Monthly.leadingPadding)
+                .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
                 .onTapGesture { self.communicator?.showYearlyView() }
             weeksViewWithDaysOfWeekHeader
             if selectedDate != nil {
                 calenderAccessoryView
-                    .padding(.leading, CalendarConstants.Monthly.leadingPadding)
+                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
                     .id(selectedDate!)
             }
             Spacer()
@@ -64,7 +64,7 @@ private extension MonthView {
 
     var yearText: some View {
         Text(month.year)
-            .font(.caption)
+            .font(.system(size: 12))
             .tracking(2)
             .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .gray)
             .opacity(0.95)
