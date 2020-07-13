@@ -26,12 +26,12 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     var body: some View {
         VStack(spacing: 40) {
             monthYearHeader
-                .padding(.leading, CalendarConstants.horizontalPadding)
+                .padding(.leading, CalendarConstants.Monthly.leadingPadding)
                 .onTapGesture { self.communicator?.showYearlyView() }
             weeksViewWithDaysOfWeekHeader
             if selectedDate != nil {
                 calenderAccessoryView
-                    .padding(.leading, CalendarConstants.horizontalPadding)
+                    .padding(.leading, CalendarConstants.Monthly.leadingPadding)
                     .id(selectedDate!)
             }
             Spacer()
