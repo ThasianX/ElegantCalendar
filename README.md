@@ -206,13 +206,25 @@ If you are using `Package.swift`, you can also add `ElegantCalendar` as a depend
 
 ```swift
 
-dependencies: [
-    ...
-    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "2.0.0"))
-    ...
-]
+let package = Package(
+  name: "TestProject",
+  dependencies: [
+    .package(url: "https://github.com/ThasianX/ElegantCalendar", from: "3.0.0")
+  ],
+  targets: [
+    .target(name: "TestProject", dependencies: ["ElegantCalendar"])
+  ]
+)
 
 ```
+
+Inside whatever app is using `ElegantCalendar` or your `Swift Package` that uses `ElegantCalendar` as a dependency:
+
+1) Scroll the project navigator down to the `Swift Package Dependencies` section. Inside `ElegantCalendar`, you'll see a directory called `ElegantCalendar.xcassets`. 
+2) After you've located it, open your project's settings and navigate to your target's build phases in a parallel window. 
+3) Drag `ElegantCalendar.xcassets` into your target's `Copy Bundle Resources`. This step is crucial because `ElegantCalendar` uses custom icons, which `SPM` will support in [Swift 5.3](https://github.com/apple/swift-evolution/blob/master/proposals/0271-package-manager-resources.md).
+
+If you don't know how to do this, refer to the `Demo`.
 
 ## Requirements
 
