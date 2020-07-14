@@ -9,11 +9,10 @@ struct ScrollBackToTodayButton: View {
 
     var body: some View {
         Button(action: scrollBackToToday) {
-            Image(systemName: "arrow.uturn.left")
+            Image.uTurnLeft
                 .resizable()
-                .frame(width: 20, height: 20)
+                .frame(width: 30, height: 25)
                 .foregroundColor(color)
-                .padding(10)
         }
         .animation(.easeInOut)
     }

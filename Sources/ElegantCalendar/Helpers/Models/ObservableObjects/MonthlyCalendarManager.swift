@@ -42,7 +42,7 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
 
         pagerManager = .init(startingPage: startingPage,
                              pageCount: months.count,
-                             pageTurnType: .earlyCutOffDefault)
+                             pageTurnType: .monthlyEarlyCutoff)
         pagerManager.datasource = self
         pagerManager.delegate = self
 
@@ -162,5 +162,20 @@ private extension Calendar {
                               from: startOfMonthForDate1,
                               to: startOfMonthForDate2).month!)
     }
+
+}
+
+private extension PageTurnType {
+
+    static var monthlyEarlyCutoff: PageTurnType = .earlyCutoff(config: .monthlyConfig)
+
+}
+
+public extension EarlyCutOffConfiguration {
+
+    static let monthlyConfig = EarlyCutOffConfiguration(
+        scrollResistanceCutOff: 40,
+        pageTurnCutOff: 80,
+        pageTurnAnimation: .spring(response: 0.3, dampingFraction: 0.95))
 
 }
