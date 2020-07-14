@@ -5,11 +5,8 @@ import SwiftUI
 extension Image {
 
     static var uTurnLeft: Image {
-        if let path = Bundle.main.path(forResource: "uturn.left", ofType: "png") {
-            let image = UIImage(contentsOfFile: path)!
-            return Image(uiImage: image)
-        }
-        fatalError("Error: uturn.left not found")
+        let image = UIImage(named: "uturn.left")!
+        return Image(uiImage: image)
     }
 
 }
