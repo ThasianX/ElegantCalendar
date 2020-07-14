@@ -124,7 +124,7 @@ public struct CalendarConfiguration: Equatable {
     let allowHaptics: Bool
     let startDate: Date
     let endDate: Date
-    let themeColor: Color
+    let themeColor: Color // if you want to support light and dark mode, make sure your color does so as well
 
 }
 
