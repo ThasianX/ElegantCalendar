@@ -26,8 +26,8 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
                 .zIndex(0)
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
-                    .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
-                    .offset(y: CalendarConstants.Monthly.topPadding + 3)
+                    .padding(.trailing, CalendarConstants.horizontalPadding)
+                    .offset(y: CalendarConstants.Monthly.topPadding)
                     .transition(.opacity)
                     .zIndex(1)
             }
