@@ -208,7 +208,7 @@ If you are using `Package.swift`, you can also add `ElegantCalendar` as a depend
 
 dependencies: [
     ...
-    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "2.0.0"))
+    .package(url: "https://github.com/ThasianX/ElegantCalendar", .upToNextMajor(from: "2.1.0"))
     ...
 ]
 
