@@ -24,6 +24,7 @@
 		1E995AF524A552BA00F436BE /* VisitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF124A552BA00F436BE /* VisitsListView.swift */; };
 		1E995AF624A552BA00F436BE /* VisitPreviewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */; };
 		1E995AF724A552BA00F436BE /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF324A552BA00F436BE /* VisitCell.swift */; };
+		1EE7C01724BE8720000573A2 /* Calendar+Buildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7C01624BE8720000573A2 /* Calendar+Buildable.swift */; };
 		1EE7DDDA24BD6054008BA2EC /* ElegantCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7DDB424BD6054008BA2EC /* ElegantCalendarView.swift */; };
 		1EE7DDDB24BD6054008BA2EC /* ScrollBackToTodayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7DDB624BD6054008BA2EC /* ScrollBackToTodayButton.swift */; };
 		1EE7DDDC24BD6054008BA2EC /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7DDB824BD6054008BA2EC /* MonthlyCalendarView.swift */; };
@@ -75,6 +76,7 @@
 		1E995AF124A552BA00F436BE /* VisitsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitsListView.swift; sourceTree = "<group>"; };
 		1E995AF224A552BA00F436BE /* VisitPreviewConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPreviewConstants.swift; sourceTree = "<group>"; };
 		1E995AF324A552BA00F436BE /* VisitCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
+		1EE7C01624BE8720000573A2 /* Calendar+Buildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Buildable.swift"; sourceTree = "<group>"; };
 		1EE7DDB424BD6054008BA2EC /* ElegantCalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElegantCalendarView.swift; sourceTree = "<group>"; };
 		1EE7DDB624BD6054008BA2EC /* ScrollBackToTodayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollBackToTodayButton.swift; sourceTree = "<group>"; };
 		1EE7DDB824BD6054008BA2EC /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				1EE7DDC524BD6054008BA2EC /* CalendarConfiguration.swift */,
 				1EE7DDC624BD6054008BA2EC /* ObservableObjects */,
 				1EE7DDCB24BD6054008BA2EC /* Protocols */,
+				1EE7C01624BE8720000573A2 /* Calendar+Buildable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				1E995AF424A552BA00F436BE /* Visit.swift in Sources */,
 				1EE7DDE224BD6054008BA2EC /* SmallDayView.swift in Sources */,
 				1E029C7724A4448A00A81FFD /* AppDelegate.swift in Sources */,
+				1EE7C01724BE8720000573A2 /* Calendar+Buildable.swift in Sources */,
 				1EE7DDDA24BD6054008BA2EC /* ElegantCalendarView.swift in Sources */,
 				1EE7DDEA24BD6054008BA2EC /* MonthlyCalendarManager.swift in Sources */,
 				1EE7DDDC24BD6054008BA2EC /* MonthlyCalendarView.swift in Sources */,

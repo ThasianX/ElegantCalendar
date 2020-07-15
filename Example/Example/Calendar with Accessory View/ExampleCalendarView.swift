@@ -12,8 +12,7 @@ struct ExampleCalendarView: View {
         let configuration = CalendarConfiguration(
             calendar: currentCalendar,
             startDate: ascVisits.first!.arrivalDate,
-            endDate: ascVisits.last!.arrivalDate,
-            themeColor: .blackPearl)
+            endDate: ascVisits.last!.arrivalDate)
 
         calendarManager = ElegantCalendarManager(
             configuration: configuration,
