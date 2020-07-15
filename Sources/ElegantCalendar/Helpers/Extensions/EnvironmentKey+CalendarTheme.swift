@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct CalendarTheme: Equatable, Hashable {
 
-    let primary: Color
+    public let primary: Color
 
     public init(primary: Color) {
         self.primary = primary
