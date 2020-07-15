@@ -4,6 +4,8 @@ import SwiftUI
 
 struct YearView: View, YearlyCalendarManagerDirectAccess {
 
+    @Environment(\.calendarTheme) var theme: CalendarTheme
+
     let calendarManager: YearlyCalendarManager
 
     let year: Date
@@ -25,7 +27,7 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
     private var yearText: some View {
         Text(year.year)
             .font(.system(size: 38, weight: .thin, design: .rounded))
-            .foregroundColor(isYearSameAsTodayYear ? themeColor : .primary)
+            .foregroundColor(isYearSameAsTodayYear ? theme.primary : .primary)
     }
 
     private var monthsStack: some View {

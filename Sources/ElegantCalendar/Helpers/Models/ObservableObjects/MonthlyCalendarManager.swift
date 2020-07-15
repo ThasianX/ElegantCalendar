@@ -44,21 +44,11 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
         pagerManager = .init(startingPage: startingPage,
                              pageCount: months.count,
                              pageTurnType: .monthlyEarlyCutoff)
-        pagerManager.datasource = self
         pagerManager.delegate = self
 
         anyCancellable = $delegate.sink {
             $0?.calendar(willDisplayMonth: self.currentMonth)
         }
-    }
-
-}
-
-extension MonthlyCalendarManager: ElegantPagesDataSource {
-
-    public func elegantPages(viewForPage page: Int) -> AnyView {
-        MonthView(calendarManager: self, month: months[page])
-            .erased
     }
 
 }

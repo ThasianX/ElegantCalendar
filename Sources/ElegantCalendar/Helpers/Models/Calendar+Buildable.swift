@@ -22,8 +22,11 @@ extension Buildable {
 
 extension MonthlyCalendarView: Buildable {
 
-    public func themeColor(_ color: Color) {
-
+    /// Changes the theme of the calendar
+    ///
+    /// - Parameter theme: theme of various components of the calendar
+    public func theme(_ theme: CalendarTheme) -> Self {
+        mutating(keyPath: \.theme, value: theme)
     }
 
     /// Sets whether haptics  is enabled or not
@@ -38,8 +41,11 @@ extension MonthlyCalendarView: Buildable {
 
 extension ElegantCalendarView: Buildable {
 
-    public func themeColor(_ color: Color) {
-
+    /// Changes the theme of the calendar
+    ///
+    /// - Parameter theme: theme of various components of the calendar
+    public func theme(_ theme: CalendarTheme) -> Self {
+        mutating(keyPath: \.theme, value: theme)
     }
 
     /// Sets whether haptics  is enabled or not
@@ -54,8 +60,11 @@ extension ElegantCalendarView: Buildable {
 
 extension YearlyCalendarView: Buildable {
 
-    public func themeColor(_ color: Color) {
-
+    /// Changes the theme of the calendar
+    ///
+    /// - Parameter theme: theme of various components of the calendar
+    public func theme(_ theme: CalendarTheme) -> Self {
+        mutating(keyPath: \.theme, value: theme)
     }
 
 }

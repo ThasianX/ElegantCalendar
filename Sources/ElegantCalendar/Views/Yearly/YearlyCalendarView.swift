@@ -4,6 +4,8 @@ import SwiftUI
 
 public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
+    var theme: CalendarTheme = .brilliantViolet
+
     @ObservedObject public var calendarManager: YearlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
@@ -15,7 +17,8 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
         calendar.isDate(currentYear, equalTo: Date(), toGranularities: [.year])
     }
 
-    public init(calendarManager: YearlyCalendarManager) {
+    public init(theme: CalendarTheme = .brilliantViolet, calendarManager: YearlyCalendarManager) {
+        self.theme = theme
         self.calendarManager = calendarManager
     }
 
@@ -37,6 +40,7 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
         YearlyCalendarScrollView(calendarManager: calendarManager) {
             ForEach(self.years, id: \.self) { year in
                 YearView(calendarManager: self.calendarManager, year: year)
+                    .environment(\.calendarTheme, self.theme)
             }
         }
         .frame(width: CalendarConstants.cellWidth,
@@ -45,7 +49,7 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
     private var scrollBackToTodayButton: some View {
         ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
-                                    color: themeColor)
+                                color: theme.primary)
     }
 
 }

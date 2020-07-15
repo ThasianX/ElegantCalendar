@@ -28,6 +28,7 @@ struct ExampleCalendarView: View {
 
     var body: some View {
         ElegantCalendarView(calendarManager: calendarManager)
+            .theme(.kiwiGreen)
     }
     
 }

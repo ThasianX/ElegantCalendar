@@ -5,6 +5,8 @@ import SwiftUI
 
 public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
+    var theme: CalendarTheme = .brilliantViolet
+
     @ObservedObject public var calendarManager: MonthlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
@@ -16,9 +18,13 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
 
-    public init(calendarManager: MonthlyCalendarManager) {
+    public init(theme: CalendarTheme = .brilliantViolet, calendarManager: MonthlyCalendarManager) {
+        self.theme = theme
         self.calendarManager = calendarManager
+        calendarManager.pagerManager.datasource = self
     }
+
+    var nice: Bool = true
 
     public var body: some View {
         ZStack(alignment: .top) {
@@ -41,9 +47,20 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
-                                    color: themeColor)
+            ScrollBackToTodayButton(scrollBackToToday: { self.calendarManager.scrollBackToToday() },
+                                    color: theme.primary)
         }
+    }
+
+}
+
+// TODO: may need to add some kind of reloaddata for the page view. but this works for now
+extension MonthlyCalendarView: ElegantPagesDataSource {
+
+    public func elegantPages(viewForPage page: Int) -> AnyView {
+        MonthView(calendarManager: calendarManager, month: calendarManager.months[page])
+            .environment(\.calendarTheme, theme)
+            .erased
     }
 
 }

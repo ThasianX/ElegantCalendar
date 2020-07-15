@@ -5,6 +5,8 @@ import SwiftUI
 
 public struct ElegantCalendarView: View {
 
+    var theme: CalendarTheme = .brilliantViolet
+
     @ObservedObject public var calendarManager: ElegantCalendarManager
 
     public init(calendarManager: ElegantCalendarManager) {
@@ -19,11 +21,11 @@ public struct ElegantCalendarView: View {
     }
 
     private var yearlyCalendarView: some View {
-        YearlyCalendarView(calendarManager: calendarManager.yearlyManager)
+        YearlyCalendarView(theme: theme, calendarManager: calendarManager.yearlyManager)
     }
 
     private var monthlyCalendarView: some View {
-        MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
+        MonthlyCalendarView(theme: theme, calendarManager: calendarManager.monthlyManager)
     }
 
 }

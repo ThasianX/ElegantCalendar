@@ -4,6 +4,8 @@ import SwiftUI
 
 struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
 
+    @Environment(\.calendarTheme) var theme: CalendarTheme
+
     let calendarManager: YearlyCalendarManager
 
     let month: Date
@@ -44,7 +46,7 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
         Text(month.abbreviatedMonth.uppercased())
             .font(.subheadline)
             .bold()
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? themeColor : .primary)
+            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .primary)
     }
 
     private var weeksViewStack: some View {

@@ -11,8 +11,7 @@ struct ExampleMonthlyCalendarView: View {
     init(ascVisits: [Visit]) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
-                                                  endDate: ascVisits.last!.arrivalDate,
-                                                  themeColor: .blackPearl)
+                                                  endDate: ascVisits.last!.arrivalDate)
         calendarManager = MonthlyCalendarManager(configuration: configuration,
                                                  initialMonth: .daysFromToday(30))
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
