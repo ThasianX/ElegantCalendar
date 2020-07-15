@@ -5,6 +5,8 @@ import SwiftUI
 
 public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
+    var theme: CalendarTheme = .default
+
     @ObservedObject public var calendarManager: MonthlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
@@ -23,13 +25,11 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     public var body: some View {
         ZStack(alignment: .top) {
             monthsList
-                .zIndex(0)
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
                     .offset(y: CalendarConstants.Monthly.topPadding + 3)
                     .transition(.opacity)
-                    .zIndex(1)
             }
         }
     }
@@ -41,8 +41,8 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
-                                    color: themeColor)
+            ScrollBackToTodayButton(scrollBackToToday: { self.calendarManager.scrollBackToToday() },
+                                    color: theme.primary)
         }
     }
 

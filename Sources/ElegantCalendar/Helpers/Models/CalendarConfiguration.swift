@@ -2,22 +2,19 @@
 
 import SwiftUI
 
+/// Any changes to the configuration will reset the calendar based on its new settings
 public struct CalendarConfiguration: Equatable {
 
     public let calendar: Calendar
     public let ascending: Bool
-    public let allowHaptics: Bool
     public let startDate: Date
     public let endDate: Date
-    public let themeColor: Color
 
-    public init(calendar: Calendar = .current, ascending: Bool = true, allowHaptics: Bool = true, startDate: Date, endDate: Date, themeColor: Color) {
+    public init(calendar: Calendar = .current, ascending: Bool = true, startDate: Date, endDate: Date) {
         self.calendar = calendar
         self.ascending = ascending
-        self.allowHaptics = allowHaptics
         self.startDate = startDate
         self.endDate = endDate
-        self.themeColor = themeColor
     }
 
     var referenceDate: Date {
@@ -30,8 +27,7 @@ extension CalendarConfiguration {
 
     static let mock = CalendarConfiguration(
         startDate: .daysFromToday(-365*2),
-        endDate: .daysFromToday(365*2),
-        themeColor: .purple)
+        endDate: .daysFromToday(365*2))
 
 }
 
@@ -47,20 +43,12 @@ extension ConfigurationDirectAccess {
         configuration.calendar
     }
 
-    var allowHaptics: Bool {
-        configuration.allowHaptics
-    }
-
     var startDate: Date {
         configuration.startDate
     }
 
     var endDate: Date {
         configuration.endDate
-    }
-
-    var themeColor: Color {
-        configuration.themeColor
     }
 
     var referenceDate: Date {

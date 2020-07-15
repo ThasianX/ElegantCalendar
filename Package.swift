@@ -13,7 +13,7 @@ let package = Package(
             targets: ["ElegantCalendar"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ThasianX/ElegantPages", .upToNextMajor(from: "1.1.0"))
+        .package(url: "https://github.com/ThasianX/ElegantPages", from: "1.2.0")
     ],
     targets: [
         .target(

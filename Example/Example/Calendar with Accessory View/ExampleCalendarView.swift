@@ -8,12 +8,13 @@ struct ExampleCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
+    @State private var calendarTheme: CalendarTheme = .royalBlue
+
     init(ascVisits: [Visit]) {
         let configuration = CalendarConfiguration(
             calendar: currentCalendar,
             startDate: ascVisits.first!.arrivalDate,
-            endDate: ascVisits.last!.arrivalDate,
-            themeColor: .blackPearl)
+            endDate: ascVisits.last!.arrivalDate)
 
         calendarManager = ElegantCalendarManager(
             configuration: configuration,
@@ -28,7 +29,19 @@ struct ExampleCalendarView: View {
     }
 
     var body: some View {
-        ElegantCalendarView(calendarManager: calendarManager)
+        ZStack {
+            ElegantCalendarView(calendarManager: calendarManager)
+                .theme(calendarTheme)
+            VStack {
+                Spacer()
+                changeThemeButton
+                    .padding(.bottom, 50)
+            }
+        }
+    }
+
+    private var changeThemeButton: some View {
+        ChangeThemeButton(calendarTheme: $calendarTheme)
     }
     
 }

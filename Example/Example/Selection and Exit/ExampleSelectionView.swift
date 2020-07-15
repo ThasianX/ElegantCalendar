@@ -8,7 +8,8 @@ fileprivate let turnAnimation: Animation = .spring(response: 0.4, dampingFractio
 class SelectionModel: ObservableObject {
 
     @Published var showCalendar = false
-    @Published var calendarManager: ElegantCalendarManager = .init(configuration: .init(startDate: .daysFromToday(-365), endDate: .daysFromToday(365*3), themeColor: .blackPearl))
+    @Published var calendarManager: ElegantCalendarManager = .init(configuration: .init(startDate: .daysFromToday(-365),
+                                                                                        endDate: .daysFromToday(365*3)))
 
     init() {
         calendarManager.delegate = self

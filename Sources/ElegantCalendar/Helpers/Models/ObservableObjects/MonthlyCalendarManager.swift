@@ -19,7 +19,10 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
     public let configuration: CalendarConfiguration
     public let months: [Date]
 
+    var allowsHaptics: Bool = true
     private var isHapticActive: Bool = true
+
+    var theme: CalendarTheme = .default
 
     private var anyCancellable: AnyCancellable?
 
@@ -43,6 +46,7 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
         pagerManager = .init(startingPage: startingPage,
                              pageCount: months.count,
                              pageTurnType: .monthlyEarlyCutoff)
+
         pagerManager.datasource = self
         pagerManager.delegate = self
 
@@ -57,6 +61,7 @@ extension MonthlyCalendarManager: ElegantPagesDataSource {
 
     public func elegantPages(viewForPage page: Int) -> AnyView {
         MonthView(calendarManager: self, month: months[page])
+            .environment(\.calendarTheme, theme)
             .erased
     }
 
@@ -71,7 +76,7 @@ extension MonthlyCalendarManager: ElegantPagesDelegate {
 
             delegate?.calendar(willDisplayMonth: currentMonth)
 
-            if allowHaptics && isHapticActive {
+            if allowsHaptics && isHapticActive {
                 UIImpactFeedbackGenerator.generateSelectionHaptic()
             } else {
                 isHapticActive = true
@@ -83,30 +88,48 @@ extension MonthlyCalendarManager: ElegantPagesDelegate {
 
 extension MonthlyCalendarManager {
 
-    public func scrollBackToToday() {
+    @discardableResult
+    public func scrollBackToToday() -> Bool {
         scrollToDay(Date())
     }
 
-    public func scrollToDay(_ day: Date, animated: Bool = true) {
-        scrollToMonth(day, animated: animated)
-        if datasource?.calendar(canSelectDate: day) ?? true {
+    @discardableResult
+    public func scrollToDay(_ day: Date, animated: Bool = true) -> Bool {
+        let didScrollToMonth = scrollToMonth(day, animated: animated)
+        let canSelectDay = datasource?.calendar(canSelectDate: day) ?? true
+
+        if canSelectDay {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
-                self.dayTapped(day: day)
+                self.dayTapped(day: day, withHaptic: !didScrollToMonth)
             }
         }
+
+        return canSelectDay
     }
 
-    func dayTapped(day: Date) {
+    func dayTapped(day: Date, withHaptic: Bool) {
+        if allowsHaptics && withHaptic {
+            UIImpactFeedbackGenerator.generateSelectionHaptic()
+        }
+
         selectedDate = day
         delegate?.calendar(didSelectDay: day)
     }
 
-    public func scrollToMonth(_ month: Date, animated: Bool = true) {
+    @discardableResult
+    public func scrollToMonth(_ month: Date, animated: Bool = true) -> Bool {
         isHapticActive = animated
-        if !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year]) {
+
+        let needsToScroll = !calendar.isDate(currentMonth, equalTo: month, toGranularities: [.month, .year])
+
+        if needsToScroll {
             let page = calendar.monthsBetween(referenceDate, and: month)
             pagerManager.scroll(to: page, animated: animated)
+        } else {
+            isHapticActive = true
         }
+
+        return needsToScroll
     }
 
 }

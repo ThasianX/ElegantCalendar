@@ -4,6 +4,8 @@ import SwiftUI
 
 struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
+    @Environment(\.calendarTheme) var theme: CalendarTheme
+
     @ObservedObject var calendarManager: MonthlyCalendarManager
 
     let week: Date
@@ -52,7 +54,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var foregroundColor: Color {
         if isDayToday {
-            return themeColor
+            return theme.primary
         } else {
             return .primary
         }
@@ -63,7 +65,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
             if isDayToday {
                 Color.primary
             } else if isDaySelectableAndInRange {
-                themeColor
+                theme.primary
                     .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
             } else {
                 Color.clear
@@ -80,11 +82,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         guard isDayWithinDateRange && canSelectDay else { return }
 
         if isDayToday || isDayWithinWeekMonthAndYear {
-            if configuration.allowHaptics {
-                UIImpactFeedbackGenerator.generateSelectionHaptic()
-            }
-
-            calendarManager.dayTapped(day: day)
+            calendarManager.dayTapped(day: day, withHaptic: true)
         }
     }
 

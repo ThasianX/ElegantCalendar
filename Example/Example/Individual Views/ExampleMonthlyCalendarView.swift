@@ -8,11 +8,12 @@ struct ExampleMonthlyCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
+    @State private var calendarTheme: CalendarTheme = .royalBlue
+
     init(ascVisits: [Visit]) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
-                                                  endDate: ascVisits.last!.arrivalDate,
-                                                  themeColor: .blackPearl)
+                                                  endDate: ascVisits.last!.arrivalDate)
         calendarManager = MonthlyCalendarManager(configuration: configuration,
                                                  initialMonth: .daysFromToday(30))
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
@@ -22,7 +23,19 @@ struct ExampleMonthlyCalendarView: View {
     }
 
     var body: some View {
-        MonthlyCalendarView(calendarManager: calendarManager)
+        ZStack {
+            MonthlyCalendarView(calendarManager: calendarManager)
+                .theme(calendarTheme)
+            VStack {
+                Spacer()
+                changeThemeButton
+                    .padding(.bottom, 50)
+            }
+        }
+    }
+
+    private var changeThemeButton: some View {
+        ChangeThemeButton(calendarTheme: $calendarTheme)
     }
 
 }

@@ -4,6 +4,8 @@ import SwiftUI
 
 public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
+    var theme: CalendarTheme = .default
+
     @ObservedObject public var calendarManager: YearlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
@@ -37,6 +39,7 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
         YearlyCalendarScrollView(calendarManager: calendarManager) {
             ForEach(self.years, id: \.self) { year in
                 YearView(calendarManager: self.calendarManager, year: year)
+                    .environment(\.calendarTheme, self.theme)
             }
         }
         .frame(width: CalendarConstants.cellWidth,
@@ -45,14 +48,14 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
     private var scrollBackToTodayButton: some View {
         ScrollBackToTodayButton(scrollBackToToday: calendarManager.scrollBackToToday,
-                                    color: themeColor)
+                                color: theme.primary)
     }
 
 }
 
-private struct YearlyCalendarScrollView: UIViewRepresentable {
+private struct YearlyCalendarScrollView: UIViewControllerRepresentable {
 
-    typealias UIViewType = UIScrollView
+    typealias UIViewControllerType = UIScrollViewViewController
 
     @ObservedObject var calendarManager: YearlyCalendarManager
 
@@ -67,26 +70,18 @@ private struct YearlyCalendarScrollView: UIViewRepresentable {
         Coordinator(parent: self)
     }
 
-    func makeUIView(context: Context) -> UIScrollView {
-        let hosting = UIHostingController(rootView: content)
-
-        let size = hosting.view.sizeThatFits(CGSize(width: screen.width, height: .greatestFiniteMagnitude))
-        hosting.view.frame = CGRect(x: 0, y: 0,
-                                    width: screen.width,
-                                    height: size.height)
-
-        let scrollView = UIScrollView().withPagination(delegate: context.coordinator)
-        scrollView.addSubview(hosting.view)
-        scrollView.contentSize = CGSize(width: screen.width, height: size.height)
-
-        return scrollView
+    func makeUIViewController(context: Context) -> UIScrollViewViewController {
+        UIScrollViewViewController(content: content, delegate: context.coordinator)
     }
 
-    func updateUIView(_ scrollView: UIScrollView, context: Context) {
+    func updateUIViewController(_ viewController: UIScrollViewViewController, context: Context) {
+        viewController.hosting.rootView = content
+
         switch calendarManager.currentPage.state {
         case .scroll:
             DispatchQueue.main.async {
-                scrollView.setContentOffset(CGPoint(x: 0, y: self.calendarManager.destinationOffset), animated: true)
+                viewController.scrollView.setContentOffset(CGPoint(x: 0, y: self.calendarManager.destinationOffset),
+                                                           animated: true)
             }
         case .completed:
             ()
@@ -130,6 +125,54 @@ private extension YearlyCalendarManager {
     }
 
 }
+
+private class UIScrollViewViewController: UIViewController {
+
+    let hosting: UIHostingController<AnyView>
+    let scrollView: UIScrollView
+
+    init(content: AnyView, delegate: UIScrollViewDelegate) {
+        hosting = UIHostingController(rootView: content)
+        scrollView = UIScrollView().withPagination(delegate: delegate)
+        super.init(nibName: nil, bundle: nil)
+
+        let size = hosting.view.sizeThatFits(CGSize(width: screen.width, height: .greatestFiniteMagnitude))
+        hosting.view.frame = CGRect(x: 0, y: 0,
+                                    width: screen.width,
+                                    height: size.height)
+
+        scrollView.addSubview(hosting.view)
+        scrollView.contentSize = CGSize(width: screen.width, height: size.height)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.addSubview(scrollView)
+        pinEdges(of: scrollView, to: view)
+
+        hosting.willMove(toParent: self)
+        scrollView.addSubview(self.hosting.view)
+        pinEdges(of: hosting.view, to: scrollView)
+        hosting.didMove(toParent: self)
+    }
+
+    func pinEdges(of viewA: UIView, to viewB: UIView) {
+        viewA.translatesAutoresizingMaskIntoConstraints = false
+        viewB.addConstraints([
+            viewA.leadingAnchor.constraint(equalTo: viewB.leadingAnchor),
+            viewA.trailingAnchor.constraint(equalTo: viewB.trailingAnchor),
+            viewA.topAnchor.constraint(equalTo: viewB.topAnchor),
+            viewA.bottomAnchor.constraint(equalTo: viewB.bottomAnchor),
+        ])
+    }
+
+}
+
 
 private extension UIScrollView {
 
