@@ -8,7 +8,7 @@ struct ExampleCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
-    @State private var calendarTheme: CalendarTheme = .kiwiGreen
+    @State private var calendarTheme: CalendarTheme = .royalBlue
 
     init(ascVisits: [Visit]) {
         let configuration = CalendarConfiguration(

@@ -22,7 +22,7 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
     var allowsHaptics: Bool = true
     private var isHapticActive: Bool = true
 
-    var theme: CalendarTheme = .brilliantViolet
+    var theme: CalendarTheme = .default
 
     private var anyCancellable: AnyCancellable?
 

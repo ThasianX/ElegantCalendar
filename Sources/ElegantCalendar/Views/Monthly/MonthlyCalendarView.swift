@@ -5,6 +5,8 @@ import SwiftUI
 
 public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
+    var theme: CalendarTheme = .default
+
     @ObservedObject public var calendarManager: MonthlyCalendarManager
 
     private var isTodayWithinDateRange: Bool {
@@ -15,8 +17,6 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     private var isCurrentMonthYearSameAsTodayMonthYear: Bool {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
-
-    var theme: CalendarTheme = .brilliantViolet
 
     public init(calendarManager: MonthlyCalendarManager) {
         self.calendarManager = calendarManager

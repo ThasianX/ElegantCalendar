@@ -5,7 +5,7 @@ import SwiftUI
 
 public struct ElegantCalendarView: View {
 
-    var theme: CalendarTheme = .brilliantViolet
+    var theme: CalendarTheme = .default
 
     @ObservedObject public var calendarManager: ElegantCalendarManager
 

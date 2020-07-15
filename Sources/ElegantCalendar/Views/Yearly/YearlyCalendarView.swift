@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
-    var theme: CalendarTheme = .brilliantViolet
+    var theme: CalendarTheme = .default
 
     @ObservedObject public var calendarManager: YearlyCalendarManager
 
