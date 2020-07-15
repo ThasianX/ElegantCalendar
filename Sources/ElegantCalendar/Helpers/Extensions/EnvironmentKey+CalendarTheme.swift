@@ -6,6 +6,10 @@ public struct CalendarTheme: Equatable, Hashable {
 
     let primary: Color
 
+    public init(primary: Color) {
+        self.primary = primary
+    }
+
 }
 
 public extension CalendarTheme {
