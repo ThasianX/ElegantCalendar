@@ -5,9 +5,9 @@
         "package": "ElegantPages",
         "repositoryURL": "https://github.com/ThasianX/ElegantPages",
         "state": {
-          "branch": "feature/reloadpages",
-          "revision": "e91246c8c3b8b5edc26437e3c440fd99648949c8",
-          "version": null
+          "branch": null,
+          "revision": "6c356456458b7bf99472577d57cc2560fc3601e2",
+          "version": "1.2.0"
         }
       }
     ]
