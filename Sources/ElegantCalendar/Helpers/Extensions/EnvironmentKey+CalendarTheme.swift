@@ -10,6 +10,8 @@ public struct CalendarTheme: Equatable, Hashable {
 
 public extension CalendarTheme {
 
+    static let allThemes: [CalendarTheme] = [.brilliantViolet, .kiwiGreen, .mauvePurple, .royalBlue]
+
     static let brilliantViolet = CalendarTheme(primary: .brilliantViolet)
     static let kiwiGreen = CalendarTheme(primary: .kiwiGreen)
     static let mauvePurple = CalendarTheme(primary: .mauvePurple)

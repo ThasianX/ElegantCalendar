@@ -21,11 +21,13 @@ public struct ElegantCalendarView: View {
     }
 
     private var yearlyCalendarView: some View {
-        YearlyCalendarView(theme: theme, calendarManager: calendarManager.yearlyManager)
+        YearlyCalendarView(calendarManager: calendarManager.yearlyManager)
+            .theme(theme)
     }
 
     private var monthlyCalendarView: some View {
-        MonthlyCalendarView(theme: theme, calendarManager: calendarManager.monthlyManager)
+        MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
+            .theme(theme)
     }
 
 }

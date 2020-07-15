@@ -8,6 +8,8 @@ struct ExampleYearlyCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
+    @State private var calendarTheme: CalendarTheme = .kiwiGreen
+
     init(ascVisits: [Visit]) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
@@ -20,7 +22,19 @@ struct ExampleYearlyCalendarView: View {
     }
 
     var body: some View {
-        YearlyCalendarView(calendarManager: calendarManager)
+        ZStack {
+            YearlyCalendarView(calendarManager: calendarManager)
+                .theme(calendarTheme)
+            VStack {
+                Spacer()
+                changeThemeButton
+                    .padding(.bottom, 50)
+            }
+        }
+    }
+
+    private var changeThemeButton: some View {
+        ChangeThemeButton(calendarTheme: $calendarTheme)
     }
 
 }

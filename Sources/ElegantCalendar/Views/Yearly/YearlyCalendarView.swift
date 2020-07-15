@@ -17,8 +17,7 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
         calendar.isDate(currentYear, equalTo: Date(), toGranularities: [.year])
     }
 
-    public init(theme: CalendarTheme = .brilliantViolet, calendarManager: YearlyCalendarManager) {
-        self.theme = theme
+    public init(calendarManager: YearlyCalendarManager) {
         self.calendarManager = calendarManager
     }
 

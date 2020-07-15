@@ -26,7 +26,8 @@ extension MonthlyCalendarView: Buildable {
     ///
     /// - Parameter theme: theme of various components of the calendar
     public func theme(_ theme: CalendarTheme) -> Self {
-        mutating(keyPath: \.theme, value: theme)
+        calendarManager.theme = theme
+        return self
     }
 
     /// Sets whether haptics  is enabled or not

@@ -35,21 +35,13 @@ struct ExampleCalendarView: View {
             VStack {
                 Spacer()
                 changeThemeButton
+                    .padding(.bottom, 50)
             }
         }
     }
 
     private var changeThemeButton: some View {
-        Button(action: {
-            if self.calendarTheme == .mauvePurple {
-                self.calendarTheme = .brilliantViolet
-            } else {
-                self.calendarTheme = .mauvePurple
-            }
-        }) {
-            Text("CHANGE THEME")
-        }
-        .padding(.bottom, 40)
+        ChangeThemeButton(calendarTheme: $calendarTheme)
     }
     
 }
