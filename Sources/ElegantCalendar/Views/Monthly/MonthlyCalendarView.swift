@@ -16,9 +16,7 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
 
-    private var theme: CalendarTheme {
-        calendarManager.theme
-    }
+    var theme: CalendarTheme = .brilliantViolet
 
     public init(calendarManager: MonthlyCalendarManager) {
         self.calendarManager = calendarManager

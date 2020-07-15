@@ -657,8 +657,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ThasianX/ElegantPages";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				branch = feature/reloadpages;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

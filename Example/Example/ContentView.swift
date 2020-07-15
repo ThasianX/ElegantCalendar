@@ -11,15 +11,15 @@ struct ContentView: View {
 //                start: .daysFromToday(-30*36),
 //                end: .daysFromToday(30*36)))
 
-        ExampleMonthlyCalendarView(
-            ascVisits: Visit.mocks(
-                start: .daysFromToday(-30*36),
-                end: .daysFromToday(30*36)))
-
-//        ExampleCalendarView(
+//        ExampleMonthlyCalendarView(
 //            ascVisits: Visit.mocks(
 //                start: .daysFromToday(-30*36),
 //                end: .daysFromToday(30*36)))
+
+        ExampleCalendarView(
+            ascVisits: Visit.mocks(
+                start: .daysFromToday(-30*36),
+                end: .daysFromToday(30*36)))
 
 //        ExampleSelectionView()
     }
