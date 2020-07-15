@@ -285,7 +285,6 @@
 				1EE7DDC524BD6054008BA2EC /* CalendarConfiguration.swift */,
 				1EE7DDC624BD6054008BA2EC /* ObservableObjects */,
 				1EE7DDCB24BD6054008BA2EC /* Protocols */,
-				1EE7C01624BE8720000573A2 /* Calendar+Buildable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -304,6 +303,7 @@
 		1EE7DDCB24BD6054008BA2EC /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				1EE7C01624BE8720000573A2 /* Calendar+Buildable.swift */,
 				1EE7DDCC24BD6054008BA2EC /* ElegantCalendarCommunicator.swift */,
 				1EE7DDCD24BD6054008BA2EC /* ElegantCalendarDataSource.swift */,
 				1EE7DDCE24BD6054008BA2EC /* ElegantCalendarDelegate.swift */,
