@@ -86,6 +86,7 @@ private struct YearlyCalendarScrollView: UIViewRepresentable {
         return scrollView
     }
 
+    // TODO: add code to update the view in here. probably make the scrollview a uiviewcontroller
     func updateUIView(_ scrollView: UIScrollView, context: Context) {
         switch calendarManager.currentPage.state {
         case .scroll:

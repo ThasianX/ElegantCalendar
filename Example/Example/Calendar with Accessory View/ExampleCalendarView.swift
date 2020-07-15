@@ -8,6 +8,8 @@ struct ExampleCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
+    @State private var calendarTheme: CalendarTheme = .kiwiGreen
+
     init(ascVisits: [Visit]) {
         let configuration = CalendarConfiguration(
             calendar: currentCalendar,
@@ -27,8 +29,27 @@ struct ExampleCalendarView: View {
     }
 
     var body: some View {
-        ElegantCalendarView(calendarManager: calendarManager)
-            .theme(.kiwiGreen)
+        ZStack {
+            ElegantCalendarView(calendarManager: calendarManager)
+                .theme(calendarTheme)
+            VStack {
+                Spacer()
+                changeThemeButton
+            }
+        }
+    }
+
+    private var changeThemeButton: some View {
+        Button(action: {
+            if self.calendarTheme == .mauvePurple {
+                self.calendarTheme = .brilliantViolet
+            } else {
+                self.calendarTheme = .mauvePurple
+            }
+        }) {
+            Text("CHANGE THEME")
+        }
+        .padding(.bottom, 40)
     }
     
 }

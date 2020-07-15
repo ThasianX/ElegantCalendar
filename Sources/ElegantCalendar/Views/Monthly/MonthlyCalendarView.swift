@@ -42,6 +42,7 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
     private var monthsList: some View {
         ElegantVList(manager: calendarManager.pagerManager)
+            .id(theme)
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
@@ -54,7 +55,6 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
 }
 
-// TODO: may need to add some kind of reloaddata for the page view. but this works for now
 extension MonthlyCalendarView: ElegantPagesDataSource {
 
     public func elegantPages(viewForPage page: Int) -> AnyView {

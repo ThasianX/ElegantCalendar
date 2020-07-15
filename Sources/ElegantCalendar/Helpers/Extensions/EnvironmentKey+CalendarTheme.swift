@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-public struct CalendarTheme {
+public struct CalendarTheme: Equatable, Hashable {
 
     let primary: Color
 
