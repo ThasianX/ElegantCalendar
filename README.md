@@ -10,7 +10,7 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 <br/>
 
-<img src="dark_demo.gif" width="300"/> <img src="light_demo.gif" width="300"/>
+<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantCalendar/dark_demo.gif" width="300"/> <img src="https://github.com/ThasianX/GIFs/blob/master/ElegantCalendar/light_demo.gif" width="300"/>
 
 ### Comes with 8 default themes. You can also configure your own theme. Read more to find out.
 
