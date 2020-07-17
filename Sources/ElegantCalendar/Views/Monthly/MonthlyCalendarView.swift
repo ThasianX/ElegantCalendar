@@ -23,8 +23,21 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     public var body: some View {
-        ZStack(alignment: .top) {
-            monthsList
+        GeometryReader { geometry in
+            self.content(geometry: geometry)
+        }
+    }
+
+    private func content(geometry: GeometryProxy) -> some View {
+        CalendarConstants.Monthly.cellWidth = geometry.size.width
+
+        return ZStack(alignment: .top) {
+            ElegantVList(manager: listManager,
+                         pageTurnType: .monthlyEarlyCutoff,
+                         viewForPage: monthView)
+                .onPageChanged(configureNewMonth)
+                .frame(width: CalendarConstants.Monthly.cellWidth)
+            
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
@@ -32,16 +45,19 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
                     .transition(.opacity)
             }
         }
+        .frame(height: CalendarConstants.cellHeight)
     }
 
-    private var monthsList: some View {
-        ElegantVList(manager: calendarManager.pagerManager)
+    private func monthView(for page: Int) -> AnyView {
+        MonthView(calendarManager: calendarManager, month: months[page])
+            .environment(\.calendarTheme, theme)
+            .erased
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            ScrollBackToTodayButton(scrollBackToToday: { self.calendarManager.scrollBackToToday() },
+            ScrollBackToTodayButton(scrollBackToToday: scrollBackToToday,
                                     color: theme.primary)
         }
     }
@@ -56,4 +72,19 @@ struct MonthlyCalendarView_Previews: PreviewProvider {
             MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
         }
     }
+}
+
+private extension PageTurnType {
+
+    static var monthlyEarlyCutoff: PageTurnType = .earlyCutoff(config: .monthlyConfig)
+
+}
+
+public extension EarlyCutOffConfiguration {
+
+    static let monthlyConfig = EarlyCutOffConfiguration(
+        scrollResistanceCutOff: 40,
+        pageTurnCutOff: 80,
+        pageTurnAnimation: .spring(response: 0.3, dampingFraction: 0.95))
+
 }
