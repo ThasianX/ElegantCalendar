@@ -657,7 +657,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ThasianX/ElegantPages";
 			requirement = {
-				branch = "custom-width";
+				branch = feature/syntax;
 				kind = branch;
 			};
 		};

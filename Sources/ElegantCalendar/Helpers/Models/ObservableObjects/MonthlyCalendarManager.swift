@@ -9,7 +9,7 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
     @Published public private(set) var currentMonth: Date
     @Published public var selectedDate: Date? = nil
 
-    let pagerManager: ElegantListManager
+    let listManager: ElegantListManager
 
     @Published public var datasource: MonthlyCalendarDataSource?
     @Published public var delegate: MonthlyCalendarDelegate?
@@ -21,8 +21,6 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
 
     var allowsHaptics: Bool = true
     private var isHapticActive: Bool = true
-
-    var theme: CalendarTheme = .default
 
     private var anyCancellable: AnyCancellable?
 
@@ -43,12 +41,8 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
 
         currentMonth = months[startingPage]
 
-        pagerManager = .init(startingPage: startingPage,
-                             pageCount: months.count,
-                             pageTurnType: .monthlyEarlyCutoff)
-
-        pagerManager.datasource = self
-        pagerManager.delegate = self
+        listManager = .init(startingPage: startingPage,
+                             pageCount: months.count)
 
         anyCancellable = $delegate.sink {
             $0?.calendar(willDisplayMonth: self.currentMonth)
@@ -57,19 +51,9 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
 
 }
 
-extension MonthlyCalendarManager: ElegantPagesDataSource {
+extension MonthlyCalendarManager {
 
-    public func elegantPages(viewForPage page: Int) -> AnyView {
-        MonthView(calendarManager: self, month: months[page])
-            .environment(\.calendarTheme, theme)
-            .erased
-    }
-
-}
-
-extension MonthlyCalendarManager: ElegantPagesDelegate {
-
-    public func elegantPages(willDisplay page: Int) {
+    func configureNewMonth(at page: Int) {
         if months[page] != currentMonth {
             currentMonth = months[page]
             selectedDate = nil
@@ -124,7 +108,7 @@ extension MonthlyCalendarManager {
 
         if needsToScroll {
             let page = calendar.monthsBetween(referenceDate, and: month)
-            pagerManager.scroll(to: page, animated: animated)
+            listManager.scroll(to: page, animated: animated)
         } else {
             isHapticActive = true
         }
@@ -154,6 +138,14 @@ extension MonthlyCalendarManagerDirectAccess {
         calendarManager.configuration
     }
 
+    var listManager: ElegantListManager {
+        calendarManager.listManager
+    }
+
+    var months: [Date] {
+        calendarManager.months
+    }
+
     var communicator: ElegantCalendarCommunicator? {
         calendarManager.communicator
     }
@@ -174,6 +166,14 @@ extension MonthlyCalendarManagerDirectAccess {
         calendarManager.selectedDate
     }
 
+    func configureNewMonth(at page: Int) {
+        calendarManager.configureNewMonth(at: page)
+    }
+
+    func scrollBackToToday() {
+        calendarManager.scrollBackToToday()
+    }
+
 }
 
 private extension Calendar {
@@ -185,20 +185,5 @@ private extension Calendar {
                               from: startOfMonthForDate1,
                               to: startOfMonthForDate2).month!)
     }
-
-}
-
-private extension PageTurnType {
-
-    static var monthlyEarlyCutoff: PageTurnType = .earlyCutoff(config: .monthlyConfig)
-
-}
-
-public extension EarlyCutOffConfiguration {
-
-    static let monthlyConfig = EarlyCutOffConfiguration(
-        scrollResistanceCutOff: 40,
-        pageTurnCutOff: 80,
-        pageTurnAnimation: .spring(response: 0.3, dampingFraction: 0.95))
 
 }

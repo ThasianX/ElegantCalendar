@@ -7,17 +7,18 @@ public struct ElegantCalendarView: View {
 
     var theme: CalendarTheme = .default
 
-    @ObservedObject public var calendarManager: ElegantCalendarManager
+    public let calendarManager: ElegantCalendarManager
 
     public init(calendarManager: ElegantCalendarManager) {
         self.calendarManager = calendarManager
     }
 
     public var body: some View {
-        ElegantHPages(manager: calendarManager.pagerManager) {
+        ElegantHPages(manager: calendarManager.pagesManager) {
             yearlyCalendarView
             monthlyCalendarView
         }
+        .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
     }
 
     private var yearlyCalendarView: some View {

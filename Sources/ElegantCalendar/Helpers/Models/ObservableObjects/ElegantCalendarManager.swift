@@ -15,7 +15,7 @@ public class ElegantCalendarManager: ObservableObject {
     }
 
     public var isShowingYearView: Bool {
-        pagerManager.currentPage == 0
+        pagesManager.currentPage == 0
     }
 
     @Published public var datasource: ElegantCalendarDataSource?
@@ -26,7 +26,7 @@ public class ElegantCalendarManager: ObservableObject {
     @Published public var yearlyManager: YearlyCalendarManager
     @Published public var monthlyManager: MonthlyCalendarManager
 
-    let pagerManager: ElegantPagesManager
+    let pagesManager: ElegantPagesManager
 
     private var anyCancellable = Set<AnyCancellable>()
 
@@ -38,9 +38,8 @@ public class ElegantCalendarManager: ObservableObject {
         monthlyManager = MonthlyCalendarManager(configuration: configuration,
                                                 initialMonth: initialMonth)
 
-        pagerManager = ElegantPagesManager(startingPage: 1,
+        pagesManager = ElegantPagesManager(startingPage: 1,
                                            pageTurnType: .calendarEarlySwipe)
-        pagerManager.delegate = self
 
         yearlyManager.communicator = self
         monthlyManager.communicator = self
@@ -78,11 +77,11 @@ public class ElegantCalendarManager: ObservableObject {
 
 }
 
-extension ElegantCalendarManager: ElegantPagesDelegate {
+extension ElegantCalendarManager {
 
     // accounts for both when the user scrolls to the yearly calendar view and the
     // user presses the month text to scroll to the yearly calendar view
-    public func elegantPages(willDisplay page: Int) {
+    func scrollToYearIfOnYearlyView(_ page: Int) {
         if page == 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 self.yearlyManager.scrollToYear(self.currentMonth)
@@ -95,7 +94,7 @@ extension ElegantCalendarManager: ElegantPagesDelegate {
 extension ElegantCalendarManager: ElegantCalendarCommunicator {
 
     public func scrollToMonthAndShowMonthlyView(_ month: Date) {
-        pagerManager.scroll(to: 1)
+        pagesManager.scroll(to: 1)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
             self.scrollToMonth(month)
@@ -103,7 +102,7 @@ extension ElegantCalendarManager: ElegantCalendarCommunicator {
     }
 
     public func showYearlyView() {
-        pagerManager.scroll(to: 0)
+        pagesManager.scroll(to: 0)
     }
 
 }

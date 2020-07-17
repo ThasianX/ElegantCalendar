@@ -26,8 +26,9 @@ extension MonthlyCalendarView: Buildable {
     ///
     /// - Parameter theme: theme of various components of the calendar
     public func theme(_ theme: CalendarTheme) -> Self {
-        calendarManager.theme = theme
-        calendarManager.pagerManager.reloadPages()
+        defer {
+            calendarManager.listManager.reloadPages()
+        }
         return mutating(keyPath: \.theme, value: theme)
     }
 

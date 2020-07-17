@@ -32,7 +32,10 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         CalendarConstants.Monthly.cellWidth = geometry.size.width
 
         return ZStack(alignment: .top) {
-            ElegantVList(manager: calendarManager.pagerManager)
+            ElegantVList(manager: listManager,
+                         pageTurnType: .monthlyEarlyCutoff,
+                         viewForPage: monthView)
+                .onPageChanged(configureNewMonth)
                 .frame(width: CalendarConstants.Monthly.cellWidth)
             
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
@@ -45,10 +48,16 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         .frame(height: CalendarConstants.cellHeight)
     }
 
+    private func monthView(for page: Int) -> AnyView {
+        MonthView(calendarManager: calendarManager, month: months[page])
+            .environment(\.calendarTheme, theme)
+            .erased
+    }
+
     private var leftAlignedScrollBackToTodayButton: some View {
         HStack {
             Spacer()
-            ScrollBackToTodayButton(scrollBackToToday: { self.calendarManager.scrollBackToToday() },
+            ScrollBackToTodayButton(scrollBackToToday: scrollBackToToday,
                                     color: theme.primary)
         }
     }
@@ -63,4 +72,19 @@ struct MonthlyCalendarView_Previews: PreviewProvider {
             MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
         }
     }
+}
+
+private extension PageTurnType {
+
+    static var monthlyEarlyCutoff: PageTurnType = .earlyCutoff(config: .monthlyConfig)
+
+}
+
+public extension EarlyCutOffConfiguration {
+
+    static let monthlyConfig = EarlyCutOffConfiguration(
+        scrollResistanceCutOff: 40,
+        pageTurnCutOff: 80,
+        pageTurnAnimation: .spring(response: 0.3, dampingFraction: 0.95))
+
 }
