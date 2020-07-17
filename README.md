@@ -184,10 +184,7 @@ public protocol YearlyCalendarDelegate {
 
 This is just a convenience to handle the shortcomings of the `@Published` wrapper which doesn't support `didSet`. Conform to this if you need to do things when a month is displayed or date changes.
 
-
-### `ElegantCalendarView` & `YearlyCalendarView` & `MonthlyCalendarView`
-
-#### `theme`: The theme of various components of the calendar. Default is royal blue.
+#### `theme`: The theme of various components of the calendar. Default is royal blue. Available for `ElegantCalendarView` & `YearlyCalendarView` & `MonthlyCalendarView`
 
 ```swift
 
@@ -217,9 +214,7 @@ ElegantCalendarView(...)
 
 To configure your own theme, just pass in your color into the `CalendarTheme` initializer. To have dynamic appearance, make sure your `Color` has both a light and dark appearance.
 
-### `ElegantCalendarView` & `MonthlyCalendarView`
-
-#### `allowsHaptics`: Whether haptics is enabled or not. Default is enabled.
+#### `allowsHaptics`: Whether haptics is enabled or not. Default is enabled. Available for `ElegantCalendarView` & `MonthlyCalendarView`
 
 ```swift
 
@@ -229,6 +224,15 @@ ElegantCalendarView(...)
 ```
 
 Users get haptics whenever they tap a day, scroll to a new month, or press the scroll back to today button.
+
+#### `frame`: Custom width for the monthly calendar view. Available for `MonthlyCalendarView`
+
+```swift
+
+MonthlyCalendarView(...)
+    .frame(width: ...)
+
+```
 
 ## Use Cases
 
@@ -263,7 +267,7 @@ If you are using `Package.swift`, you can also add `ElegantCalendar` as a depend
 let package = Package(
   name: "TestProject",
   dependencies: [
-    .package(url: "https://github.com/ThasianX/ElegantCalendar", from: "4.0.0")
+    .package(url: "https://github.com/ThasianX/ElegantCalendar", from: "4.1.0")
   ],
   targets: [
     .target(name: "TestProject", dependencies: ["ElegantCalendar"])
