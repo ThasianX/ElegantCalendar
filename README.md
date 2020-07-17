@@ -12,6 +12,10 @@ ElegantCalendar is an efficient and customizable full screen calendar written in
 
 <img src="https://github.com/ThasianX/GIFs/blob/master/ElegantCalendar/dark_demo.gif" width="300"/> <img src="https://github.com/ThasianX/GIFs/blob/master/ElegantCalendar/light_demo.gif" width="300"/>
 
+## [ElegantTimeline](https://github.com/ThasianX/ElegantTimeline-SwiftUI) - Shows what's possible using ElegantCalendar
+
+<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantTimeline/demo.gif" width="300"/>
+
 ### Comes with 8 default themes. You can also configure your own theme. Read more to find out.
 
 <p> <img src="Screenshots/brilliantViolet.PNG" width="200"/> 
