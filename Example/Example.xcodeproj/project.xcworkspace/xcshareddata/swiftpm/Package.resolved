@@ -5,9 +5,9 @@
         "package": "ElegantPages",
         "repositoryURL": "https://github.com/ThasianX/ElegantPages",
         "state": {
-          "branch": null,
-          "revision": "2702cc471c7a1b63d94b6e598f6416d65fe6e22f",
-          "version": "1.2.1"
+          "branch": "custom-width",
+          "revision": "8cec475852bb5b8e3779aecb49aa0b5a0de36e35",
+          "version": null
         }
       }
     ]

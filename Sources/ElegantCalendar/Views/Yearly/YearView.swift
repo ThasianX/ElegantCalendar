@@ -21,7 +21,7 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
             Spacer()
         }
         .padding(.top, CalendarConstants.Yearly.topPadding)
-        .frame(width: CalendarConstants.cellWidth, height: CalendarConstants.cellHeight)
+        .frame(width: CalendarConstants.Yearly.cellWidth, height: CalendarConstants.cellHeight)
     }
 
     private var yearText: some View {

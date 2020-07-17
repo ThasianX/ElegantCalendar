@@ -42,7 +42,7 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
                     .environment(\.calendarTheme, self.theme)
             }
         }
-        .frame(width: CalendarConstants.cellWidth,
+        .frame(width: CalendarConstants.Yearly.cellWidth,
                height: CalendarConstants.cellHeight)
     }
 

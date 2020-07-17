@@ -3,19 +3,17 @@
 import SwiftUI
 
 let screen = UIScreen.main.bounds
-let window = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
-let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
 
 struct CalendarConstants {
 
     static let cellHeight: CGFloat = screen.height
-    static let cellWidth: CGFloat = screen.width
-
-    static let horizontalPadding: CGFloat = cellWidth * 0.058
 
     static let daysInRow: CGFloat = 7
 
     struct Monthly {
+
+        static var cellWidth: CGFloat!
+        static let horizontalPadding: CGFloat = cellWidth * 0.045
 
         static let outerHorizontalPadding: CGFloat = horizontalPadding + dayWidth/4
 
@@ -31,6 +29,9 @@ struct CalendarConstants {
     }
 
     struct Yearly {
+
+        static let cellWidth: CGFloat = screen.width
+        static let horizontalPadding: CGFloat = cellWidth * 0.058
 
         static let outerHorizontalPadding: CGFloat = horizontalPadding + monthWidth/7
 

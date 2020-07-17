@@ -23,8 +23,18 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     public var body: some View {
-        ZStack(alignment: .top) {
-            monthsList
+        GeometryReader { geometry in
+            self.content(geometry: geometry)
+        }
+    }
+
+    private func content(geometry: GeometryProxy) -> some View {
+        CalendarConstants.Monthly.cellWidth = geometry.size.width
+
+        return ZStack(alignment: .top) {
+            ElegantVList(manager: calendarManager.pagerManager)
+                .frame(width: CalendarConstants.Monthly.cellWidth)
+            
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
@@ -32,10 +42,7 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
                     .transition(.opacity)
             }
         }
-    }
-
-    private var monthsList: some View {
-        ElegantVList(manager: calendarManager.pagerManager)
+        .frame(height: CalendarConstants.cellHeight)
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
