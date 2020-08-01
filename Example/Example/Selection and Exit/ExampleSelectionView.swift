@@ -1,6 +1,7 @@
 // Kevin Li - 8:33 PM - 6/24/20
 
 import ElegantPages
+import ElegantCalendar
 import SwiftUI
 
 fileprivate let turnAnimation: Animation = .spring(response: 0.4, dampingFraction: 0.95)

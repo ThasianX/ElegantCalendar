@@ -1,5 +1,6 @@
 // Kevin Li - 4:49 PM - 6/14/20
 
+import ElegantCalendar
 import SwiftUI
 
 struct ExampleYearlyCalendarView: View {
