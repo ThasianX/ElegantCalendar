@@ -4,6 +4,13 @@ import SwiftUI
 
 extension Calendar {
 
+    func endOfDay(for date: Date) -> Date {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return self.date(byAdding: components, to: startOfDay(for: date))!
+    }
+
     func isDate(_ date1: Date, equalTo date2: Date, toGranularities components: Set<Calendar.Component>) -> Bool {
         components.reduce(into: true) { isEqual, component in
             isEqual = isEqual && isDate(date1, equalTo: date2, toGranularity: component)

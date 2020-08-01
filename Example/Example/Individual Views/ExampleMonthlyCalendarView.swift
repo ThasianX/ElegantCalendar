@@ -1,5 +1,6 @@
 // Kevin Li - 5:51 PM - 6/14/20
 
+import ElegantCalendar
 import SwiftUI
 
 struct ExampleMonthlyCalendarView: View {
@@ -10,12 +11,12 @@ struct ExampleMonthlyCalendarView: View {
 
     @State private var calendarTheme: CalendarTheme = .royalBlue
 
-    init(ascVisits: [Visit]) {
+    init(ascVisits: [Visit], initialMonth: Date?) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
                                                   endDate: ascVisits.last!.arrivalDate)
         calendarManager = MonthlyCalendarManager(configuration: configuration,
-                                                 initialMonth: .daysFromToday(30))
+                                                 initialMonth: initialMonth)
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
         
         calendarManager.datasource = self
@@ -73,6 +74,6 @@ extension ExampleMonthlyCalendarView: MonthlyCalendarDelegate {
 
 struct ExampleMonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        ExampleYearlyCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)))
+        ExampleYearlyCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)), initialYear: nil)
     }
 }

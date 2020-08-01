@@ -3,6 +3,7 @@
 import SwiftUI
 
 let currentCalendar = Calendar.current
+let screen = UIScreen.main.bounds
 
 struct Visit {
 
@@ -96,6 +97,14 @@ fileprivate extension Color {
 
     init(red: Int, green: Int, blue: Int) {
         self.init(red: Double(red)/255, green: Double(green)/255, blue: Double(blue)/255)
+    }
+
+}
+
+fileprivate extension DateComponents {
+
+    static var everyDay: DateComponents {
+        DateComponents(hour: 0, minute: 0, second: 0)
     }
 
 }
