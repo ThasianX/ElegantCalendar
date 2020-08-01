@@ -271,7 +271,7 @@ If you are using `Package.swift`, you can also add `ElegantCalendar` as a depend
 let package = Package(
   name: "TestProject",
   dependencies: [
-    .package(url: "https://github.com/ThasianX/ElegantCalendar", from: "4.1.0")
+    .package(url: "https://github.com/ThasianX/ElegantCalendar", from: "4.2.0")
   ],
   targets: [
     .target(name: "TestProject", dependencies: ["ElegantCalendar"])
