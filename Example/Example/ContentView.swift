@@ -18,8 +18,9 @@ struct ContentView: View {
 
         ExampleCalendarView(
             ascVisits: Visit.mocks(
-                start: .daysFromToday(-30*36),
-                end: .daysFromToday(30*36)))
+                start: .daysFromToday(-2),
+                end: Date()),
+            initialMonth: Date())
 
 //        ExampleSelectionView()
     }

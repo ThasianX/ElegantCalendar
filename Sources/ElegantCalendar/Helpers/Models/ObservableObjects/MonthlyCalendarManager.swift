@@ -29,7 +29,7 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
 
         let months = configuration.calendar.generateDates(
             inside: DateInterval(start: configuration.startDate,
-                                 end: configuration.endDate),
+                                 end: configuration.calendar.endOfDay(for: configuration.endDate)),
             matching: .firstDayOfEveryMonth)
 
         self.months = configuration.ascending ? months : months.reversed()
