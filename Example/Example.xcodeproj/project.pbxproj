@@ -658,7 +658,7 @@
 			repositoryURL = "https://github.com/ThasianX/ElegantPages";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.0;
+				minimumVersion = 1.4.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
