@@ -14,7 +14,8 @@ struct ExampleMonthlyCalendarView: View {
     init(ascVisits: [Visit], initialMonth: Date?) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
                                                   startDate: ascVisits.first!.arrivalDate,
-                                                  endDate: ascVisits.last!.arrivalDate)
+                                                  endDate: ascVisits.last!.arrivalDate,
+                                                  orientation: .horizontal)
         calendarManager = MonthlyCalendarManager(configuration: configuration,
                                                  initialMonth: initialMonth)
         visitsByDay = Dictionary(grouping: ascVisits, by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
@@ -74,6 +75,6 @@ extension ExampleMonthlyCalendarView: MonthlyCalendarDelegate {
 
 struct ExampleMonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        ExampleYearlyCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)), initialYear: nil)
+        ExampleMonthlyCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)), initialMonth: nil)
     }
 }

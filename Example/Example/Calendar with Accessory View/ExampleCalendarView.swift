@@ -15,7 +15,8 @@ struct ExampleCalendarView: View {
         let configuration = CalendarConfiguration(
             calendar: currentCalendar,
             startDate: ascVisits.first!.arrivalDate,
-            endDate: ascVisits.last!.arrivalDate)
+            endDate: ascVisits.last!.arrivalDate,
+            orientation: .horizontal)
 
         calendarManager = ElegantCalendarManager(
             configuration: configuration,

@@ -14,11 +14,7 @@ public struct ElegantCalendarView: View {
     }
 
     public var body: some View {
-        ElegantHPages(manager: calendarManager.pagesManager) {
-            yearlyCalendarView
-            monthlyCalendarView
-        }
-        .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+        getCalendar(with: calendarManager.configuration.orientation)
     }
 
     private var yearlyCalendarView: some View {
@@ -29,6 +25,24 @@ public struct ElegantCalendarView: View {
     private var monthlyCalendarView: some View {
         MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
             .theme(theme)
+    }
+    
+    private func getCalendar(with orientation: CalendarOrientation) -> AnyView {
+        if orientation == .vertical {
+            return ElegantHPages(manager: calendarManager.pagesManager) {
+                yearlyCalendarView
+                monthlyCalendarView
+            }
+            .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+            .erased
+        }
+        
+        return ElegantVPages(manager: calendarManager.pagesManager) {
+            yearlyCalendarView
+            monthlyCalendarView
+        }
+        .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+        .erased
     }
 
 }

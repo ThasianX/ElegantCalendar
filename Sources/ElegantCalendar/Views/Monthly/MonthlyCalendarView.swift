@@ -32,11 +32,19 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         CalendarConstants.Monthly.cellWidth = geometry.size.width
 
         return ZStack(alignment: .top) {
-            ElegantVList(manager: listManager,
+            if calendarManager.configuration.orientation == .vertical {
+                ElegantVList(manager: listManager,
+                             pageTurnType: .monthlyEarlyCutoff,
+                             viewForPage: monthView)
+                    .onPageChanged(configureNewMonth)
+                    .frame(width: CalendarConstants.Monthly.cellWidth)
+            } else {
+                ElegantHList(manager: listManager,
                          pageTurnType: .monthlyEarlyCutoff,
                          viewForPage: monthView)
                 .onPageChanged(configureNewMonth)
                 .frame(width: CalendarConstants.Monthly.cellWidth)
+            }
             
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
