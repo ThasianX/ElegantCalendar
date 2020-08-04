@@ -188,7 +188,7 @@ public protocol YearlyCalendarDelegate {
 
 This is just a convenience to handle the shortcomings of the `@Published` wrapper which doesn't support `didSet`. Conform to this if you need to do things when a month is displayed or date changes.
 
-#### `theme`: The theme of various components of the calendar. Default is royal blue. Available for `ElegantCalendarView` & `YearlyCalendarView` & `MonthlyCalendarView`
+#### `theme`: The theme of various components of the calendar. Default is royal blue. Available for `ElegantCalendarView` & `YearlyCalendarView` & `MonthlyCalendarView`.
 
 ```swift
 
@@ -217,6 +217,15 @@ ElegantCalendarView(...)
 ```
 
 To configure your own theme, just pass in your color into the `CalendarTheme` initializer. To have dynamic appearance, make sure your `Color` has both a light and dark appearance.
+
+#### `horizontal` or `vertical`: The orientation of the calendar. The default is `horizontal`, as shown in the GIF. Available for `ElegantCalendarView` & `YearlyCalendarView` & `MonthlyCalendarView`. 
+
+```swift
+
+ElegantCalendarView(...)
+    .vertical()
+
+```
 
 #### `allowsHaptics`: Whether haptics is enabled or not. Default is enabled. Available for `ElegantCalendarView` & `MonthlyCalendarView`
 
