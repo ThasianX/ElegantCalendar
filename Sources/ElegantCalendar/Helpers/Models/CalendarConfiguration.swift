@@ -9,14 +9,12 @@ public struct CalendarConfiguration: Equatable {
     public let ascending: Bool
     public let startDate: Date
     public let endDate: Date
-    public let orientation: CalendarOrientation
 
-    public init(calendar: Calendar = .current, ascending: Bool = true, startDate: Date, endDate: Date, orientation: CalendarOrientation = .vertical) {
+    public init(calendar: Calendar = .current, ascending: Bool = true, startDate: Date, endDate: Date) {
         self.calendar = calendar
         self.ascending = ascending
         self.startDate = startDate
         self.endDate = endDate
-        self.orientation = orientation
     }
 
     var referenceDate: Date {
@@ -57,9 +55,4 @@ extension ConfigurationDirectAccess {
         configuration.referenceDate
     }
 
-}
-
-public enum CalendarOrientation {
-    case vertical
-    case horizontal
 }

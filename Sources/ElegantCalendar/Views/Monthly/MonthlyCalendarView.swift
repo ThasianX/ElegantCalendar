@@ -6,6 +6,7 @@ import SwiftUI
 public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
     var theme: CalendarTheme = .default
+    public var axis: Axis = .vertical
 
     @ObservedObject public var calendarManager: MonthlyCalendarManager
 
@@ -32,20 +33,8 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         CalendarConstants.Monthly.cellWidth = geometry.size.width
 
         return ZStack(alignment: .top) {
-            if calendarManager.configuration.orientation == .vertical {
-                ElegantVList(manager: listManager,
-                             pageTurnType: .monthlyEarlyCutoff,
-                             viewForPage: monthView)
-                    .onPageChanged(configureNewMonth)
-                    .frame(width: CalendarConstants.Monthly.cellWidth)
-            } else {
-                ElegantHList(manager: listManager,
-                         pageTurnType: .monthlyEarlyCutoff,
-                         viewForPage: monthView)
-                .onPageChanged(configureNewMonth)
-                .frame(width: CalendarConstants.Monthly.cellWidth)
-            }
-            
+            monthsList
+
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
@@ -54,6 +43,24 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
             }
         }
         .frame(height: CalendarConstants.cellHeight)
+    }
+
+    private var monthsList: some View {
+        Group {
+            if axis == .vertical {
+                ElegantVList(manager: listManager,
+                             pageTurnType: .monthlyEarlyCutoff,
+                             viewForPage: monthView)
+                    .onPageChanged(configureNewMonth)
+                    .frame(width: CalendarConstants.Monthly.cellWidth)
+            } else {
+                ElegantHList(manager: listManager,
+                             pageTurnType: .monthlyEarlyCutoff,
+                             viewForPage: monthView)
+                    .onPageChanged(configureNewMonth)
+                    .frame(width: CalendarConstants.Monthly.cellWidth)
+            }
+        }
     }
 
     private func monthView(for page: Int) -> AnyView {

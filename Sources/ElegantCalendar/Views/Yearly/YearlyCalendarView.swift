@@ -5,6 +5,7 @@ import SwiftUI
 public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
 
     var theme: CalendarTheme = .default
+    public var axis: Axis = .vertical
 
     @ObservedObject public var calendarManager: YearlyCalendarManager
 
@@ -36,14 +37,32 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private var yearsList: some View {
-        YearlyCalendarScrollView(calendarManager: calendarManager) {
-            ForEach(self.years, id: \.self) { year in
-                YearView(calendarManager: self.calendarManager, year: year)
-                    .environment(\.calendarTheme, self.theme)
-            }
+        YearlyCalendarScrollView(axis, calendarManager: calendarManager) {
+            self.yearsStack
         }
         .frame(width: CalendarConstants.Yearly.cellWidth,
                height: CalendarConstants.cellHeight)
+    }
+
+    private var yearsStack: some View {
+        Group {
+            if axis == .vertical {
+                VStack(spacing: 0) {
+                    calendarContent
+                }
+            } else {
+                HStack(spacing: 0) {
+                    calendarContent
+                }
+            }
+        }
+    }
+
+    private var calendarContent: some View {
+        ForEach(self.years, id: \.self) { year in
+            YearView(calendarManager: self.calendarManager, year: year)
+                .environment(\.calendarTheme, self.theme)
+        }
     }
 
     private var scrollBackToTodayButton: some View {
@@ -59,9 +78,19 @@ private struct YearlyCalendarScrollView: UIViewControllerRepresentable {
 
     @ObservedObject var calendarManager: YearlyCalendarManager
 
+    let axis: Axis
     let content: AnyView
 
-    init<Content: View>(calendarManager: YearlyCalendarManager, @ViewBuilder content: @escaping () -> Content) {
+    var pageLength: CGFloat {
+        (axis == .vertical) ? CalendarConstants.cellHeight : CalendarConstants.Yearly.cellWidth
+    }
+
+    var destinationOffset: CGFloat {
+        pageLength * CGFloat(calendarManager.currentPage.index)
+    }
+
+    init<Content: View>(_ axis: Axis, calendarManager: YearlyCalendarManager, @ViewBuilder content: @escaping () -> Content) {
+        self.axis = axis
         self.calendarManager = calendarManager
         self.content = AnyView(content())
     }
@@ -71,7 +100,7 @@ private struct YearlyCalendarScrollView: UIViewControllerRepresentable {
     }
 
     func makeUIViewController(context: Context) -> UIScrollViewViewController {
-        UIScrollViewViewController(content: content, delegate: context.coordinator)
+        UIScrollViewViewController(axis, content: content, delegate: context.coordinator)
     }
 
     func updateUIViewController(_ viewController: UIScrollViewViewController, context: Context) {
@@ -79,8 +108,15 @@ private struct YearlyCalendarScrollView: UIViewControllerRepresentable {
 
         switch calendarManager.currentPage.state {
         case .scroll:
+            let destinationPoint: CGPoint
+            if axis == .vertical {
+                destinationPoint = CGPoint(x: 0, y: destinationOffset)
+            } else {
+                destinationPoint = CGPoint(x: destinationOffset, y: 0)
+            }
+
             DispatchQueue.main.async {
-                viewController.scrollView.setContentOffset(CGPoint(x: 0, y: self.calendarManager.destinationOffset),
+                viewController.scrollView.setContentOffset(destinationPoint,
                                                            animated: true)
             }
         case .completed:
@@ -102,26 +138,19 @@ private struct YearlyCalendarScrollView: UIViewControllerRepresentable {
 
         // Called after the user manually drags from one page to another
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-            let page = Int(scrollView.contentOffset.y / CalendarConstants.cellHeight)
+            let contentOffset = (parent.axis == .vertical) ? scrollView.contentOffset.y : scrollView.contentOffset.x
+            let page = Int(contentOffset / parent.pageLength)
             calendarManager.willDisplay(page: page)
         }
 
         // Called after the `scrollToToday` or any `scrollToYear` animation finishes
         func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
             if calendarManager.currentPage.state == .scroll {
-                let page = Int(calendarManager.destinationOffset / CalendarConstants.cellHeight)
+                let page = Int(parent.destinationOffset / parent.pageLength)
                 calendarManager.willDisplay(page: page)
             }
         }
 
-    }
-
-}
-
-private extension YearlyCalendarManager {
-
-    var destinationOffset: CGFloat {
-        CalendarConstants.cellHeight * CGFloat(currentPage.index)
     }
 
 }
@@ -131,18 +160,25 @@ private class UIScrollViewViewController: UIViewController {
     let hosting: UIHostingController<AnyView>
     let scrollView: UIScrollView
 
-    init(content: AnyView, delegate: UIScrollViewDelegate) {
+    init(_ axis: Axis, content: AnyView, delegate: UIScrollViewDelegate) {
         hosting = UIHostingController(rootView: content)
         scrollView = UIScrollView().withPagination(delegate: delegate)
         super.init(nibName: nil, bundle: nil)
 
-        let size = hosting.view.sizeThatFits(CGSize(width: screen.width, height: .greatestFiniteMagnitude))
+        let fittingSize: CGSize
+        if axis == .vertical {
+            fittingSize = CGSize(width: screen.width, height: .greatestFiniteMagnitude)
+        } else {
+            fittingSize = CGSize(width: .greatestFiniteMagnitude, height: screen.height)
+        }
+
+        let size = hosting.view.sizeThatFits(fittingSize)
         hosting.view.frame = CGRect(x: 0, y: 0,
-                                    width: screen.width,
+                                    width: size.width,
                                     height: size.height)
 
         scrollView.addSubview(hosting.view)
-        scrollView.contentSize = CGSize(width: screen.width, height: size.height)
+        scrollView.contentSize = CGSize(width: size.width, height: size.height)
     }
 
     required init?(coder: NSCoder) {
@@ -156,7 +192,7 @@ private class UIScrollViewViewController: UIViewController {
         pinEdges(of: scrollView, to: view)
 
         hosting.willMove(toParent: self)
-        scrollView.addSubview(self.hosting.view)
+        scrollView.addSubview(hosting.view)
         pinEdges(of: hosting.view, to: scrollView)
         hosting.didMove(toParent: self)
     }

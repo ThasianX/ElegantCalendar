@@ -6,6 +6,7 @@ import SwiftUI
 public struct ElegantCalendarView: View {
 
     var theme: CalendarTheme = .default
+    public var axis: Axis = .horizontal
 
     public let calendarManager: ElegantCalendarManager
 
@@ -14,35 +15,39 @@ public struct ElegantCalendarView: View {
     }
 
     public var body: some View {
-        getCalendar(with: calendarManager.configuration.orientation)
+        content
+    }
+    
+    private var content: some View {
+        Group {
+            if axis == .vertical {
+                ElegantVPages(manager: calendarManager.pagesManager) {
+                    yearlyCalendarView
+                    monthlyCalendarView
+                }
+                .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+                .erased
+            } else {
+                ElegantHPages(manager: calendarManager.pagesManager) {
+                    yearlyCalendarView
+                    monthlyCalendarView
+                }
+                .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+                .erased
+            }
+        }
     }
 
     private var yearlyCalendarView: some View {
         YearlyCalendarView(calendarManager: calendarManager.yearlyManager)
+            .axis(axis.inverted)
             .theme(theme)
     }
 
     private var monthlyCalendarView: some View {
         MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
+            .axis(axis.inverted)
             .theme(theme)
-    }
-    
-    private func getCalendar(with orientation: CalendarOrientation) -> AnyView {
-        if orientation == .vertical {
-            return ElegantHPages(manager: calendarManager.pagesManager) {
-                yearlyCalendarView
-                monthlyCalendarView
-            }
-            .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
-            .erased
-        }
-        
-        return ElegantVPages(manager: calendarManager.pagesManager) {
-            yearlyCalendarView
-            monthlyCalendarView
-        }
-        .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
-        .erased
     }
 
 }
