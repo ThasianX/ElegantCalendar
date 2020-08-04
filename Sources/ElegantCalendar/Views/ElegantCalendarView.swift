@@ -6,6 +6,7 @@ import SwiftUI
 public struct ElegantCalendarView: View {
 
     var theme: CalendarTheme = .default
+    public var axis: Axis = .horizontal
 
     public let calendarManager: ElegantCalendarManager
 
@@ -14,20 +15,38 @@ public struct ElegantCalendarView: View {
     }
 
     public var body: some View {
-        ElegantHPages(manager: calendarManager.pagesManager) {
-            yearlyCalendarView
-            monthlyCalendarView
+        content
+    }
+    
+    private var content: some View {
+        Group {
+            if axis == .vertical {
+                ElegantVPages(manager: calendarManager.pagesManager) {
+                    yearlyCalendarView
+                    monthlyCalendarView
+                }
+                .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+                .erased
+            } else {
+                ElegantHPages(manager: calendarManager.pagesManager) {
+                    yearlyCalendarView
+                    monthlyCalendarView
+                }
+                .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
+                .erased
+            }
         }
-        .onPageChanged(calendarManager.scrollToYearIfOnYearlyView)
     }
 
     private var yearlyCalendarView: some View {
         YearlyCalendarView(calendarManager: calendarManager.yearlyManager)
+            .axis(axis.inverted)
             .theme(theme)
     }
 
     private var monthlyCalendarView: some View {
         MonthlyCalendarView(calendarManager: calendarManager.monthlyManager)
+            .axis(axis.inverted)
             .theme(theme)
     }
 

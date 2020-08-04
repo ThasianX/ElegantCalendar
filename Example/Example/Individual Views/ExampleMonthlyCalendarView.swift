@@ -74,6 +74,6 @@ extension ExampleMonthlyCalendarView: MonthlyCalendarDelegate {
 
 struct ExampleMonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        ExampleYearlyCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)), initialYear: nil)
+        ExampleMonthlyCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)), initialMonth: nil)
     }
 }

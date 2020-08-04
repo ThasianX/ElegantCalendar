@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 
 /// Adds a helper function to mutate a properties and help implement _Builder_ pattern
-protocol Buildable { }
+public protocol Buildable { }
 
 extension Buildable {
 
