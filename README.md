@@ -72,6 +72,10 @@ import ElegantCalendar
 
 struct ExampleCalendarView: View {
 
+    // Start & End date should be configured based on your needs.
+    let startDate = Date().addingTimeInterval(TimeInterval(60 * 60 * 24 * (-30 * 36)))
+    let endDate = Date().addingTimeInterval(TimeInterval(60 * 60 * 24 * (30 * 36)))
+
     @ObservedObject var calendarManager = ElegantCalendarManager(
         configuration: CalendarConfiguration(startDate: startDate,
                                              endDate: endDate))
@@ -91,6 +95,10 @@ import ElegantCalendar
 
 struct ExampleMonthlyCalendarView: View {
 
+    // Start & End date should be configured based on your needs.
+    let startDate = Date().addingTimeInterval(TimeInterval(60 * 60 * 24 * (-30 * 36)))
+    let endDate = Date().addingTimeInterval(TimeInterval(60 * 60 * 24 * (30 * 36)))
+
     @ObservedObject var calendarManager = MonthlyCalendarManager(
         configuration: CalendarConfiguration(startDate: startDate,
                                              endDate: endDate))
@@ -102,6 +110,10 @@ struct ExampleMonthlyCalendarView: View {
 }
 
 struct ExampleYearlyCalendarView: View {
+
+    // Start & End date should be configured based on your needs. 
+    let startDate = Date().addingTimeInterval(TimeInterval(60 * 60 * 24 * (-30 * 36)))
+    let endDate = Date().addingTimeInterval(TimeInterval(60 * 60 * 24 * (30 * 36)))
 
     @ObservedObject var calendarManager = YearlyCalendarManager(
         configuration: CalendarConfiguration(startDate: startDate,
