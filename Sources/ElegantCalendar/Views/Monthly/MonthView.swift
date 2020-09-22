@@ -2,8 +2,6 @@
 
 import SwiftUI
 
-fileprivate let daysOfWeekInitials = ["S", "M", "T", "W", "T", "F", "S"]
-
 struct MonthView: View, MonthlyCalendarManagerDirectAccess {
 
     @Environment(\.calendarTheme) var theme: CalendarTheme
@@ -85,7 +83,7 @@ private extension MonthView {
 
     var daysOfWeekHeader: some View {
         HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
-            ForEach(daysOfWeekInitials, id: \.self) { dayOfWeek in
+            ForEach(calendar.dayOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
                     .font(.caption)
                     .frame(width: CalendarConstants.Monthly.dayWidth)
