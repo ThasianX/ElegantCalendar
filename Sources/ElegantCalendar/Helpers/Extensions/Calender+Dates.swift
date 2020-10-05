@@ -5,7 +5,7 @@ import SwiftUI
 extension Calendar {
     
     var dayOfWeekInitials: [String] {
-        weekdaySymbols.map { String($0.first!) }
+        veryShortWeekdaySymbols
     }
     
 }
