@@ -24,11 +24,31 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        VStack(spacing: 40) {
-            monthYearHeader
-                .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
-                .onTapGesture { self.communicator?.showYearlyView() }
-            weeksViewWithDaysOfWeekHeader
+        VStack(spacing: 0) {
+            VStack {
+                Spacer()
+                HStack {
+                    Text("My Schedule")
+                        .font(.system(size: 40))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Image(systemName: "plus.circle")
+                }
+            }
+            .padding([.leading, .trailing], 24)
+            .frame(height: 90)
+            .edgesIgnoringSafeArea(.top)
+            .background(Color.blue)
+            
+            VStack {
+                monthYearHeader
+                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
+                    .onTapGesture { self.communicator?.showYearlyView() }
+                    .padding(.top, 20)
+                    .padding(.bottom, 40)
+                weeksViewWithDaysOfWeekHeader
+            }
+            
             if selectedDate != nil {
                 calenderAccessoryView
                     .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
@@ -36,38 +56,32 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
             }
             Spacer()
         }
-        .padding(.top, CalendarConstants.Monthly.topPadding)
         .frame(width: CalendarConstants.Monthly.cellWidth, height: CalendarConstants.cellHeight)
+        .background(Color.gray)
     }
 
 }
 
 private extension MonthView {
-
+    
     var monthYearHeader: some View {
         HStack {
-            VStack(alignment: .leading) {
-                monthText
-                yearText
-            }
-            Spacer()
+            monthText
+            yearText
+            Image(systemName: "chevron.down")
         }
+        .font(.system(size: 26))
+        .foregroundColor(isWithinSameMonthAndYearAsToday ? .black : .gray)
     }
-
+    
     var monthText: some View {
         Text(month.fullMonth.uppercased())
-            .font(.system(size: 26))
             .bold()
-            .tracking(7)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .primary)
     }
-
+    
     var yearText: some View {
         Text(month.year)
-            .font(.system(size: 12))
-            .tracking(2)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .gray)
-            .opacity(0.95)
+            .bold()
     }
 
 }
@@ -86,8 +100,9 @@ private extension MonthView {
             ForEach(calendar.dayOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
                     .font(.caption)
+                    .bold()
                     .frame(width: CalendarConstants.Monthly.dayWidth)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.black)
             }
         }
     }

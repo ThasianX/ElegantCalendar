@@ -33,8 +33,10 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         CalendarConstants.Monthly.cellWidth = geometry.size.width
 
         return ZStack(alignment: .top) {
-            monthsList
-
+            VStack {
+                monthsList
+                Spacer()
+            }
             if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
                 leftAlignedScrollBackToTodayButton
                     .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
@@ -42,7 +44,7 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
                     .transition(.opacity)
             }
         }
-        .frame(height: CalendarConstants.cellHeight)
+        .edgesIgnoringSafeArea(.all)
     }
 
     private var monthsList: some View {
