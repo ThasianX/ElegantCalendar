@@ -64,9 +64,9 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         Group {
             if isDayToday {
                 Color.primary
-            } else if isDaySelectableAndInRange {
-                theme.primary
-                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
+//            } else if isDaySelectableAndInRange {
+//                theme.primary
+//                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
             } else {
                 Color.clear
             }
@@ -75,7 +75,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var opacity: Double {
         guard !isDayToday else { return 1 }
-        return isDaySelectableAndInRange ? 1 : 0.15
+        return isDaySelectableAndInRange ? 1 : 0
     }
 
     private func notifyManager() {
