@@ -12,17 +12,17 @@ struct ContentView: View {
 //                end: .daysFromToday(30*36)),
 //            initialYear: .daysFromToday(365))
 
-//        ExampleMonthlyCalendarView(
-//            ascVisits: Visit.mocks(
-//                start: .daysFromToday(-30*36),
-//                end: .daysFromToday(30*36)),
-//            initialMonth: .daysFromToday(30))
-
-        ExampleCalendarView(
+        ExampleMonthlyCalendarView(
             ascVisits: Visit.mocks(
                 start: .daysFromToday(-30*36),
                 end: .daysFromToday(30*36)),
             initialMonth: Date())
+
+//        ExampleCalendarView(
+//            ascVisits: Visit.mocks(
+//                start: .daysFromToday(-30*36),
+//                end: .daysFromToday(30*36)),
+//            initialMonth: Date())
 
 //        ExampleSelectionView()
     }

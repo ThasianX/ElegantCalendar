@@ -2,13 +2,14 @@
 
 import SwiftUI
 
-struct MonthView: View, MonthlyCalendarManagerDirectAccess {
+struct MonthView<HeaderView: View>: View, MonthlyCalendarManagerDirectAccess {
 
     @Environment(\.calendarTheme) var theme: CalendarTheme
 
     @ObservedObject var calendarManager: MonthlyCalendarManager
 
     let month: Date
+    let headerView: () -> HeaderView
 
     private var weeks: [Date] {
         guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
@@ -24,23 +25,9 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 0) {            
             VStack {
-                Spacer()
-                HStack {
-                    Text("My Schedule")
-                        .font(.system(size: 40))
-                        .foregroundColor(.white)
-                    Spacer()
-                    Image(systemName: "plus.circle")
-                }
-            }
-            .padding([.leading, .trailing], 24)
-            .frame(height: 90)
-            .edgesIgnoringSafeArea(.top)
-            .background(Color.blue)
-            
-            VStack {
+                headerView()
                 monthYearHeader
                     .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
                     .onTapGesture { self.communicator?.showYearlyView() }
@@ -196,14 +183,4 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
             .foregroundColor(.gray)
     }
 
-}
-
-struct MonthView_Previews: PreviewProvider {
-    static var previews: some View {
-        LightDarkThemePreview {
-            MonthView(calendarManager: .mock, month: Date())
-
-            MonthView(calendarManager: .mock, month: .daysFromToday(45))
-        }
-    }
 }

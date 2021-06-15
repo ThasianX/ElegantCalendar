@@ -3,8 +3,9 @@
 import ElegantPages
 import SwiftUI
 
-public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
+public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManagerDirectAccess {
 
+    let headerView: () -> HeaderView
     var theme: CalendarTheme = .default
     public var axis: Axis = .vertical
 
@@ -19,7 +20,9 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
 
-    public init(calendarManager: MonthlyCalendarManager) {
+    public init(calendarManager: MonthlyCalendarManager,
+                @ViewBuilder headerView: @escaping () -> HeaderView) {
+        self.headerView = headerView
         self.calendarManager = calendarManager
     }
 
@@ -66,9 +69,11 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private func monthView(for page: Int) -> AnyView {
-        MonthView(calendarManager: calendarManager, month: months[page])
-            .environment(\.calendarTheme, theme)
-            .erased
+        return AnyView(VStack(spacing: 0) {
+            MonthView(calendarManager: calendarManager, month: months[page], headerView: headerView)
+                .environment(\.calendarTheme, theme)
+                .erased
+        })
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
@@ -79,16 +84,6 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         }
     }
 
-}
-
-struct MonthlyCalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        LightDarkThemePreview {
-            MonthlyCalendarView(calendarManager: .mock)
-
-            MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
-        }
-    }
 }
 
 private extension PageTurnType {
@@ -104,4 +99,10 @@ public extension EarlyCutOffConfiguration {
         pageTurnCutOff: 80,
         pageTurnAnimation: .spring(response: 0.3, dampingFraction: 0.95))
 
+}
+
+extension MonthlyCalendarView where HeaderView == EmptyView {
+    init(calendarManager: MonthlyCalendarManager) {
+        self.init(calendarManager: calendarManager, headerView: { EmptyView() })
+    }
 }
