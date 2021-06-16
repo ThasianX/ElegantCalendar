@@ -58,7 +58,7 @@ private extension MonthView {
             Image(systemName: "chevron.down")
         }
         .font(.system(size: 26))
-        .foregroundColor(isWithinSameMonthAndYearAsToday ? .black : .gray)
+        .opacity(isWithinSameMonthAndYearAsToday ? 1 : 0.5)
     }
     
     var monthText: some View {
