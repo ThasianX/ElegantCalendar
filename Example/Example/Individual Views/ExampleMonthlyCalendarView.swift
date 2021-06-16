@@ -9,7 +9,7 @@ struct ExampleMonthlyCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
-    @State private var calendarTheme: CalendarTheme = .royalBlue
+    @State private var calendarTheme: CalendarTheme = .orangeYellow
 
     init(ascVisits: [Visit], initialMonth: Date?) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
@@ -39,7 +39,7 @@ struct ExampleMonthlyCalendarView: View {
                 .padding([.leading, .trailing], 24)
                 .frame(height: 90)
                 .edgesIgnoringSafeArea(.all)
-                .background(Color.blue)
+                .background(calendarTheme.primary)
             })
                 .theme(calendarTheme)
             VStack {

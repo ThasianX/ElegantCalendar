@@ -69,11 +69,9 @@ public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManage
     }
 
     private func monthView(for page: Int) -> AnyView {
-        return AnyView(VStack(spacing: 0) {
-            MonthView(calendarManager: calendarManager, month: months[page], headerView: headerView)
-                .environment(\.calendarTheme, theme)
-                .erased
-        })
+        MonthView(calendarManager: calendarManager, month: months[page], headerView: headerView)
+            .environment(\.calendarTheme, theme)
+            .erased
     }
 
     private var leftAlignedScrollBackToTodayButton: some View {
@@ -84,6 +82,16 @@ public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManage
         }
     }
 
+}
+
+struct MonthlyCalendarView_Previews: PreviewProvider {
+    static var previews: some View {
+        LightDarkThemePreview {
+            MonthlyCalendarView(calendarManager: .mock)
+
+            MonthlyCalendarView(calendarManager: .mockWithInitialMonth)
+        }
+    }
 }
 
 private extension PageTurnType {
