@@ -19,12 +19,13 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(week, equalTo: day, toGranularities: [.month, .year])
     }
 
-    private var canSelectDay: Bool {
-        datasource?.calendar(canSelectDate: day) ?? true
+    private var ifShiftDay: Bool {
+        datasource?.calendar(isShiftDate: day) ?? true
     }
 
     private var isDaySelectableAndInRange: Bool {
-        isDayWithinDateRange && isDayWithinWeekMonthAndYear && canSelectDay
+//        isDayWithinDateRange && isDayWithinWeekMonthAndYear && canSelectDay
+        isDayWithinWeekMonthAndYear
     }
 
     private var isDayToday: Bool {
@@ -44,8 +45,8 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
             .background(backgroundColor)
             .clipShape(Circle())
             .opacity(opacity)
-            .overlay(isSelected ? CircularSelectionView() : nil)
-            .onTapGesture(perform: notifyManager)
+            .overlay(ifShiftDay && isDayWithinWeekMonthAndYear ? CircularShiftView() : nil)
+//            .onTapGesture(perform: notifyManager)
     }
 
     private var numericDay: String {
@@ -64,7 +65,7 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         Group {
             if isDayToday {
                 Color.primary
-//            } else if isDaySelectableAndInRange {
+//            } else if ifShiftDay {
 //                theme.primary
 //                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
             } else {
@@ -79,13 +80,23 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     private func notifyManager() {
-        guard isDayWithinDateRange && canSelectDay else { return }
+        guard isDayWithinDateRange else { return }
 
         if isDayToday || isDayWithinWeekMonthAndYear {
             calendarManager.dayTapped(day: day, withHaptic: true)
         }
     }
 
+}
+
+private struct CircularShiftView: View {
+
+    var body: some View {
+        Circle()
+            .background(Color.primary)
+            .offset(y: 15)
+            .frame(width: 4, height: 4)
+    }
 }
 
 private struct CircularSelectionView: View {

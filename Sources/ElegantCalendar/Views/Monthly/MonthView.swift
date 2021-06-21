@@ -2,15 +2,13 @@
 
 import SwiftUI
 
-struct MonthView<HeaderView: View>: View, MonthlyCalendarManagerDirectAccess {
+struct MonthView: View, MonthlyCalendarManagerDirectAccess {
 
     @Environment(\.calendarTheme) var theme: CalendarTheme
 
     @ObservedObject var calendarManager: MonthlyCalendarManager
 
     let month: Date
-    let headerView: () -> HeaderView
-
     private var weeks: [Date] {
         guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
             return []
@@ -25,16 +23,21 @@ struct MonthView<HeaderView: View>: View, MonthlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        VStack(spacing: 0) {            
+        VStack(spacing: 0) {
             VStack {
-                headerView()
                 monthYearHeader
                     .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
-                    .onTapGesture { self.communicator?.showYearlyView() }
+                    .onTapGesture {
+                        self.communicator?.showYearlyView()
+                    }
                     .padding(.top, 20)
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 32)
                 weeksViewWithDaysOfWeekHeader
+                Spacer()
             }
+            .padding(.top, CalendarConstants.Monthly.topPadding)
+            .frame(width: CalendarConstants.Monthly.cellWidth, height: CalendarConstants.cellHeight)
+            .background(Color.gray)
             
             if selectedDate != nil {
                 calenderAccessoryView
@@ -76,7 +79,7 @@ private extension MonthView {
 private extension MonthView {
 
     var weeksViewWithDaysOfWeekHeader: some View {
-        VStack(spacing: 32) {
+        VStack(spacing: 10) {
             daysOfWeekHeader
             weeksViewStack
         }
@@ -95,7 +98,7 @@ private extension MonthView {
     }
 
     var weeksViewStack: some View {
-        VStack(spacing: CalendarConstants.Monthly.gridSpacing) {
+        VStack {
             ForEach(weeks, id: \.self) { week in
                 WeekView(calendarManager: self.calendarManager, week: week)
             }

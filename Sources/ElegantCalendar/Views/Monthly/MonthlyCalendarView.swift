@@ -3,9 +3,8 @@
 import ElegantPages
 import SwiftUI
 
-public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManagerDirectAccess {
+public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
 
-    let headerView: () -> HeaderView
     var theme: CalendarTheme = .default
     public var axis: Axis = .vertical
 
@@ -20,9 +19,7 @@ public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManage
         calendar.isDate(currentMonth, equalTo: Date(), toGranularities: [.month, .year])
     }
 
-    public init(calendarManager: MonthlyCalendarManager,
-                @ViewBuilder headerView: @escaping () -> HeaderView) {
-        self.headerView = headerView
+    public init(calendarManager: MonthlyCalendarManager) {
         self.calendarManager = calendarManager
     }
 
@@ -47,7 +44,6 @@ public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManage
                     .transition(.opacity)
             }
         }
-        .edgesIgnoringSafeArea(.all)
     }
 
     private var monthsList: some View {
@@ -69,7 +65,7 @@ public struct MonthlyCalendarView<HeaderView: View>: View, MonthlyCalendarManage
     }
 
     private func monthView(for page: Int) -> AnyView {
-        MonthView(calendarManager: calendarManager, month: months[page], headerView: headerView)
+        MonthView(calendarManager: calendarManager, month: months[page])
             .environment(\.calendarTheme, theme)
             .erased
     }
@@ -109,8 +105,8 @@ public extension EarlyCutOffConfiguration {
 
 }
 
-extension MonthlyCalendarView where HeaderView == EmptyView {
-    init(calendarManager: MonthlyCalendarManager) {
-        self.init(calendarManager: calendarManager, headerView: { EmptyView() })
-    }
-}
+//extension MonthlyCalendarView where Content == EmptyView {
+//    init(calendarManager: MonthlyCalendarManager) {
+//        self.init(calendarManager: calendarManager, content: { EmptyView() })
+//    }
+//}
