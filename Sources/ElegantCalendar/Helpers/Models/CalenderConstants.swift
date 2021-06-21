@@ -17,7 +17,7 @@ struct CalendarConstants {
 
         static let outerHorizontalPadding: CGFloat = horizontalPadding + dayWidth/4
 
-        static let topPadding: CGFloat = cellHeight * 0.078
+        static let topPadding: CGFloat = cellHeight * 0.14
         static let gridSpacing: CGFloat = cellWidth * 0.038
 
         static let dayWidth: CGFloat = {

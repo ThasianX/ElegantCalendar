@@ -80,7 +80,7 @@ extension MonthlyCalendarManager {
     @discardableResult
     public func scrollToDay(_ day: Date, animated: Bool = true) -> Bool {
         let didScrollToMonth = scrollToMonth(day, animated: animated)
-        let canSelectDay = datasource?.calendar(canSelectDate: day) ?? true
+        let canSelectDay = datasource?.calendar(isShiftDate: day) ?? true
 
         if canSelectDay {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {
