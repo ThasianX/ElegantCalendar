@@ -27,7 +27,7 @@ struct SmallDayView: View, YearlyCalendarManagerDirectAccess {
             .foregroundColor(isDayToday ? .systemBackground : .primary)
             .frame(width: CalendarConstants.Yearly.dayWidth, height: CalendarConstants.Yearly.dayWidth)
             .background(isDayToday ? Circle().fill(Color.primary) : nil)
-            .opacity(isDayWithinDateRange && isDayWithinWeekMonthAndYear ? 1 : 0)
+            .opacity(isDayWithinWeekMonthAndYear ? 1 : 0)
     }
 
     private var numericDay: String {
