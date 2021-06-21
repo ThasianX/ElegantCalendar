@@ -25,8 +25,11 @@ struct ContentView: View {
                                 end: .daysFromToday(30*24)),
                             initialMonth: initialMonth,
                             shiftsDate: shifsDate, onChangeMonth: { date in
-                                shifsDate = [Int.random(in: 1...30), Int.random(in: 1...30)]
-                                initialMonth = date
+                                DispatchQueue.main.async {
+                                    shifsDate = [Int.random(in: 1...30), Int.random(in: 1...30)]
+                                    initialMonth = date
+                                }
+                                
             })
 //        ExampleCalendarView(ascVisits: Visit.mocks(
 //                                start: Date(),

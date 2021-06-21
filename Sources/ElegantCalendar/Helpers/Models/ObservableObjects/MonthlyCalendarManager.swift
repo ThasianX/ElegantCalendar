@@ -44,9 +44,9 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
         listManager = .init(startingPage: startingPage,
                              pageCount: months.count)
 
-        anyCancellable = $delegate.sink {
-            $0?.calendar(willDisplayMonth: self.currentMonth)
-        }
+//        anyCancellable = $delegate.sink {
+//            $0?.calendar(willDisplayMonth: self.currentMonth)
+//        }
     }
 
 }
