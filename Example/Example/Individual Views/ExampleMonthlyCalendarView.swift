@@ -25,22 +25,7 @@ struct ExampleMonthlyCalendarView: View {
 
     var body: some View {
         ZStack {
-            MonthlyCalendarView(calendarManager: calendarManager, headerView: {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Text("My Schedule")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
-                        Spacer()
-                        Image(systemName: "plus.circle")
-                    }
-                }
-                .padding([.leading, .trailing], 24)
-                .frame(height: 90)
-                .edgesIgnoringSafeArea(.all)
-                .background(calendarTheme.primary)
-            })
+            MonthlyCalendarView(calendarManager: calendarManager)
                 .theme(calendarTheme)
             VStack {
                 Spacer()
