@@ -24,13 +24,12 @@ public extension CalendarTheme {
     static let orangeYellow = CalendarTheme(primary: .orangeYellow)
     static let red = CalendarTheme(primary: .red)
     static let royalBlue = CalendarTheme(primary: .royalBlue)
-    static let white = CalendarTheme(primary: .white)
 
 }
 
 extension CalendarTheme {
 
-    static let `default`: CalendarTheme = .white
+    static let `default`: CalendarTheme = .craftBrown
 
 }
 
@@ -59,6 +58,5 @@ private extension Color {
     static let orangeYellow = Color("orangeYellow")
     static let red = Color("red")
     static let royalBlue = Color("royalBlue")
-    static let white = Color("white")
 
 }

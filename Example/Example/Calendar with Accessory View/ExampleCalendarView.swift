@@ -7,28 +7,30 @@ struct ExampleCalendarView: View {
 
     @ObservedObject private var calendarManager: ElegantCalendarManager
 
-    let visitsByDay: [Date: [Visit]]
+    let visitsByDay: [Date: [Visit]] = [:]
     var onChangeMonth: ((Date) -> Void)?
     @State private var calendarTheme: CalendarTheme = .craftBrown
     @State private var isSwipeUporDown: Bool = false
     @State var sizeShiftheight : CGFloat = 450
     private var shiftsDate: [Int]
-    init(ascVisits: [Visit], initialMonth: Date?, shiftsDate: [Int] = [], onChangeMonth: ((Date) -> Void)? = nil) {
+    init(startDate: Date, endDate: Date, initialMonth: Date?, shiftsDate: [Int] = [], onChangeMonth: ((Date) -> Void)? = nil) {
         
         self.shiftsDate = shiftsDate
         self.onChangeMonth = onChangeMonth
         let configuration = CalendarConfiguration(
             calendar: currentCalendar,
-            startDate: ascVisits.first!.arrivalDate,
-            endDate: ascVisits.last!.arrivalDate)
+            startDate: startDate,
+            endDate: endDate)
 
         calendarManager = ElegantCalendarManager(
             configuration: configuration,
             initialMonth: initialMonth)
-
-        visitsByDay = Dictionary(
-            grouping: ascVisits,
-            by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
+        
+//        visitsByDay = Dictionary(
+//            grouping: Visit.mocks(
+//            start: Date(),
+//            end: .daysFromToday(30*24)),
+//            by: { currentCalendar.startOfDay(for: $0.arrivalDate) })
 
         calendarManager.datasource = self
         calendarManager.delegate = self
@@ -37,24 +39,27 @@ struct ExampleCalendarView: View {
     var body: some View {
         ZStack {
             ElegantCalendarView(calendarManager: calendarManager)
-                .theme(calendarTheme)
-                .animation(.easeInOut(duration: 0.5))
+//                .theme(calendarTheme)
+//                .animation(.easeInOut(duration: 0.5))
+            
             VStack {
                 VStack {
                     Spacer()
                     HStack {
                         Text("My Schedule")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
+                            .font(Font.robotoBold34)
+                            .foregroundColor(.yellow)
                         Spacer()
                         Image(systemName: "plus.circle")
                     }
                 }
                 .padding([.leading, .trailing], 24)
-                .frame(height: 120)
-                .background(calendarTheme.primary)
+                .padding(.bottom, 4)
+                .frame(height: (UIScreen.main.bounds.height * 88) / 812)
+                .background(Color.lividBrown)
                 Spacer()
             }
+            
             ShiftView(isSwipeUporDown: $isSwipeUporDown, shiftsDate: shiftsDate)
                 .cornerRadius(20)
                 .offset(y: sizeShiftheight)
@@ -74,8 +79,10 @@ struct ExampleCalendarView: View {
                                 isSwipeUporDown = false
                             })).animation(.easeInOut(duration: 0.5))
                 .opacity(calendarManager.isShowingYearView ? 1 : 0)
-                .animation(.easeInOut(duration: 0.5))
+                .animation(.spring())
+//                .animation(.easeInOut(duration: 0.5))
         }
+        .edgesIgnoringSafeArea(.all)
     }
 
     private var changeThemeButton: some View {
@@ -86,26 +93,14 @@ struct ExampleCalendarView: View {
 
 extension ExampleCalendarView: ElegantCalendarDataSource {
 
-    func calendar(backgroundColorOpacityForDate date: Date) -> Double {
-        let startOfDay = currentCalendar.startOfDay(for: date)
-        return Double((visitsByDay[startOfDay]?.count ?? 0) + 3) / 15.0
-    }
-
     func calendar(isShiftDate date: Date) -> Bool {
         // shift date
         let day = currentCalendar.dateComponents([.day], from: date).day!
         return (shiftsDate.firstIndex(of: day) != nil)
     }
-
+    
     func calendar(viewForSelectedDate date: Date, dimensions size: CGSize) -> AnyView {
         let startOfDay = currentCalendar.startOfDay(for: date)
-        let month = currentCalendar.dateComponents([.month], from: date).month!
-//        if month == 10 {
-//            shiftsDate = [10, 11]
-//        }
-//        if month == 11 {
-//            shiftsDate = [12, 13]
-//        }
         return VisitsListView(visits: visitsByDay[startOfDay] ?? [], height: size.height).erased
     }
     
@@ -132,12 +127,6 @@ extension ExampleCalendarView: ElegantCalendarDelegate {
 
 }
 
-struct ExampleCalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExampleCalendarView(ascVisits: Visit.mocks(start: .daysFromToday(-365*2), end: .daysFromToday(365*2)), initialMonth: nil)
-    }
-}
-
 struct ShiftView : View {
     
     @Binding var isSwipeUporDown: Bool
@@ -160,7 +149,7 @@ struct ShiftView : View {
             }
             Spacer()
         }
-        .background(Color.white)
+        .background(Color.yellow)
         .frame(width: geo.size.width, height: geo.size.height - 130)
         }
     }

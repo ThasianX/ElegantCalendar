@@ -51,6 +51,7 @@ struct VisitsListView: View {
 
     private var visitsPreviewList: some View {
         VStack(spacing: 0) {
+            Text("Count: \(visits[range].count)")
             ForEach(visits[range]) { visit in
                 VisitCell(visit: visit)
             }
