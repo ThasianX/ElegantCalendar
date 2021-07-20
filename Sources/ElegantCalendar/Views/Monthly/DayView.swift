@@ -19,12 +19,13 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
         calendar.isDate(week, equalTo: day, toGranularities: [.month, .year])
     }
 
-    private var canSelectDay: Bool {
-        datasource?.calendar(canSelectDate: day) ?? true
+    private var ifShiftDay: Bool {
+        datasource?.calendar(isShiftDate: day) ?? true
     }
 
     private var isDaySelectableAndInRange: Bool {
-        isDayWithinDateRange && isDayWithinWeekMonthAndYear && canSelectDay
+//        isDayWithinDateRange && isDayWithinWeekMonthAndYear && canSelectDay
+        isDayWithinWeekMonthAndYear
     }
 
     private var isDayToday: Bool {
@@ -38,13 +39,13 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     var body: some View {
         Text(numericDay)
-            .font(.footnote)
+            .font(isDayToday ? Font.robotoBold17 : Font.robotoRegular17)
             .foregroundColor(foregroundColor)
             .frame(width: CalendarConstants.Monthly.dayWidth, height: CalendarConstants.Monthly.dayWidth)
             .background(backgroundColor)
             .clipShape(Circle())
             .opacity(opacity)
-            .overlay(isSelected ? CircularSelectionView() : nil)
+            .overlay(ifShiftDay && isDayWithinWeekMonthAndYear ? CircularShiftView() : nil)
             .onTapGesture(perform: notifyManager)
     }
 
@@ -54,19 +55,19 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var foregroundColor: Color {
         if isDayToday {
-            return theme.primary
+            return Color.tacao
         } else {
-            return .primary
+            return Color.tundora
         }
     }
 
     private var backgroundColor: some View {
         Group {
             if isDayToday {
-                Color.primary
-            } else if isDaySelectableAndInRange {
-                theme.primary
-                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
+                Color.lividBrown
+//            } else if ifShiftDay {
+//                theme.primary
+//                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
             } else {
                 Color.clear
             }
@@ -75,17 +76,27 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var opacity: Double {
         guard !isDayToday else { return 1 }
-        return isDaySelectableAndInRange ? 1 : 0.15
+        return isDaySelectableAndInRange ? 1 : 0
     }
 
     private func notifyManager() {
-        guard isDayWithinDateRange && canSelectDay else { return }
+        guard isDayWithinDateRange else { return }
 
         if isDayToday || isDayWithinWeekMonthAndYear {
             calendarManager.dayTapped(day: day, withHaptic: true)
         }
     }
 
+}
+
+private struct CircularShiftView: View {
+
+    var body: some View {
+        Circle()
+            .fill(Color.lividBrown)
+            .offset(y: 11)
+            .frame(width: 4, height: 4)
+    }
 }
 
 private struct CircularSelectionView: View {

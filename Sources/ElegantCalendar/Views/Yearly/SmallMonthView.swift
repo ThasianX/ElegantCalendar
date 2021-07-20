@@ -38,15 +38,14 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
         }
         .frame(width: CalendarConstants.Yearly.monthWidth)
         .contentShape(Rectangle())
-        .opacity(isWithinDateRange ? 1 : 0)
+        .opacity(isWithinDateRange ? 1 : 0.15)
         .onTapGesture(perform: currentMonthSelected)
     }
 
     private var monthText: some View {
-        Text(month.abbreviatedMonth.uppercased())
-            .font(.subheadline)
-            .bold()
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .primary)
+        Text(month.abbreviatedMonth)
+            .font(Font.robotoBold18)
+            .foregroundColor(Color.tundora)
     }
 
     private var weeksViewStack: some View {
@@ -61,7 +60,12 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private func currentMonthSelected() {
-        calendarManager.monthTapped(month)
+        if isWithinDateRange {
+            calendarManager.monthTapped(month)
+        } else {
+            print("Select within month range")
+        }
+        
     }
 
 }

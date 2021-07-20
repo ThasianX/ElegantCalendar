@@ -29,7 +29,7 @@ public extension CalendarTheme {
 
 extension CalendarTheme {
 
-    static let `default`: CalendarTheme = .royalBlue
+    static let `default`: CalendarTheme = .craftBrown
 
 }
 

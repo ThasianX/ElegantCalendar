@@ -15,19 +15,20 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 40) {
+        VStack(alignment: .leading, spacing: 25) {
             yearText
             monthsStack
             Spacer()
         }
         .padding(.top, CalendarConstants.Yearly.topPadding)
         .frame(width: CalendarConstants.Yearly.cellWidth, height: CalendarConstants.cellHeight)
+        .background(Color.white)
     }
 
     private var yearText: some View {
         Text(year.year)
-            .font(.system(size: 38, weight: .thin, design: .rounded))
-            .foregroundColor(isYearSameAsTodayYear ? theme.primary : .primary)
+            .font(Font.robotoBold24)
+            .foregroundColor(Color.tundora)
     }
 
     private var monthsStack: some View {

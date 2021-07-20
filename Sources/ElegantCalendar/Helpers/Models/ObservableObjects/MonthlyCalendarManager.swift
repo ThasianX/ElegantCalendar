@@ -44,9 +44,9 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
         listManager = .init(startingPage: startingPage,
                              pageCount: months.count)
 
-        anyCancellable = $delegate.sink {
-            $0?.calendar(willDisplayMonth: self.currentMonth)
-        }
+//        anyCancellable = $delegate.sink {
+//            $0?.calendar(willDisplayMonth: self.currentMonth)
+//        }
     }
 
 }
@@ -80,7 +80,7 @@ extension MonthlyCalendarManager {
     @discardableResult
     public func scrollToDay(_ day: Date, animated: Bool = true) -> Bool {
         let didScrollToMonth = scrollToMonth(day, animated: animated)
-        let canSelectDay = datasource?.calendar(canSelectDate: day) ?? true
+        let canSelectDay = datasource?.calendar(isShiftDate: day) ?? true
 
         if canSelectDay {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.15) {

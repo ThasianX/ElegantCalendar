@@ -9,7 +9,7 @@ struct ExampleMonthlyCalendarView: View {
 
     let visitsByDay: [Date: [Visit]]
 
-    @State private var calendarTheme: CalendarTheme = .royalBlue
+    @State private var calendarTheme: CalendarTheme = .orangeYellow
 
     init(ascVisits: [Visit], initialMonth: Date?) {
         let configuration = CalendarConfiguration(calendar: currentCalendar,
@@ -30,7 +30,7 @@ struct ExampleMonthlyCalendarView: View {
             VStack {
                 Spacer()
                 changeThemeButton
-                    .padding(.bottom, 50)
+                    .padding(.bottom, 150)
             }
         }
     }

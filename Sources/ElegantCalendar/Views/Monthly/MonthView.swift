@@ -9,7 +9,6 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     @ObservedObject var calendarManager: MonthlyCalendarManager
 
     let month: Date
-
     private var weeks: [Date] {
         guard let monthInterval = calendar.dateInterval(of: .month, for: month) else {
             return []
@@ -24,16 +23,20 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        VStack(spacing: 40) {
-            monthYearHeader
-                .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
-                .onTapGesture { self.communicator?.showYearlyView() }
-            weeksViewWithDaysOfWeekHeader
-            if selectedDate != nil {
-                calenderAccessoryView
-                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
-                    .id(selectedDate!)
+        VStack(spacing: 0) {
+            VStack(spacing: 25) {
+                monthYearHeader
+                    .onTapGesture { self.communicator?.showYearlyView() }
+                weeksViewWithDaysOfWeekHeader
             }
+            .padding([.top, .bottom], 20)
+            .background(Color.pampas)
+            
+//            if selectedDate != nil {
+//                calenderAccessoryView
+//                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
+//                    .id(selectedDate!)
+//            }
             Spacer()
         }
         .padding(.top, CalendarConstants.Monthly.topPadding)
@@ -43,31 +46,24 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
 }
 
 private extension MonthView {
-
+    
     var monthYearHeader: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                monthText
-                yearText
-            }
+        HStack(alignment: .center, spacing: 4) {
+            Spacer()
+            monthText
+            yearText
             Spacer()
         }
+        .font(Font.robotoBold18)
+        .foregroundColor(Color.tundora)
     }
-
+    
     var monthText: some View {
-        Text(month.fullMonth.uppercased())
-            .font(.system(size: 26))
-            .bold()
-            .tracking(7)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .primary)
+        Text(month.fullMonth)
     }
-
+    
     var yearText: some View {
         Text(month.year)
-            .font(.system(size: 12))
-            .tracking(2)
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .gray)
-            .opacity(0.95)
     }
 
 }
@@ -75,7 +71,7 @@ private extension MonthView {
 private extension MonthView {
 
     var weeksViewWithDaysOfWeekHeader: some View {
-        VStack(spacing: 32) {
+        VStack(spacing: 10) {
             daysOfWeekHeader
             weeksViewStack
         }
@@ -85,15 +81,15 @@ private extension MonthView {
         HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
             ForEach(calendar.dayOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
-                    .font(.caption)
+                    .font(Font.robotoBold13)
+                    .foregroundColor(Color.dawn)
                     .frame(width: CalendarConstants.Monthly.dayWidth)
-                    .foregroundColor(.gray)
             }
         }
     }
 
     var weeksViewStack: some View {
-        VStack(spacing: CalendarConstants.Monthly.gridSpacing) {
+        VStack(spacing: 12) {
             ForEach(weeks, id: \.self) { week in
                 WeekView(calendarManager: self.calendarManager, week: week)
             }
@@ -109,7 +105,7 @@ private extension MonthView {
     }
 
 }
-
+// Show Visit in selection day
 private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
     let calendarManager: MonthlyCalendarManager
@@ -181,14 +177,4 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
             .foregroundColor(.gray)
     }
 
-}
-
-struct MonthView_Previews: PreviewProvider {
-    static var previews: some View {
-        LightDarkThemePreview {
-            MonthView(calendarManager: .mock, month: Date())
-
-            MonthView(calendarManager: .mock, month: .daysFromToday(45))
-        }
-    }
 }

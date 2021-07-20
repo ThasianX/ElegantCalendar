@@ -13,11 +13,9 @@ public class ElegantCalendarManager: ObservableObject {
     public var selectedDate: Date? {
         monthlyManager.selectedDate
     }
-
-    public var isShowingYearView: Bool {
-        pagesManager.currentPage == 0
-    }
-
+    
+    @Published public var isShowingYearView: Bool = true
+    
     @Published public var datasource: ElegantCalendarDataSource?
     @Published public var delegate: ElegantCalendarDelegate?
 
@@ -83,22 +81,21 @@ extension ElegantCalendarManager {
     // user presses the month text to scroll to the yearly calendar view
     func scrollToYearIfOnYearlyView(_ page: Int) {
         if page == 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            isShowingYearView = false
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
                 self.yearlyManager.scrollToYear(self.currentMonth)
             }
+        } else {
+            isShowingYearView = true
         }
     }
-
 }
 
 extension ElegantCalendarManager: ElegantCalendarCommunicator {
 
     public func scrollToMonthAndShowMonthlyView(_ month: Date) {
         pagesManager.scroll(to: 1)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-            self.scrollToMonth(month)
-        }
+        self.scrollToMonth(month)
     }
 
     public func showYearlyView() {

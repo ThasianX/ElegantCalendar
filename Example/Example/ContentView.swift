@@ -4,27 +4,34 @@ import SwiftUI
 
 struct ContentView: View {
 
+    @State var shifsDate: [Int] = [25, 27]
+    @State var initialMonth: Date = Date()
     // Uncomment out the view you want to test.
     var body: some View {
-//        ExampleYearlyCalendarView(
-//            ascVisits: Visit.mocks(
-//                start: .daysFromToday(-30*36),
-//                end: .daysFromToday(30*36)),
-//            initialYear: .daysFromToday(365))
-
-//        ExampleMonthlyCalendarView(
-//            ascVisits: Visit.mocks(
-//                start: .daysFromToday(-30*36),
-//                end: .daysFromToday(30*36)),
-//            initialMonth: .daysFromToday(30))
-
-        ExampleCalendarView(
-            ascVisits: Visit.mocks(
-                start: .daysFromToday(-30*36),
-                end: .daysFromToday(30*36)),
-            initialMonth: Date())
-
-//        ExampleSelectionView()
+        TabView {
+            ExampleCalendarView(startDate: Date(),
+                                endDate: .daysFromToday(30*24),
+                                initialMonth: initialMonth,
+                                shiftsDate: shifsDate, onChangeMonth: { date in
+                                    DispatchQueue.main.async {
+                                        shifsDate = [Int.random(in: 1...30), Int.random(in: 1...30)]
+                                        initialMonth = date
+                                    }
+                                })
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }
+                .tag(0)
+         
+            Text("Bookmark Tab")
+                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .tabItem {
+                    Image(systemName: "bookmark.circle.fill")
+                    Text("Bookmark")
+                }
+                .tag(1)
+        }
     }
 }
 

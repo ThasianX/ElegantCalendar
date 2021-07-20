@@ -27,6 +27,8 @@
 		1E995AF724A552BA00F436BE /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E995AF324A552BA00F436BE /* VisitCell.swift */; };
 		1EE7C01B24BEA4B3000573A2 /* ChangeThemeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7C01A24BEA4B3000573A2 /* ChangeThemeButton.swift */; };
 		1EE7C01D24BEA55B000573A2 /* Color+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE7C01C24BEA55B000573A2 /* Color+Custom.swift */; };
+		AA7D5C6A26820EF900A7934A /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D5C6926820EF900A7934A /* Roboto-Regular.ttf */; };
+		AA7D5C6D26820F1500A7934A /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D5C6C26820F1500A7934A /* Roboto-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		1E995AF324A552BA00F436BE /* VisitCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
 		1EE7C01A24BEA4B3000573A2 /* ChangeThemeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeThemeButton.swift; sourceTree = "<group>"; };
 		1EE7C01C24BEA55B000573A2 /* Color+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Custom.swift"; sourceTree = "<group>"; };
+		AA7D5C6926820EF900A7934A /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		AA7D5C6C26820F1500A7934A /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,7 @@
 				1E029D3724A44CF700A81FFD /* Calendar with Accessory View */,
 				1E029D3524A44CA700A81FFD /* Selection and Exit */,
 				1E029D3824A44D2D00A81FFD /* Shared */,
+				AA7D5C6826820ED800A7934A /* Fonts */,
 				1E029C7C24A4448A00A81FFD /* Assets.xcassets */,
 				1E029C8124A4448A00A81FFD /* LaunchScreen.storyboard */,
 				1E029C8424A4448A00A81FFD /* Info.plist */,
@@ -156,6 +161,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA7D5C6826820ED800A7934A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				AA7D5C6926820EF900A7934A /* Roboto-Regular.ttf */,
+				AA7D5C6C26820F1500A7934A /* Roboto-Bold.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +237,8 @@
 			files = (
 				1E029C8324A4448A00A81FFD /* LaunchScreen.storyboard in Resources */,
 				1E029C8024A4448A00A81FFD /* Preview Assets.xcassets in Resources */,
+				AA7D5C6D26820F1500A7934A /* Roboto-Bold.ttf in Resources */,
+				AA7D5C6A26820EF900A7934A /* Roboto-Regular.ttf in Resources */,
 				1E029C7D24A4448A00A81FFD /* Assets.xcassets in Resources */,
 				1E161AFE24D5F59500CA2B7F /* ElegantCalendar.xcassets in Resources */,
 			);
