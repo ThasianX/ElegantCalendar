@@ -35,14 +35,13 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
         return ZStack(alignment: .top) {
             VStack {
                 monthsList
-                Spacer()
             }
-            if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
-                leftAlignedScrollBackToTodayButton
-                    .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
-                    .offset(y: CalendarConstants.Monthly.topPadding + 3)
-                    .transition(.opacity)
-            }
+//            if isTodayWithinDateRange && !isCurrentMonthYearSameAsTodayMonthYear {
+//                leftAlignedScrollBackToTodayButton
+//                    .padding(.trailing, CalendarConstants.Monthly.outerHorizontalPadding)
+//                    .offset(y: CalendarConstants.Monthly.topPadding + 3)
+//                    .transition(.opacity)
+//            }
         }
     }
 
@@ -54,6 +53,7 @@ public struct MonthlyCalendarView: View, MonthlyCalendarManagerDirectAccess {
                              viewForPage: monthView)
                     .onPageChanged(configureNewMonth)
                     .frame(width: CalendarConstants.Monthly.cellWidth)
+                    .animation(.easeInOut(duration: 0.5))
             } else {
                 ElegantHList(manager: listManager,
                              pageTurnType: .monthlyEarlyCutoff,

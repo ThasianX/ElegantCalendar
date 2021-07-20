@@ -39,14 +39,14 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     var body: some View {
         Text(numericDay)
-            .font(.footnote)
+            .font(isDayToday ? Font.robotoBold17 : Font.robotoRegular17)
             .foregroundColor(foregroundColor)
             .frame(width: CalendarConstants.Monthly.dayWidth, height: CalendarConstants.Monthly.dayWidth)
             .background(backgroundColor)
             .clipShape(Circle())
             .opacity(opacity)
             .overlay(ifShiftDay && isDayWithinWeekMonthAndYear ? CircularShiftView() : nil)
-//            .onTapGesture(perform: notifyManager)
+            .onTapGesture(perform: notifyManager)
     }
 
     private var numericDay: String {
@@ -55,16 +55,16 @@ struct DayView: View, MonthlyCalendarManagerDirectAccess {
 
     private var foregroundColor: Color {
         if isDayToday {
-            return theme.primary
+            return Color.tacao
         } else {
-            return .primary
+            return Color.tundora
         }
     }
 
     private var backgroundColor: some View {
         Group {
             if isDayToday {
-                Color.primary
+                Color.lividBrown
 //            } else if ifShiftDay {
 //                theme.primary
 //                    .opacity(datasource?.calendar(backgroundColorOpacityForDate: day) ?? 1)
@@ -93,8 +93,8 @@ private struct CircularShiftView: View {
 
     var body: some View {
         Circle()
-            .background(Color.primary)
-            .offset(y: 15)
+            .fill(Color.lividBrown)
+            .offset(y: 11)
             .frame(width: 4, height: 4)
     }
 }

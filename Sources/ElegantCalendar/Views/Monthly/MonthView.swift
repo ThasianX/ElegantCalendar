@@ -24,30 +24,23 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
 
     var body: some View {
         VStack(spacing: 0) {
-            VStack {
+            VStack(spacing: 25) {
                 monthYearHeader
-                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
-                    .onTapGesture {
-                        self.communicator?.showYearlyView()
-                    }
-                    .padding(.top, 20)
-                    .padding(.bottom, 32)
+                    .onTapGesture { self.communicator?.showYearlyView() }
                 weeksViewWithDaysOfWeekHeader
-                Spacer()
             }
-            .padding(.top, CalendarConstants.Monthly.topPadding)
-            .frame(width: CalendarConstants.Monthly.cellWidth, height: CalendarConstants.cellHeight)
-            .background(Color.gray)
+            .padding([.top, .bottom], 20)
+            .background(Color.pampas)
             
-            if selectedDate != nil {
-                calenderAccessoryView
-                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
-                    .id(selectedDate!)
-            }
+//            if selectedDate != nil {
+//                calenderAccessoryView
+//                    .padding(.leading, CalendarConstants.Monthly.outerHorizontalPadding)
+//                    .id(selectedDate!)
+//            }
             Spacer()
         }
+        .padding(.top, CalendarConstants.Monthly.topPadding)
         .frame(width: CalendarConstants.Monthly.cellWidth, height: CalendarConstants.cellHeight)
-        .background(Color.gray)
     }
 
 }
@@ -55,23 +48,22 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
 private extension MonthView {
     
     var monthYearHeader: some View {
-        HStack {
+        HStack(alignment: .center, spacing: 4) {
+            Spacer()
             monthText
             yearText
-            Image(systemName: "chevron.down")
+            Spacer()
         }
-        .font(.system(size: 26))
-        .opacity(isWithinSameMonthAndYearAsToday ? 1 : 0.5)
+        .font(Font.robotoBold18)
+        .foregroundColor(Color.tundora)
     }
     
     var monthText: some View {
-        Text(month.fullMonth.uppercased())
-            .bold()
+        Text(month.fullMonth)
     }
     
     var yearText: some View {
         Text(month.year)
-            .bold()
     }
 
 }
@@ -89,16 +81,15 @@ private extension MonthView {
         HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
             ForEach(calendar.dayOfWeekInitials, id: \.self) { dayOfWeek in
                 Text(dayOfWeek)
-                    .font(.caption)
-                    .bold()
+                    .font(Font.robotoBold13)
+                    .foregroundColor(Color.dawn)
                     .frame(width: CalendarConstants.Monthly.dayWidth)
-                    .foregroundColor(.black)
             }
         }
     }
 
     var weeksViewStack: some View {
-        VStack {
+        VStack(spacing: 12) {
             ForEach(weeks, id: \.self) { week in
                 WeekView(calendarManager: self.calendarManager, week: week)
             }
@@ -114,7 +105,7 @@ private extension MonthView {
     }
 
 }
-
+// Show Visit in selection day
 private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
 
     let calendarManager: MonthlyCalendarManager

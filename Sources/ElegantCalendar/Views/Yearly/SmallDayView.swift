@@ -23,10 +23,10 @@ struct SmallDayView: View, YearlyCalendarManagerDirectAccess {
 
     var body: some View {
         Text(numericDay)
-            .font(.system(size: 8))
-            .foregroundColor(isDayToday ? .systemBackground : .primary)
+            .font(Font.robotoRegular8)
+            .foregroundColor(isDayToday ? Color.tacao : Color.tundora)
             .frame(width: CalendarConstants.Yearly.dayWidth, height: CalendarConstants.Yearly.dayWidth)
-            .background(isDayToday ? Circle().fill(Color.primary) : nil)
+            .background(isDayToday ? Circle().fill(Color.lividBrown) : nil)
             .opacity(isDayWithinWeekMonthAndYear ? 1 : 0)
     }
 

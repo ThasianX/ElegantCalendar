@@ -26,13 +26,14 @@ public struct YearlyCalendarView: View, YearlyCalendarManagerDirectAccess {
         ZStack(alignment: .topTrailing) {
             yearsList
                 .zIndex(0)
-            if isTodayWithinDateRange && !isCurrentYearSameAsTodayYear {
-                scrollBackToTodayButton
-                    .padding(.trailing, CalendarConstants.Yearly.outerHorizontalPadding)
-                    .offset(y: CalendarConstants.Yearly.topPadding + 10)
-                    .transition(.opacity)
-                    .zIndex(1)
-            }
+            // Scroll back current year
+//            if isTodayWithinDateRange && !isCurrentYearSameAsTodayYear {
+//                scrollBackToTodayButton
+//                    .padding(.trailing, CalendarConstants.Yearly.outerHorizontalPadding)
+//                    .offset(y: CalendarConstants.Yearly.topPadding + 10)
+//                    .transition(.opacity)
+//                    .zIndex(1)
+//            }
         }
     }
 

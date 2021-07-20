@@ -89,19 +89,13 @@ extension ElegantCalendarManager {
             isShowingYearView = true
         }
     }
-
 }
 
 extension ElegantCalendarManager: ElegantCalendarCommunicator {
 
     public func scrollToMonthAndShowMonthlyView(_ month: Date) {
         pagesManager.scroll(to: 1)
-
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            withAnimation(.linear(duration: 2)) {
-                self.scrollToMonth(month)
-            }
-        }
+        self.scrollToMonth(month)
     }
 
     public func showYearlyView() {

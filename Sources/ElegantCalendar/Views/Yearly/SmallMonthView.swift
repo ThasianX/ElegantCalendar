@@ -43,10 +43,9 @@ struct SmallMonthView: View, YearlyCalendarManagerDirectAccess {
     }
 
     private var monthText: some View {
-        Text(month.abbreviatedMonth.uppercased())
-            .font(.subheadline)
-            .bold()
-            .foregroundColor(isWithinSameMonthAndYearAsToday ? theme.primary : .primary)
+        Text(month.abbreviatedMonth)
+            .font(Font.robotoBold18)
+            .foregroundColor(Color.tundora)
     }
 
     private var weeksViewStack: some View {
