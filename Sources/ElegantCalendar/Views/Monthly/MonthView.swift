@@ -29,10 +29,10 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
                     .onTapGesture { self.communicator?.showYearlyView() }
                 weeksViewWithDaysOfWeekHeader
             }
-            .padding([.top, .bottom], 20)
+            .padding(.top, 20)
+            .padding(.bottom, 100)
             .background(Color.pampas)
             .readHeight {
-                print("heiht \(month.fullMonth): \($0)")
                 calendarManager.heightMonthCalendar = $0
             }
             
