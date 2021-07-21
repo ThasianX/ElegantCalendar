@@ -31,6 +31,10 @@ struct MonthView: View, MonthlyCalendarManagerDirectAccess {
             }
             .padding([.top, .bottom], 20)
             .background(Color.pampas)
+            .readHeight {
+                print("heiht \(month.fullMonth): \($0)")
+                calendarManager.heightMonthCalendar = $0
+            }
             
 //            if selectedDate != nil {
 //                calenderAccessoryView
@@ -97,7 +101,7 @@ private extension MonthView {
     }
 
 }
-
+/*
 private extension MonthView {
 
     var calenderAccessoryView: some View {
@@ -178,3 +182,4 @@ private struct CalendarAccessoryView: View, MonthlyCalendarManagerDirectAccess {
     }
 
 }
+*/

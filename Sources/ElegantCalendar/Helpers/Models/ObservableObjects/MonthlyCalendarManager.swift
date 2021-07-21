@@ -10,7 +10,7 @@ public class MonthlyCalendarManager: ObservableObject, ConfigurationDirectAccess
     @Published public var selectedDate: Date? = nil
 
     let listManager: ElegantListManager
-
+    @Published public var heightMonthCalendar: CGFloat = 0
     @Published public var datasource: MonthlyCalendarDataSource?
     @Published public var delegate: MonthlyCalendarDelegate?
 
