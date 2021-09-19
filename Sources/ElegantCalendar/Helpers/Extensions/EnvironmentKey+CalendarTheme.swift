@@ -5,9 +5,15 @@ import SwiftUI
 public struct CalendarTheme: Equatable, Hashable {
 
     public let primary: Color
+    public let todayColor: Color
 
-    public init(primary: Color) {
+    public init(primary: Color, todayColor: Color? = nil) {
         self.primary = primary
+        if let todayColor = todayColor {
+            self.todayColor = todayColor
+        } else {
+            self.todayColor = primary
+        }
     }
 
 }
