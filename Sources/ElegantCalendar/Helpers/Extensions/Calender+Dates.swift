@@ -3,14 +3,6 @@
 import SwiftUI
 
 extension Calendar {
-    
-    var dayOfWeekInitials: [String] {
-        veryShortWeekdaySymbols
-    }
-    
-}
-
-extension Calendar {
 
     func endOfDay(for date: Date) -> Date {
         var components = DateComponents()

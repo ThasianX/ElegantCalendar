@@ -83,8 +83,8 @@ private extension MonthView {
 
     var daysOfWeekHeader: some View {
         HStack(spacing: CalendarConstants.Monthly.gridSpacing) {
-            ForEach(calendar.dayOfWeekInitials, id: \.self) { dayOfWeek in
-                Text(dayOfWeek)
+            ForEach(calendar.shortWeekdaySymbols, id: \.self) { dayOfWeek in
+                Text(dayOfWeek.prefix(1))
                     .font(.caption)
                     .frame(width: CalendarConstants.Monthly.dayWidth)
                     .foregroundColor(.gray)
