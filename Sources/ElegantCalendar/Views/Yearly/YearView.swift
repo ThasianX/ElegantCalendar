@@ -15,10 +15,13 @@ struct YearView: View, YearlyCalendarManagerDirectAccess {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 40) {
-            yearText
-            monthsStack
-            Spacer()
+        ZStack {
+            theme.backgroundColor
+            VStack(alignment: .leading, spacing: 40) {
+                yearText
+                monthsStack
+                Spacer()
+            }
         }
         .padding(.top, CalendarConstants.Yearly.topPadding)
         .frame(width: CalendarConstants.Yearly.cellWidth, height: CalendarConstants.cellHeight)
