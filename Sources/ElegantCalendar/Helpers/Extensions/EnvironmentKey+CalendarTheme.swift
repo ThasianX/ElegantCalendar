@@ -9,14 +9,21 @@ public struct CalendarTheme: Equatable, Hashable {
     public let textColor: Color
     public let todayTextColor: Color
     public let todayBackgroundColor: Color
+    public let backgroundColor: Color
 
-    public init(primary: Color, titleColor: Color? = nil, textColor: Color? = nil, todayTextColor: Color? = nil, todayBackgroundColor: Color? = nil) {
+    public init(primary: Color, 
+                titleColor: Color? = nil,
+                textColor: Color? = nil,
+                todayTextColor: Color? = nil,
+                todayBackgroundColor: Color? = nil,
+                backgroundColor: Color = .black) {
         self.primary = primary
 
         if let titleColor = titleColor { self.titleColor = titleColor } else { self.titleColor = primary }
         if let textColor = textColor { self.textColor = textColor } else { self.textColor = .primary }
         if let todayTextColor = todayTextColor { self.todayTextColor = todayTextColor } else { self.todayTextColor = primary }
         if let todayBackgroundColor = todayBackgroundColor { self.todayBackgroundColor = todayBackgroundColor } else { self.todayBackgroundColor = .primary }
+        self.backgroundColor = backgroundColor
     }
 
 }
